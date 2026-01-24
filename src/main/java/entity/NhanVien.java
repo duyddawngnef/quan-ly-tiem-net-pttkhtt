@@ -1,19 +1,21 @@
 package entity;
 
-public class NhanVien {
-    private String manv;
-    private String ho;
-    private String ten;
-    private String chucvu;
-    private String tendangnhap;
-    private String matkhau;
-    private String trangthai;
+import dao.NhanVienDAO;
 
-    public NhanVien() {
+public class NhanVien{
+    String manv;
+    String ho;
+    String ten;
+    String chucvu;
+    String tendangnhap;
+    String matkhau;
+    String trangthai;
+
+
+    public NhanVien(){
+
     }
-
-    public NhanVien(String manv, String ho, String ten, String chucvu,
-                    String tendangnhap, String matkhau, String trangthai) {
+    public NhanVien(String manv, String ho, String ten, String chucvu, String tendangnhap, String matkhau, String trangthai) {
         this.manv = manv;
         this.ho = ho;
         this.ten = ten;
@@ -78,4 +80,25 @@ public class NhanVien {
     public void setTrangthai(String trangthai) {
         this.trangthai = trangthai;
     }
+    public boolean isDangLamViec() {
+        return "DANGLAMVIEC".equals(trangthai);
+    }
+
+    public boolean isNghiViec() {
+        return "NGHIVIEC".equals(trangthai);
+    }
+
+
+    public boolean isQuanLy() {
+        return "QUANLY".equals(chucvu);
+    }
+
+    public boolean isNhanVien() {
+        return "NHANVIEN".equals(chucvu);
+    }
+
+    public boolean isThuNgan() {
+        return "THUNGAN".equals(chucvu);
+    }
+
 }
