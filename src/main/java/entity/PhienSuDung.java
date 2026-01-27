@@ -17,6 +17,8 @@ public class PhienSuDung {
     private double tiengiochoi;
     private String loaithanhtoan;
     private String trangthai;
+    private double tiendichvu = 0.0; // Mặc định là 0
+    private double tongtien = 0.0;   // Mặc định là 0
 
     public PhienSuDung() {
     }
@@ -151,5 +153,20 @@ public class PhienSuDung {
 
     public void setTrangthai(String trangthai) {
         this.trangthai = trangthai;
+    }
+    public double getTiendichvu() {
+        return tiendichvu;
+    }
+
+    public void setTiendichvu(double tiendichvu) {
+        this.tiendichvu = tiendichvu;
+    }
+
+    public double getTongtien() {
+        return tongtien;
+    }
+
+    public void setTongtien(double tongtien) {
+        this.tongtien = tongtien;
     }
 }
