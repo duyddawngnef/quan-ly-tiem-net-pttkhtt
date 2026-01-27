@@ -1,3 +1,5 @@
+package dao;
+
 import dao.DBConnection;
 import entity.DichVu;
 import java.sql.*;
@@ -215,43 +217,8 @@ public class DichVuDAO {
 
     // Phương thức in ra dịch vụ phục vụ cho việc test
     public void PrintDV(DichVu object) {
-        System.out.println("MaDV: " + object.getMadv() + " TenDV: " + object.getTendv() + " LoaiDV: " + object.getLoaidv()
-                + " DonGia: " + object.getDongia() + " DonViTinh: " + object.getDonvitinh() + " SoLuongTon: " + object.getSoluongton()
-                + " Trạng thái: " + object.getTrangthai());
-    }
-
-    public static void main(String[] args) {
-        DichVuDAO dvDAO = new DichVuDAO();
-
-        // Test phương thức getAll()
-//        List<DichVu> ListDichVu = dvDAO.getAll();
-//        Integer stt = 0;
-//        for (DichVu item : ListDichVu) {
-//            System.out.print(stt + 1);
-//            dvDAO.PrintDV(item);
-//            stt++;
-//        }
-
-        // Test phương thức getByID()
-//        DichVu ketQua = dvDAO.getByID("DV005");
-//        if (ketQua != null) {
-//            dvDAO.PrintDV(ketQua);
-//        }
-
-        // Test phương thức insert
-//        DichVu newDichVu = new DichVu("", "Kẹo ngọt", "THUCPHAM"
-//                , 10000, "Gói", 10, "CONHANG");
-//        dvDAO.insert(newDichVu);
-
-        // Test phương thức update
-//        DichVu updateDichVu = new DichVu("DV011", "Bánh ngọt", "THUCPHAM"
-//                , 10000, "Gói", 10, "CONHANG");
-//        dvDAO.update(updateDichVu);
-
-        // Test phương thức delete
-//        dvDAO.delete("DV011");
-
-        // Test phương thức updateSoLuong
-        dvDAO.updateSoLuongTon("DV011", 5);
+        System.out.println("MaDV: " + object.getMadv() + " |TenDV: " + object.getTendv() + " |LoaiDV: " + object.getLoaidv()
+                + " |DonGia: " + object.getDongia() + " |DonViTinh: " + object.getDonvitinh() + " |SoLuongTon: " + object.getSoluongton()
+                + " |Trạng thái: " + object.getTrangthai());
     }
 }

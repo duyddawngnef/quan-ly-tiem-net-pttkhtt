@@ -1,3 +1,4 @@
+package dao;
 import entity.GoiDichVuKhachHang;
 
 import dao.DBConnection;
@@ -140,6 +141,48 @@ public class GoiDichVuKhachHangDAO{
         }
     }
 
+    /*
+    phương thức getConHieuLuc: là phương thức giúp kiểm tra gói còn hiệu lực không
+    paramter: mã gói cần kiểm tra
+    return : True/Fasle nếu không tìm thấy mã đó thì return null
+     */
+    public Boolean getConHieuLuc(String maGoiKH) {
+        String sql = "SELECT SoGioConLai, NgayHetHan, TrangThai FROM goidichvu_khachhang WHERE MaGoiKH = ?";
+
+        try {
+            conn = DBConnection.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, maGoiKH);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                double sogioconlai = rs.getDouble("SoGioConLai");
+                LocalDateTime ngayhethan = rs.getTimestamp("NgayHetHan").toLocalDateTime();
+                String trangthai = rs.getString("TrangThai");
+
+                // Kiểm tra điều kiện còn hiệu lực:
+                // 1. Còn giờ sử dụng (SoGioConLai > 0)
+                // 2. Chưa hết hạn (NgayHetHan sau thời điểm hiện tại)
+                // 3. Trạng thái là CONHAN
+                LocalDateTime now = LocalDateTime.now();
+                boolean conHieuLuc = sogioconlai > 0
+                        && ngayhethan.isAfter(now)
+                        && "CONHAN".equals(trangthai);
+
+                return conHieuLuc;
+            } else {
+                // Không tìm thấy mã gói
+                return null;
+            }
+
+        } catch (SQLException e) {
+            System.err.println("[LỖI GETCONHIEULUC - GoiDichVuKhachHangDAO]: " + e.getMessage());
+            return null;
+        } finally {
+            DBConnection.closeConnection();
+        }
+    }
+
     public void print(GoiDichVuKhachHang gdv) {
         System.out.println("MaGoiKH: " + gdv.getMagoi() + " | MaKH: " + gdv.getMakh()
                 + " | MaGoi: " + gdv.getMagoi() + " | MaNV: " + gdv.getManv()
@@ -148,35 +191,4 @@ public class GoiDichVuKhachHangDAO{
                 + gdv.getGiamua() + " | TrangThai: " + gdv.getTrangthai());
     }
 
-    public static void main(String[] args ){
-        GoiDichVuKhachHangDAO gkhDAO= new GoiDichVuKhachHangDAO();
-
-        // Test phương thức getByKhachHang
-//        List<GoiDichVuKhachHang> resultList = new ArrayList<>();
-//        resultList = gkhDAO.getByKhachHang("KH001");
-//        for(GoiDichVuKhachHang item : resultList){
-//            gkhDAO.print(item);
-//        }
-
-        // Test phương thức insert
-//        GoiDichVuKhachHang newGoi = new GoiDichVuKhachHang(
-//                "", "KH001", "GOI001", "NV002",
-//                10.0, // SoGioBanDau (Ví dụ: Gói 10 giờ)
-//                10.0, // SoGioConLai (Mới mua nên còn nguyên 10 giờ)
-//                LocalDateTime.now(),
-//                LocalDateTime.parse("2026-02-01T08:23:21"), // Đã dùng chuẩn ISO có chữ T
-//                15000.0, ""
-//        );
-//        gkhDAO.insert(newGoi);
-
-        // Test phương thức update
-        GoiDichVuKhachHang updateGoi = new GoiDichVuKhachHang(
-        "GOIKH005", "KH001", "GOI001", "NV002",
-        10.0, // SoGioBanDau (Ví dụ: Gói 10 giờ)
-        5.0, // SoGioConLai (Mới mua nên còn nguyên 10 giờ)
-        LocalDateTime.now(),
-        LocalDateTime.parse("2026-02-01T08:23:21"), // Đã dùng chuẩn ISO có chữ T
-        15000.0, "CONHAN");
-        gkhDAO.update(updateGoi);
-    }
 }
