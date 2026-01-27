@@ -7,15 +7,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * DAO cho bảng lichsunaptien - Quản lý lịch sử nạp tiền
- *
- * Chức năng chính:
- * - Thêm giao dịch nạp tiền
- * - Xem lịch sử nạp tiền theo khách hàng
- * - Thống kê doanh thu nạp tiền
- * - Tìm kiếm theo phương thức thanh toán
- */
 public class LichSuNapTienDAO {
 
     // ===== 1. THÊM LỊCH SỬ NẠP TIỀN =====
