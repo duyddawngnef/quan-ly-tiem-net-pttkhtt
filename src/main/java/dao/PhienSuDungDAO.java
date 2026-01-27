@@ -337,28 +337,4 @@ public class PhienSuDungDAO {
 
         return p;
     }
-
-    // Hàm Main để chạy thử kiểm tra chức năng (Unit Test)
-    public static void main(String[] args) {
-        PhienSuDungDAO dao = new PhienSuDungDAO();
-        System.out.println("=== TEST PHIENSUDUNG DAO ===");
-
-        // Test sinh mã
-        System.out.println("Mã phiên mới dự kiến: " + dao.generateMaPhien());
-
-        // Test lấy danh sách
-        List<PhienSuDung> list = dao.getAll();
-        System.out.println("Tổng số phiên hiện có: " + list.size());
-        for (PhienSuDung p : list) {
-            System.out.println(p.getMaphien() + " - " + p.getMamay() + " - " + p.getTrangthai());
-        }
-
-        // Test lấy phiên đang chạy của một máy
-        PhienSuDung dangChay = dao.getPhienDangChay("MAY001");
-        if(dangChay != null) {
-            System.out.println("Máy MAY001 đang hoạt động với phiên: " + dangChay.getMaphien());
-        } else {
-            System.out.println("Máy MAY001 đang trống.");
-        }
-    }
 }
