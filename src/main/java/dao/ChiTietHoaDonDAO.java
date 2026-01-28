@@ -380,27 +380,34 @@ public class ChiTietHoaDonDAO {
     }
 
     // ===== 17. TẠO MÃ CHI TIẾT TỰ ĐỘNG =====
+    // Trong ChiTietHoaDonDAO.java
     public String taoMaChiTietTuDong() {
-        String sql = "SELECT MaCTHD FROM chitiethoadon ORDER BY MaCTHD DESC LIMIT 1";
+        try {
+            // Lấy số thứ tự từ DB
+            String sql = "SELECT COALESCE(MAX(CAST(SUBSTRING(MaCTHD, 5) AS UNSIGNED)), 0) + 1 AS SoMoi FROM chitiethoadon";
+            Connection con = DBConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
 
-        try (Connection conn = DBConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-
+            int soMoi = 1;
             if (rs.next()) {
-                String maCuoi = rs.getString("MaCTHD");
-                int soThuTu = Integer.parseInt(maCuoi.substring(4)) + 1;
-                return String.format("CTHD%03d", soThuTu);
-            } else {
-                return "CTHD001";
+                soMoi = rs.getInt("SoMoi");
             }
+
+            rs.close();
+            ps.close();
+
+            // Thêm timestamp để đảm bảo unique
+            long timestamp = System.currentTimeMillis() % 10000; // Lấy 4 chữ số cuối
+
+            return String.format("CTHD%03d%04d", soMoi, timestamp);
+            // Ví dụ: CTHD0421234, CTHD0421235, CTHD0421236
 
         } catch (SQLException e) {
             e.printStackTrace();
-            return "CTHD001";
+            return "CTHD" + System.currentTimeMillis();
         }
     }
-
     // ===== 18. TÍNH THÀNH TIỀN TỰ ĐỘNG =====
     public static double tinhThanhTien(double soLuong, double donGia) {
         return soLuong * donGia;

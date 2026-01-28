@@ -5,10 +5,6 @@ import entity.ChuongTrinhKhuyenMai;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * Test class cho ChuongTrinhKhuyenMaiDAO
- * Test tất cả các chức năng CRUD và logic khuyến mãi
- */
 public class TestChuongTrinhKhuyenMaiDAO {
 
     private static ChuongTrinhKhuyenMaiDAO dao = new ChuongTrinhKhuyenMaiDAO();
