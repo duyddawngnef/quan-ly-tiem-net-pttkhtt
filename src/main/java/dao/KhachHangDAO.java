@@ -364,37 +364,36 @@ public class KhachHangDAO {
 
     }
 
-    public boolean isTenDangNhapExists(String tendangnhap){
-
-        if(tendangnhap == null || tendangnhap.trim().isEmpty()){
-            return  false;
+    public boolean isTenDangNhapExists(String tendangnhap) {
+        if (tendangnhap == null || tendangnhap.trim().isEmpty()) {
+            return false;
         }
 
-
         String sql = "SELECT COUNT(*) FROM khachhang WHERE TenDangNhap = ?";
+        boolean exists = false; // Biến trung gian để lưu kết quả
 
-
-        try{
+        try {
             Connection conn = DBConnection.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
 
-            pstmt.setString(1,tendangnhap);
-
+            pstmt.setString(1, tendangnhap);
             ResultSet rs = pstmt.executeQuery();
 
-            conn.close();
-            pstmt.close();
-
-            if(rs.next()){
-                return rs.getInt(1) > 0;
+            // 1. ĐỌC DỮ LIỆU TRƯỚC
+            if (rs.next()) {
+                exists = rs.getInt(1) > 0;
             }
 
+            // 2. SAU ĐÓ MỚI ĐÓNG KẾT NỐI
+            rs.close();
+            pstmt.close();
+            conn.close();
 
-        }catch (SQLException e){
-            throw  new RuntimeException("Lỗi isTenDangNhapExists KhachHang " + e.getMessage());
+        } catch (SQLException e) {
+            throw new RuntimeException("Lỗi isTenDangNhapExists KhachHang " + e.getMessage());
         }
 
-        return false;
+        return exists; // Trả về kết quả đã lấy được
     }
 
     private boolean hasActiveSession(String MaKH) {
