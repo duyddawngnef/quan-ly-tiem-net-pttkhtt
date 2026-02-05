@@ -25,6 +25,14 @@ public class DichVu {
         this.trangthai = trangthai;
     }
 
+    public DichVu(String madv, String tendv, String loaidv, double dongia){
+        this.madv = madv;
+        this.tendv = tendv;
+        this.loaidv = loaidv;
+        this.dongia = dongia;
+        this.donvitinh = null;
+    }
+
     public String getMadv() {
         return this.madv;
     }

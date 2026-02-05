@@ -6,17 +6,25 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/*  CÁC METHOD
+    1. List<GoiDichVu> getAll(): lất tất cả các dịch vụ
+    2. GoiDichVu getBbyID(String idGoiDichVu): lấy gói dịch vụ bằng mã
+    3. boolean insert(goiDichVu newGDV, Connection conn1): thêm một gói dịch vụ
+    3.1 String generateNextMaGoi(Connection conn1): tạo mã tụ động
+    4. boolean update(GoiDichVu updateGDV, Connection conn1): sửa thông tin gói dịch vụ
+    5. boolean delete(String maGDV, Connection conn1): xóa một gói dịch vụ => chuyển sang trạng thái "NGUNG"
+    6. boolean cancelDelete(String maGDV, Connection conn1): khôi phục lại một gói dịch vụ => chuyển sang
+trạng thái "HOATDONG"
+    7. void Print(GoiDichVu gdv): in thông tin của gói dịch vụ.
+*/
+
 public class GoiDichVuDAO{
     // Connect với database
     Connection conn = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
 
-    /*
-    Phương thức getAll lấy tất cả các ghi trong bảng goidichvu
-    parameter: không có.
-    return: List<GoiDichVu>
-    */
+    // CHỨC NĂNG LẤT TẤT CẢ CÁC GÓI DỊCH VỤ
     public List<GoiDichVu> getAll() {
         List<GoiDichVu> danhSach = new ArrayList<>();
         String sql = "SELECT * FROM goidichvu";
@@ -51,11 +59,7 @@ public class GoiDichVuDAO{
         return danhSach;
     }
 
-    /*
-    Phương thức getByID: lấy ghi theo mã gói dịch vụ
-    paramter: String idGoiDichVu.
-    return: GoiDichVu/null(nếu bị lỗi hoặc không tìm thấy.
-    */
+    // CHỨC NĂNG LẤT GÓI DỊCH VỤ BẰNG MÃ
     public GoiDichVu getByID(String idGoiDichVu) {
         String sql = "SELECT * FROM goidichvu WHERE MaGoi = ?";
 
@@ -85,20 +89,15 @@ public class GoiDichVuDAO{
         return null;
     }
 
-    /*
-    Phương thức insert: thêm một ghi vô database.
-    parameter: GoiDichVu newGDV.
-    return: true/false.
-    */
-    public boolean insert(GoiDichVu newGDV) {
+    // CHỨC NĂNG THÊM GÓI DỊCH VỤ
+    public boolean insert(GoiDichVu newGDV, Connection conn1) {
         String sql = "INSERT INTO goidichvu (MaGoi, TenGoi, LoaiGoi, SoGio, SoNgayHieuLuc" +
                 ", GiaGoc, GiaGoi, ApDungChoKhu, TrangThai) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
-            conn = DBConnection.getConnection();
-            ps = conn.prepareStatement(sql);
+            ps = conn1.prepareStatement(sql);
 
-            ps.setString(1, this.generateNextMaGoi());
+            ps.setString(1, this.generateNextMaGoi(conn1));
             ps.setString(2, newGDV.getTengoi());
             ps.setString(3, newGDV.getLoaigoi());
             ps.setDouble(4, newGDV.getSogio());
@@ -114,18 +113,16 @@ public class GoiDichVuDAO{
         } catch (SQLException e) {
             System.err.println("[LỖI INSERT - GoiDichVuDAO]: " + e.getMessage());
             return false;
-        } finally {
-            DBConnection.closeConnection();
         }
     }
 
-    // Phương thức nội bộ tăng mã.
-    private String generateNextMaGoi() {
+    // TĂNG MÃ TỰ ĐỘNG
+    private String generateNextMaGoi(Connection conn1) {
         String sql = "SELECT MaGoi FROM goidichvu ORDER BY MaGoi DESC LIMIT 1";
         String nextID = "GDV001";
 
         try {
-            PreparedStatement ps1 = conn.prepareStatement(sql);
+            PreparedStatement ps1 = conn1.prepareStatement(sql);
             ResultSet rs1 = ps1.executeQuery();
 
             if (rs1.next()) {
@@ -140,17 +137,12 @@ public class GoiDichVuDAO{
         return nextID;
     }
 
-    /*
-    Phương thức update: cập nhập.
-    paramter: GoiDichVu updateGDV.
-    return: true/false.
-    */
-    public boolean update(GoiDichVu updateGDV) {
+    // CHỨC NĂNG SỬA THÔNG TIN GÓI DỊCH VỤ
+    public boolean update(GoiDichVu updateGDV, Connection conn1) {
         String sql = "UPDATE goidichvu SET TenGoi = ?, LoaiGoi = ?, SoGio = ?, SoNgayHieuLuc = ?, " +
                 "GiaGoc = ?, GiaGoi = ?, ApDungChoKhu = ?, TrangThai = ? WHERE MaGoi = ?";
         try {
-            conn = DBConnection.getConnection();
-            ps = conn.prepareStatement(sql);
+            ps = conn1.prepareStatement(sql);
 
             ps.setString(1, updateGDV.getTengoi());
             ps.setString(2, updateGDV.getLoaigoi());
@@ -168,21 +160,14 @@ public class GoiDichVuDAO{
         } catch (SQLException e) {
             System.err.println("[LỖI UPDATE - GoiDichVuDAO]: " + e.getMessage());
             return false;
-        } finally {
-            DBConnection.closeConnection();
         }
     }
 
-    /*
-    Phương thức delete: chuyển trạn thái sang NGUNG
-    paramter: String maGDV.
-    return: true/false.
-    */
-    public boolean delete(String maGDV) {
+    // CHỨC NĂNG XÓA MỘT GÓI DỊCH VỤ
+    public boolean delete(String maGDV, Connection conn1) {
         String sql = "UPDATE goidichvu SET TrangThai = ? WHERE MaGoi = ?";
         try {
-            conn = DBConnection.getConnection();
-            ps = conn.prepareStatement(sql);
+            ps = conn1.prepareStatement(sql);
 
             ps.setString(1, "NGUNG");
             ps.setString(2, maGDV);
@@ -193,8 +178,24 @@ public class GoiDichVuDAO{
         } catch (SQLException e) {
             System.err.println("[LỖI DELETE - GoiDichVuDAO]: " + e.getMessage());
             return false;
-        } finally {
-            DBConnection.closeConnection();
+        }
+    }
+
+    // CHỨC NĂNG KHÔI PHỤC MỘT GÓI DỊCH VỤ
+    public boolean cancelDelete(String maGDV, Connection conn1){
+        String sql = "UPDATE goidichvu SET TrangThai = ? WHERE MaGoi = ?";
+        try {
+            ps = conn1.prepareStatement(sql);
+
+            ps.setString(1, "HOATDONG");
+            ps.setString(2, maGDV);
+
+            int rowAffected = ps.executeUpdate();
+
+            return rowAffected > 0;
+        } catch (SQLException e) {
+            System.err.println("[LỖI DELETE - GoiDichVuDAO]: " + e.getMessage());
+            return false;
         }
     }
 
