@@ -1,73 +1,39 @@
 package entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PhieuNhapHang {
-    private String maphieunhap;
-    private String mancc;
-    private String manv;
-    private LocalDateTime ngaynhap;
-    private double tongtien;
-    private String trangthai;
+    private String maPhieuNhap;
+    private String maNCC;
+    private String maNV;
+    private LocalDateTime ngayNhap;
+    private double tongTien;
+    private String trangThai;
 
-    public PhieuNhapHang() {
-    }
+    private List<ChiTietPhieuNhap> chiTietList = new ArrayList<>();
 
-    public PhieuNhapHang(String maphieunhap, String mancc, String manv, LocalDateTime ngaynhap,
-                         double tongtien, String trangthai) {
-        this.maphieunhap = maphieunhap;
-        this.mancc = mancc;
-        this.manv = manv;
-        this.ngaynhap = ngaynhap;
-        this.tongtien = tongtien;
-        this.trangthai = trangthai;
-    }
+    public PhieuNhapHang() {}
 
-    public String getMaphieunhap() {
-        return maphieunhap;
-    }
+    public String getMaPhieuNhap() { return maPhieuNhap; }
+    public void setMaPhieuNhap(String maPhieuNhap) { this.maPhieuNhap = maPhieuNhap; }
 
-    public void setMaphieunhap(String maphieunhap) {
-        this.maphieunhap = maphieunhap;
-    }
+    public String getMaNCC() { return maNCC; }
+    public void setMaNCC(String maNCC) { this.maNCC = maNCC; }
 
-    public String getMancc() {
-        return mancc;
-    }
+    public String getMaNV() { return maNV; }
+    public void setMaNV(String maNV) { this.maNV = maNV; }
 
-    public void setMancc(String mancc) {
-        this.mancc = mancc;
-    }
+    public LocalDateTime getNgayNhap() { return ngayNhap; }
+    public void setNgayNhap(LocalDateTime ngayNhap) { this.ngayNhap = ngayNhap; }
 
-    public String getManv() {
-        return manv;
-    }
+    public double getTongTien() { return tongTien; }
+    public void setTongTien(double tongTien) { this.tongTien = tongTien; }
 
-    public void setManv(String manv) {
-        this.manv = manv;
-    }
+    public String getTrangThai() { return trangThai; }
+    public void setTrangThai(String trangThai) { this.trangThai = trangThai; }
 
-    public LocalDateTime getNgaynhap() {
-        return ngaynhap;
-    }
-
-    public void setNgaynhap(LocalDateTime ngaynhap) {
-        this.ngaynhap = ngaynhap;
-    }
-
-    public double getTongtien() {
-        return tongtien;
-    }
-
-    public void setTongtien(double tongtien) {
-        this.tongtien = tongtien;
-    }
-
-    public String getTrangthai() {
-        return trangthai;
-    }
-
-    public void setTrangthai(String trangthai) {
-        this.trangthai = trangthai;
-    }
+    public List<ChiTietPhieuNhap> getChiTietList() { return chiTietList; }
+    public void setChiTietList(List<ChiTietPhieuNhap> chiTietList) { this.chiTietList = chiTietList; }
 }

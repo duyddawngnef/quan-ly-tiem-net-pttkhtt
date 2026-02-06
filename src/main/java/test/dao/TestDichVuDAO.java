@@ -10,13 +10,13 @@ public class TestDichVuDAO {
         DichVuDAO dvDAO = new DichVuDAO();
 
         // Test phương thức getAll()
-//        List<DichVu> ListDichVu = dvDAO.getAll();
-//        Integer stt = 0;
-//        for (DichVu item : ListDichVu) {
-//            System.out.print(stt + 1);
-//            dvDAO.PrintDV(item);
-//            stt++;
-//        }
+        List<DichVu> ListDichVu = dvDAO.getAll();
+        Integer stt = 0;
+        for (DichVu item : ListDichVu) {
+            System.out.print(stt + 1);
+            dvDAO.PrintDV(item);
+            stt++;
+        }
 
         // Test phương thức getByID()
 //        DichVu ketQua = dvDAO.getByID("DV005");
@@ -38,7 +38,7 @@ public class TestDichVuDAO {
 //        dvDAO.delete("DV011");
 
         // Test phương thức updateSoLuong
-        System.out.println(dvDAO.updateSoLuongTon("DV011", 5));
+//        System.out.println(dvDAO.updateSoLuongTon("DV011", 5));
     }
 }
 
