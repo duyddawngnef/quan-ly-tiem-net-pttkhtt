@@ -422,7 +422,7 @@ public class KhachHangDAO {
         return hasSession;
     }
     //Tìm khách hàng theo Id
-    private KhachHang getById(String MaKH){
+    public KhachHang getById(String MaKH){
         KhachHang kh = null;
         String sql = "SELECT * FROM khachhang WHERE MaKH = ?";
 
