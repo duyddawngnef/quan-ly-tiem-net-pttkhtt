@@ -30,36 +30,36 @@ public class TestKhuyenMaiBUS {
         SessionManager.setCurrentUser(nv);
 
         // Test 1: Thêm khuyến mãi phần trăm
-        try {
-            ChuongTrinhKhuyenMai km = new ChuongTrinhKhuyenMai();
-            km.setTenCT("Khuyến mãi tháng 2");
-            km.setLoaiKM("PHANTRAM");
-            km.setGiaTriKM(10);
-            km.setDieuKienToiThieu(200000);
-            km.setNgayBatDau(LocalDateTime.now());
-            km.setNgayKetThuc(LocalDateTime.now().plusDays(30));
-
-            boolean kq = khuyenMaiBUS.themKhuyenMai(km);
-            System.out.println("✓ Thêm KM: " + (kq ? km.getMaCTKM() : "Thất bại"));
-        } catch (Exception e) {
-            System.err.println("Có lỗi: " + e.getMessage());
-        }
+//        try {
+//            ChuongTrinhKhuyenMai km = new ChuongTrinhKhuyenMai();
+//            km.setTenCT("Khuyến mãi tháng 2");
+//            km.setLoaiKM("PHANTRAM");
+//            km.setGiaTriKM(10);
+//            km.setDieuKienToiThieu(200000);
+//            km.setNgayBatDau(LocalDateTime.now());
+//            km.setNgayKetThuc(LocalDateTime.now().plusDays(30));
+//
+//            boolean kq = khuyenMaiBUS.themKhuyenMai(km);
+//            System.out.println("✓ Thêm KM: " + (kq ? km.getMaCTKM() : "Thất bại"));
+//        } catch (Exception e) {
+//            System.err.println("Có lỗi: " + e.getMessage());
+//        }
 
         // Test 2: Thêm khuyến mãi số tiền
-        try {
-            ChuongTrinhKhuyenMai km = new ChuongTrinhKhuyenMai();
-            km.setTenCT("Tặng 50k");
-            km.setLoaiKM("SOTIEN");
-            km.setGiaTriKM(50000);
-            km.setDieuKienToiThieu(500000);
-            km.setNgayBatDau(LocalDateTime.now());
-            km.setNgayKetThuc(LocalDateTime.now().plusMonths(1));
-
-            boolean kq = khuyenMaiBUS.themChuongTrinh(km);
-            System.out.println("✓ Thêm KM: " + km.getMaCTKM());
-        } catch (Exception e) {
-            System.err.println("Có lỗi: " + e.getMessage());
-        }
+//        try {
+//            ChuongTrinhKhuyenMai km = new ChuongTrinhKhuyenMai();
+//            km.setTenCT("Tặng 50k");
+//            km.setLoaiKM("SOTIEN");
+//            km.setGiaTriKM(50000);
+//            km.setDieuKienToiThieu(500000);
+//            km.setNgayBatDau(LocalDateTime.now());
+//            km.setNgayKetThuc(LocalDateTime.now().plusMonths(1));
+//
+//            boolean kq = khuyenMaiBUS.themChuongTrinh(km);
+//            System.out.println("✓ Thêm KM: " + km.getMaCTKM());
+//        } catch (Exception e) {
+//            System.err.println("Có lỗi: " + e.getMessage());
+//        }
 
         // Test 3: Lấy tất cả khuyến mãi
 //        try {
