@@ -333,8 +333,8 @@ public class PhienSuDungDAO {
         p.setGiosudungtutaikhoan(rs.getDouble("GioSuDungTuTaiKhoan"));
         p.setGiamoigio(rs.getDouble("GiaMoiGio"));
         p.setTiengiochoi(rs.getDouble("TienGioChoi"));
-        p.setTiendichvu(rs.getDouble("TienDichVu"));
-        p.setTongtien(rs.getDouble("TongTien"));
+        //p.setTiendichvu(rs.getDouble("TienDichVu"));
+        //p.setTongtien(rs.getDouble("TongTien"));
 
         p.setLoaithanhtoan(rs.getString("LoaiThanhToan"));
         p.setTrangthai(rs.getString("TrangThai"));
