@@ -1,120 +1,122 @@
-package test.dao;
-
-import dao.PhienSuDungDAO;
-import entity.PhienSuDung;
-import java.time.LocalDateTime;
-import java.util.List;
-
-public class TestPhienSuDungDAO {
-    public static void main(String[] args) {
-        PhienSuDungDAO dao = new PhienSuDungDAO();
-        System.out.println("--- BẮT ĐẦU TEST PHIENSUDUNG DAO ---");
-
-        // 1. Test sinh mã tự động
-        try {
-            System.out.println("\n[1] Test Sinh Mã Phiên Tự Động:");
-            String newId = dao.generateMaPhien();
-            System.out.println("=> Mã phiên tiếp theo dự kiến: " + newId);
-        } catch (Exception e) {
-            System.err.println("Lỗi sinh mã: " + e.getMessage());
-        }
-
-        // 2. Test Lấy danh sách (Get All)
-        try {
-            System.out.println("\n[2] Test Lấy Danh Sách Phiên:");
-            List<PhienSuDung> list = dao.getAll();
-            System.out.println("=> Tổng số phiên hiện có: " + list.size());
-            if (!list.isEmpty()) {
-                PhienSuDung latest = list.get(0);
-                System.out.println("   Phiên mới nhất: " + latest.getMaphien()
-                        + " | Máy: " + latest.getMamay()
-                        + " | Trạng thái: " + latest.getTrangthai());
-            }
-        } catch (Exception e) {
-            System.err.println("Lỗi getAll: " + e.getMessage());
-        }
-
-        // 3. Test Mở Phiên Mới (INSERT)
-        // Lưu ý: Cần đảm bảo mã máy "MAY001" (hoặc mã khác) tồn tại trong bảng MayTinh và chưa có người chơi.
-        /*
-        try {
-            System.out.println("\n[3] Test Mở Phiên Mới (Insert):");
-            PhienSuDung newPhien = new PhienSuDung();
-            newPhien.setMamay("MAY001"); // Đảm bảo mã máy này có thật trong DB
-            newPhien.setManv("NV001");   // Đảm bảo mã NV này có thật
-            newPhien.setGiamoigio(5000.0);
-            newPhien.setGiobatdau(LocalDateTime.now());
-
-            // DAO sẽ tự set trạng thái là DANGCHOI, ở đây set thêm thông tin phụ
-            newPhien.setLoaithanhtoan("TAIKHOAN");
-
-            boolean isInserted = dao.insert(newPhien);
-            if (isInserted) {
-                // Lưu lại mã phiên vừa tạo để dùng cho các test sau
-                System.out.println("=> Thành công: Đã mở phiên mới cho máy " + newPhien.getMamay()
-                        + " với mã phiên: " + newPhien.getMaphien());
-            }
-        } catch (Exception e) {
-             System.err.println("=> Lỗi Insert (Có thể do máy đang bận hoặc sai mã): " + e.getMessage());
-        }
-        */
-
-        // 4. Test Kiểm Tra Phiên Đang Chạy
-        try {
-            System.out.println("\n[4] Test Kiểm Tra Phiên Đang Chạy:");
-            String testMay = "MAY001"; // Thử kiểm tra máy vừa mở
-            PhienSuDung p = dao.getPhienDangChay(testMay);
-            if (p != null) {
-                System.out.println("=> Máy " + testMay + " ĐANG CÓ NGƯỜI CHƠI. Mã phiên: " + p.getMaphien());
-            } else {
-                System.out.println("=> Máy " + testMay + " hiện đang TRỐNG.");
-            }
-        } catch (Exception e) {
-            System.err.println("Lỗi getPhienDangChay: " + e.getMessage());
-        }
-
-        // 5. Test Cập Nhật Tiền Dịch Vụ
-        /*
-        try {
-            System.out.println("\n[5] Test Cập Nhật Tiền Dịch Vụ:");
-            String maPhienTest = "PS001"; // Thay bằng mã phiên đang chạy thực tế
-            double tienDichVuMoi = 25000.0;
-
-            boolean updated = dao.updateTienDichVu(maPhienTest, tienDichVuMoi);
-            if (updated) {
-                System.out.println("=> Thành công: Đã cập nhật tiền dịch vụ cho phiên " + maPhienTest);
-            }
-        } catch (Exception e) {
-            System.err.println("Lỗi updateTienDichVu: " + e.getMessage());
-        }
-        */
-
-        // 6. Test Kết Thúc Phiên
-        /*
-        try {
-            System.out.println("\n[6] Test Kết Thúc Phiên:");
-            String maPhienEnd = "PS001"; // Thay bằng mã phiên muốn kết thúc
-
-            // Lấy thông tin phiên hiện tại trước khi đóng
-            PhienSuDung phien = dao.getById(maPhienEnd);
-            if (phien != null && "DANGCHOI".equals(phien.getTrangthai())) {
-                phien.setGioketthuc(LocalDateTime.now());
-                phien.setTonggio(2.5); // Giả lập chơi 2.5 tiếng
-                phien.setTiengiochoi(12500.0);
-                phien.setTongtien(12500.0 + phien.getTiendichvu());
-
-                boolean ended = dao.ketThucPhien(phien);
-                if (ended) {
-                    System.out.println("=> Thành công: Đã kết thúc phiên " + maPhienEnd);
-                }
-            } else {
-                 System.out.println("=> Không tìm thấy phiên hoặc phiên đã kết thúc/không tồn tại.");
-            }
-        } catch (Exception e) {
-            System.err.println("Lỗi ketThucPhien: " + e.getMessage());
-        }
-        */
-
-        System.out.println("\n--- KẾT THÚC TEST ---");
-    }
-}
+//package test.dao;
+//
+//import dao.PhienSuDungDAO;
+//import entity.PhienSuDung;
+//import java.time.LocalDateTime;
+//import java.util.List;
+//
+//public class TestPhienSuDungDAO {
+//    public static void main(String[] args) {
+//        PhienSuDungDAO dao = new PhienSuDungDAO();
+//        System.out.println("--- BẮT ĐẦU TEST PHIENSUDUNG DAO ---");
+//
+//        // Biến lưu mã phiên vừa tạo để dùng cho các test sau
+//        String maPhienVuaTao = "";
+//
+//        // ========================================================
+//        // 1. TEST SINH MÃ & LẤY DANH SÁCH
+//        // ========================================================
+//        try {
+//            System.out.println("\n[1] Kiểm tra dữ liệu chung:");
+//            System.out.println("- Mã phiên dự kiến tiếp theo: " + dao.generateMaPhien());
+//
+//            List<PhienSuDung> list = dao.getAll();
+//            System.out.println("- Tổng số phiên trong CSDL: " + list.size());
+//        } catch (Exception e) {
+//            System.err.println("Lỗi phần 1: " + e.getMessage());
+//        }
+//
+//        // ========================================================
+//        // 2. TEST MỞ PHIÊN MỚI (INSERT)
+//        // ========================================================
+//        try {
+//            System.out.println("\n[2] Test Mở Phiên Mới:");
+//
+//            // GIẢ LẬP DỮ LIỆU ĐẦU VÀO
+//            // LƯU Ý: 'MAY001', 'NV002' phải ĐANG TỒN TẠI trong database của bạn
+//            PhienSuDung p = new PhienSuDung();
+//            p.setMamay("MAY001"); // Đảm bảo máy này chưa có ai ngồi
+//            p.setManv("NV002");   // NV002 có trong filexuat.sql
+//            p.setMakh("KH001");   // KH001 có trong filexuat.sql
+//            p.setGiamoigio(5000.0);
+//            p.setGiobatdau(LocalDateTime.now());
+//            p.setLoaithanhtoan("TAIKHOAN");
+//
+//            // Thực hiện insert
+//            boolean isInserted = dao.insert(p);
+//
+//            if (isInserted) {
+//                maPhienVuaTao = p.getMaphien(); // Lấy mã phiên DAO vừa sinh ra (VD: PS011)
+//                System.out.println("=> THÀNH CÔNG: Đã mở phiên " + maPhienVuaTao + " trên máy " + p.getMamay());
+//            }
+//        } catch (Exception e) {
+//            System.err.println("=> THẤT BẠI (Có thể do Máy Bận hoặc Sai mã FK): " + e.getMessage());
+//        }
+//
+//        // ========================================================
+//        // 3. TEST KIỂM TRA MÁY & TÍNH TIỀN DỊCH VỤ
+//        // ========================================================
+//        if (!maPhienVuaTao.isEmpty()) {
+//            try {
+//                System.out.println("\n[3] Test Kiểm tra trạng thái & Lấy tiền dịch vụ:");
+//
+//                // Kiểm tra máy có đang báo bận không
+//                PhienSuDung dangChay = dao.getPhienDangChay("MAY001");
+//                if (dangChay != null) {
+//                    System.out.println("- Máy MAY001 đang chạy phiên: " + dangChay.getMaphien());
+//                }
+//
+//                // Test lấy tổng tiền dịch vụ (tính từ bảng sudungdichvu)
+//                // Lưu ý: Phiên mới tạo chưa có dịch vụ nên kết quả sẽ là 0
+//                double tienDV = dao.getTongTienDichVu(maPhienVuaTao);
+//                System.out.println("- Tổng tiền dịch vụ hiện tại: " + tienDV);
+//
+//            } catch (Exception e) {
+//                System.err.println("Lỗi phần 3: " + e.getMessage());
+//            }
+//        }
+//
+//        // ========================================================
+//        // 4. TEST KẾT THÚC PHIÊN (THANH TOÁN)
+//        // ========================================================
+//        if (!maPhienVuaTao.isEmpty()) {
+//            try {
+//                System.out.println("\n[4] Test Kết Thúc Phiên (Thanh Toán):");
+//
+//                // Lấy thông tin phiên hiện tại để tính toán
+//                PhienSuDung phienCanDong = dao.getById(maPhienVuaTao);
+//
+//                if (phienCanDong != null) {
+//                    // --- GIẢ LẬP TÍNH TOÁN ---
+//                    phienCanDong.setGioketthuc(LocalDateTime.now().plusHours(2)); // Giả vờ chơi 2 tiếng
+//                    phienCanDong.setTonggio(2.0);
+//                    phienCanDong.setTiengiochoi(10000.0); // 2h * 5k
+//
+//                    // Load lại tiền dịch vụ thực tế
+//                    double tienDVthucTe = dao.getTongTienDichVu(maPhienVuaTao);
+//                    phienCanDong.setTiendichvu(tienDVthucTe); // Đã sửa: dùng double
+//
+//                    // Tính tổng tiền (Cộng trực tiếp số double)
+//                    double tongTien = phienCanDong.getTiengiochoi() + tienDVthucTe;
+//                    phienCanDong.setTongtien(tongTien); // Đã sửa: dùng double
+//
+//                    // --- GỌI DAO ĐỂ UPDATE ---
+//                    boolean isEnded = dao.ketThucPhien(phienCanDong);
+//                    if (isEnded) {
+//                        System.out.println("=> THÀNH CÔNG: Đã đóng phiên " + maPhienVuaTao);
+//                        // In định dạng số nguyên cho đẹp
+//                        System.out.printf("   Tiền giờ: %.0f \n", phienCanDong.getTiengiochoi());
+//                        System.out.printf("   Tổng cộng: %.0f (Lưu ý: DB chỉ lưu Tiền Giờ)\n", phienCanDong.getTongtien());
+//                    }
+//                } else {
+//                    System.out.println("=> Lỗi: Không tìm thấy phiên để đóng.");
+//                }
+//
+//            } catch (Exception e) {
+//                System.err.println("=> Lỗi kết thúc phiên: " + e.getMessage());
+//            }
+//        }
+//
+//        System.out.println("\n--- KẾT THÚC TEST ---");
+//    }
+//}

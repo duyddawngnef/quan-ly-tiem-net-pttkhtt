@@ -25,8 +25,16 @@ public class DichVu {
         this.trangthai = trangthai;
     }
 
+    public DichVu(String madv, String tendv, String loaidv, double dongia){
+        this.madv = madv;
+        this.tendv = tendv;
+        this.loaidv = loaidv;
+        this.dongia = dongia;
+        this.donvitinh = null;
+    }
+
     public String getMadv() {
-        return madv;
+        return this.madv;
     }
 
     public void setMadv(String madv) {
@@ -34,7 +42,7 @@ public class DichVu {
     }
 
     public String getTendv() {
-        return tendv;
+        return this.tendv;
     }
 
     public void setTendv(String tendv) {
@@ -42,7 +50,7 @@ public class DichVu {
     }
 
     public String getLoaidv() {
-        return loaidv;
+        return this.loaidv;
     }
 
     public void setLoaidv(String loaidv) {
@@ -50,7 +58,7 @@ public class DichVu {
     }
 
     public double getDongia() {
-        return dongia;
+        return this.dongia;
     }
 
     public void setDongia(double dongia) {
@@ -58,7 +66,7 @@ public class DichVu {
     }
 
     public String getDonvitinh() {
-        return donvitinh;
+        return this.donvitinh;
     }
 
     public void setDonvitinh(String donvitinh) {
@@ -66,7 +74,7 @@ public class DichVu {
     }
 
     public int getSoluongton() {
-        return soluongton;
+        return this.soluongton;
     }
 
     public void setSoluongton(int soluongton) {
@@ -74,7 +82,7 @@ public class DichVu {
     }
 
     public String getTrangthai() {
-        return trangthai;
+        return this.trangthai;
     }
 
     public void setTrangthai(String trangthai) {

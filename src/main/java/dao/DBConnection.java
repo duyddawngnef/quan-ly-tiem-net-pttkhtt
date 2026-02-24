@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection  {
-    private static final String HOST = "localhost";
+    private static final String HOST = "127.0.0.1";
     private static final String PORT = "3306";
     private static  final  String USER = "root";
     private static final  String PASS = "12345";
@@ -47,11 +47,11 @@ public class DBConnection  {
     public static boolean testConnection(){
         try{
             if(conn != null && !conn.isClosed()){
-                System.out.println("Kết nối database thành công !");
+
                 System.out.println("Database : " + DATABASE);
                 return true;
             }
-        }catch (SQLException e ){
+        } catch (SQLException e ){
             System.out.println("Lỗi test kết nối database !" + e.getMessage());
         }
         return false;

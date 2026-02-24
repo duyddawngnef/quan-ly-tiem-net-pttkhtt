@@ -1,156 +1,269 @@
 package entity;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
+/**
+ * Entity class đại diện cho bảng phiensudung
+ */
 public class PhienSuDung {
-    private String maphien;
-    private String makh;
-    private String mamay;
-    private String manv;
-    private String magoikh;
-    private LocalDateTime giobatdau;
-    private LocalDateTime gioketthuc;
-    private double tonggio;
-    private double giosudungtugoi;
-    private double giosudungtutaikhoan;
-    private double giamoigio;
-    private double tiengiochoi;
-    private String loaithanhtoan;
-    private String trangthai;
+    private String maPhien;
+    private String maKH;
+    private String maMay;
+    private String maNV;  // Nullable - có thể null nếu tự động
+    private String maGoiKH;  // Nullable - có thể không dùng gói
+    private LocalDateTime gioBatDau;
+    private LocalDateTime gioKetThuc;
+    private double tongGio;
+    private double gioSuDungTuGoi;
+    private double gioSuDungTuTaiKhoan;
+    private double giaMoiGio;
+    private double tienGioChoi;
+    private String loaiThanhToan;  // ENUM: TAIKHOAN, GOI, KETHOP
+    private String trangThai;      // ENUM: DANGCHOI, DAKETTHUC
 
+    // Constructors
     public PhienSuDung() {
+        this.gioBatDau = LocalDateTime.now();
+        this.tongGio = 0.0;
+        this.gioSuDungTuGoi = 0.0;
+        this.gioSuDungTuTaiKhoan = 0.0;
+        this.tienGioChoi = 0.0;
+        this.loaiThanhToan = "TAIKHOAN";
+        this.trangThai = "DANGCHOI";
     }
 
-    public PhienSuDung(String maphien, String makh, String mamay, String manv, String magoikh,
-                       LocalDateTime giobatdau, LocalDateTime gioketthuc, double tonggio,
-                       double giosudungtugoi, double giosudungtutaikhoan, double giamoigio,
-                       double tiengiochoi, String loaithanhtoan, String trangthai) {
-        this.maphien = maphien;
-        this.makh = makh;
-        this.mamay = mamay;
-        this.manv = manv;
-        this.magoikh = magoikh;
-        this.giobatdau = giobatdau;
-        this.gioketthuc = gioketthuc;
-        this.tonggio = tonggio;
-        this.giosudungtugoi = giosudungtugoi;
-        this.giosudungtutaikhoan = giosudungtutaikhoan;
-        this.giamoigio = giamoigio;
-        this.tiengiochoi = tiengiochoi;
-        this.loaithanhtoan = loaithanhtoan;
-        this.trangthai = trangthai;
+    public PhienSuDung(String maKH, String maMay, double giaMoiGio) {
+        this();
+        this.maKH = maKH;
+        this.maMay = maMay;
+        this.giaMoiGio = giaMoiGio;
     }
 
-    public String getMaphien() {
-        return maphien;
+    public PhienSuDung(String maPhien, String maKH, String maMay, String maNV, String maGoiKH,
+                       LocalDateTime gioBatDau, LocalDateTime gioKetThuc, double tongGio,
+                       double gioSuDungTuGoi, double gioSuDungTuTaiKhoan, double giaMoiGio,
+                       double tienGioChoi, String loaiThanhToan, String trangThai) {
+        this.maPhien = maPhien;
+        this.maKH = maKH;
+        this.maMay = maMay;
+        this.maNV = maNV;
+        this.maGoiKH = maGoiKH;
+        this.gioBatDau = gioBatDau;
+        this.gioKetThuc = gioKetThuc;
+        this.tongGio = tongGio;
+        this.gioSuDungTuGoi = gioSuDungTuGoi;
+        this.gioSuDungTuTaiKhoan = gioSuDungTuTaiKhoan;
+        this.giaMoiGio = giaMoiGio;
+        this.tienGioChoi = tienGioChoi;
+        this.loaiThanhToan = loaiThanhToan;
+        this.trangThai = trangThai;
     }
 
-    public void setMaphien(String maphien) {
-        this.maphien = maphien;
+    // Getters and Setters
+    public String getMaPhien() {
+        return maPhien;
     }
 
-    public String getMakh() {
-        return makh;
+    public void setMaPhien(String maPhien) {
+        this.maPhien = maPhien;
     }
 
-    public void setMakh(String makh) {
-        this.makh = makh;
+    public String getMaKH() {
+        return maKH;
     }
 
-    public String getMamay() {
-        return mamay;
+    public void setMaKH(String maKH) {
+        this.maKH = maKH;
     }
 
-    public void setMamay(String mamay) {
-        this.mamay = mamay;
+    public String getMaMay() {
+        return maMay;
     }
 
-    public String getManv() {
-        return manv;
+    public void setMaMay(String maMay) {
+        this.maMay = maMay;
     }
 
-    public void setManv(String manv) {
-        this.manv = manv;
+    public String getMaNV() {
+        return maNV;
     }
 
-    public String getMagoikh() {
-        return magoikh;
+    public void setMaNV(String maNV) {
+        this.maNV = maNV;
     }
 
-    public void setMagoikh(String magoikh) {
-        this.magoikh = magoikh;
+    public String getMaGoiKH() {
+        return maGoiKH;
     }
 
-    public LocalDateTime getGiobatdau() {
-        return giobatdau;
+    public void setMaGoiKH(String maGoiKH) {
+        this.maGoiKH = maGoiKH;
     }
 
-    public void setGiobatdau(LocalDateTime giobatdau) {
-        this.giobatdau = giobatdau;
+    public LocalDateTime getGioBatDau() {
+        return gioBatDau;
     }
 
-    public LocalDateTime getGioketthuc() {
-        return gioketthuc;
+    public void setGioBatDau(LocalDateTime gioBatDau) {
+        this.gioBatDau = gioBatDau;
     }
 
-    public void setGioketthuc(LocalDateTime gioketthuc) {
-        this.gioketthuc = gioketthuc;
+    public LocalDateTime getGioKetThuc() {
+        return gioKetThuc;
     }
 
-    public double getTonggio() {
-        return tonggio;
+    public void setGioKetThuc(LocalDateTime gioKetThuc) {
+        this.gioKetThuc = gioKetThuc;
     }
 
-    public void setTonggio(double tonggio) {
-        this.tonggio = tonggio;
+    public double getTongGio() {
+        return tongGio;
     }
 
-    public double getGiosudungtugoi() {
-        return giosudungtugoi;
+    public void setTongGio(double tongGio) {
+        this.tongGio = tongGio;
     }
 
-    public void setGiosudungtugoi(double giosudungtugoi) {
-        this.giosudungtugoi = giosudungtugoi;
+    public double getGioSuDungTuGoi() {
+        return gioSuDungTuGoi;
     }
 
-    public double getGiosudungtutaikhoan() {
-        return giosudungtutaikhoan;
+    public void setGioSuDungTuGoi(double gioSuDungTuGoi) {
+        this.gioSuDungTuGoi = gioSuDungTuGoi;
     }
 
-    public void setGiosudungtutaikhoan(double giosudungtutaikhoan) {
-        this.giosudungtutaikhoan = giosudungtutaikhoan;
+    public double getGioSuDungTuTaiKhoan() {
+        return gioSuDungTuTaiKhoan;
     }
 
-    public double getGiamoigio() {
-        return giamoigio;
+    public void setGioSuDungTuTaiKhoan(double gioSuDungTuTaiKhoan) {
+        this.gioSuDungTuTaiKhoan = gioSuDungTuTaiKhoan;
     }
 
-    public void setGiamoigio(double giamoigio) {
-        this.giamoigio = giamoigio;
+    public double getGiaMoiGio() {
+        return giaMoiGio;
     }
 
-    public double getTiengiochoi() {
-        return tiengiochoi;
+    public void setGiaMoiGio(double giaMoiGio) {
+        this.giaMoiGio = giaMoiGio;
     }
 
-    public void setTiengiochoi(double tiengiochoi) {
-        this.tiengiochoi = tiengiochoi;
+    public double getTienGioChoi() {
+        return tienGioChoi;
     }
 
-    public String getLoaithanhtoan() {
-        return loaithanhtoan;
+    public void setTienGioChoi(double tienGioChoi) {
+        this.tienGioChoi = tienGioChoi;
     }
 
-    public void setLoaithanhtoan(String loaithanhtoan) {
-        this.loaithanhtoan = loaithanhtoan;
+    public String getLoaiThanhToan() {
+        return loaiThanhToan;
     }
 
-    public String getTrangthai() {
-        return trangthai;
+    public void setLoaiThanhToan(String loaiThanhToan) {
+        this.loaiThanhToan = loaiThanhToan;
     }
 
-    public void setTrangthai(String trangthai) {
-        this.trangthai = trangthai;
+    public String getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(String trangThai) {
+        this.trangThai = trangThai;
+    }
+
+    // Business methods
+
+    /**
+     * Tính tổng giờ chơi từ giờ bắt đầu đến hiện tại (hoặc giờ kết thúc)
+     */
+    public void tinhTongGio() {
+        if (gioBatDau != null) {
+            LocalDateTime gioKT = (gioKetThuc != null) ? gioKetThuc : LocalDateTime.now();
+            long phut = ChronoUnit.MINUTES.between(gioBatDau, gioKT);
+            this.tongGio = phut / 60.0;
+        }
+    }
+
+    /**
+     * Tính tiền giờ chơi dựa trên giờ sử dụng từ tài khoản
+     */
+    public void tinhTienGioChoi() {
+        this.tienGioChoi = this.gioSuDungTuTaiKhoan * this.giaMoiGio;
+    }
+
+    /**
+     * Kiểm tra phiên đang chơi
+     */
+    public boolean isDangChoi() {
+        return "DANGCHOI".equals(this.trangThai);
+    }
+
+    /**
+     * Kiểm tra phiên đã kết thúc
+     */
+    public boolean isDaKetThuc() {
+        return "DAKETTHUC".equals(this.trangThai);
+    }
+
+    /**
+     * Kiểm tra có sử dụng gói không
+     */
+    public boolean isSuDungGoi() {
+        return this.maGoiKH != null && this.gioSuDungTuGoi > 0;
+    }
+
+    /**
+     * Lấy tỷ lệ phần trăm sử dụng từ gói
+     */
+    public double getTyLeGoi() {
+        if (tongGio > 0) {
+            return (gioSuDungTuGoi / tongGio) * 100;
+        }
+        return 0;
+    }
+
+    /**
+     * Lấy thời gian đã chơi (dạng text)
+     */
+    public String getThoiGianChoiText() {
+        int gio = (int) tongGio;
+        int phut = (int) ((tongGio - gio) * 60);
+        return String.format("%d giờ %d phút", gio, phut);
+    }
+
+    @Override
+    public String toString() {
+        return "PhienSuDung{" +
+                "maPhien='" + maPhien + '\'' +
+                ", maKH='" + maKH + '\'' +
+                ", maMay='" + maMay + '\'' +
+                ", maNV='" + maNV + '\'' +
+                ", maGoiKH='" + maGoiKH + '\'' +
+                ", gioBatDau=" + gioBatDau +
+                ", gioKetThuc=" + gioKetThuc +
+                ", tongGio=" + tongGio +
+                ", gioSuDungTuGoi=" + gioSuDungTuGoi +
+                ", gioSuDungTuTaiKhoan=" + gioSuDungTuTaiKhoan +
+                ", giaMoiGio=" + giaMoiGio +
+                ", tienGioChoi=" + tienGioChoi +
+                ", loaiThanhToan='" + loaiThanhToan + '\'' +
+                ", trangThai='" + trangThai + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PhienSuDung that = (PhienSuDung) o;
+        return maPhien != null && maPhien.equals(that.maPhien);
+    }
+
+    @Override
+    public int hashCode() {
+        return maPhien != null ? maPhien.hashCode() : 0;
     }
 
 

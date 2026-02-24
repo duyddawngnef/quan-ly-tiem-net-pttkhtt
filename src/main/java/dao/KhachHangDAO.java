@@ -364,67 +364,65 @@ public class KhachHangDAO {
 
     }
 
-    public boolean isTenDangNhapExists(String tendangnhap){
-
-        if(tendangnhap == null || tendangnhap.trim().isEmpty()){
-            return  false;
+    public boolean isTenDangNhapExists(String tendangnhap) {
+        if (tendangnhap == null || tendangnhap.trim().isEmpty()) {
+            return false;
         }
-
 
         String sql = "SELECT COUNT(*) FROM khachhang WHERE TenDangNhap = ?";
+        boolean exists = false; // Biến trung gian để lưu kết quả
 
-
-        try{
+        try {
             Connection conn = DBConnection.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
 
-            pstmt.setString(1,tendangnhap);
-
+            pstmt.setString(1, tendangnhap);
             ResultSet rs = pstmt.executeQuery();
 
-            conn.close();
-            pstmt.close();
-
-            if(rs.next()){
-                return rs.getInt(1) > 0;
+            // 1. ĐỌC DỮ LIỆU TRƯỚC
+            if (rs.next()) {
+                exists = rs.getInt(1) > 0;
             }
 
+            // 2. SAU ĐÓ MỚI ĐÓNG KẾT NỐI
+            rs.close();
+            pstmt.close();
+            conn.close();
 
-        }catch (SQLException e){
-            throw  new RuntimeException("Lỗi isTenDangNhapExists KhachHang " + e.getMessage());
+        } catch (SQLException e) {
+            throw new RuntimeException("Lỗi isTenDangNhapExists KhachHang " + e.getMessage());
         }
 
-        return false;
+        return exists; // Trả về kết quả đã lấy được
     }
 
-    private  boolean hasActiveSession (String MaKH ){
+    private boolean hasActiveSession(String MaKH) {
         String sql = "SELECT COUNT(*) FROM phiensudung WHERE MaKH = ? AND TrangThai = 'DANGCHOI'";
-        try{
+        boolean hasSession = false; // Biến lưu kết quả
+
+        try {
             Connection conn = DBConnection.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
-
-            pstmt.setString(1,MaKH);
-
+            pstmt.setString(1, MaKH);
             ResultSet rs = pstmt.executeQuery();
 
-
-
-            conn.close();
-            pstmt.close();
-
-
-            if(rs.next()){
-                return rs.getInt(1) > 0 ;
+            // 1. ĐỌC DỮ LIỆU TRƯỚC
+            if (rs.next()) {
+                hasSession = rs.getInt(1) > 0;
             }
 
-        }catch (SQLException e){
-            throw new RuntimeException("Lỗi hasActiveSession KhachHang " + e.getMessage());
+            // 2. SAU ĐÓ MỚI ĐÓNG KẾT NỐI
+            rs.close();
+            pstmt.close();
+            conn.close();
 
+        } catch (SQLException e) {
+            throw new RuntimeException("Lỗi hasActiveSession KhachHang " + e.getMessage());
         }
-        return  false;
+        return hasSession;
     }
     //Tìm khách hàng theo Id
-    private KhachHang getById(String MaKH){
+    public KhachHang getById(String MaKH){
         KhachHang kh = null;
         String sql = "SELECT * FROM khachhang WHERE MaKH = ?";
 
@@ -449,6 +447,48 @@ public class KhachHangDAO {
 
         }
         return kh;
+    }
+
+
+
+    //update số dư sử dụng cho đăng nhập
+
+    public boolean updateSoDu (String makh ,double sodu){
+
+        KhachHang existing = getById(makh);
+
+        //kiểm tra khách hàng tồn tại
+        if(existing == null){
+            throw new RuntimeException("Lỗi khách hàng không tồn tại !");
+        }
+
+        //khách hàng đã bị xóa trước đó
+        if(existing.isNgung()){
+            throw new RuntimeException("Khách hàng đã bị xóa !");
+        }
+
+        //kiểm tra Valid
+        validateKhachHang(existing,false);
+
+
+        String sql = "UPDATE khachhang SET SoDu = ? WHERE MaKH = ?";
+
+        try{
+
+            Connection conn = DBConnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+
+           pstmt.setDouble(1,sodu);
+           pstmt.setString(2,makh);
+
+            pstmt.executeUpdate();
+            pstmt.close();
+
+        }catch (SQLException e){
+            throw new RuntimeException("Lỗi update KhachHang : " + e.getMessage());
+        }
+
+        return true;
     }
 
     //Chuyển từ ResultSet -> KhachHang
@@ -491,5 +531,18 @@ public class KhachHangDAO {
         }
 
         return false;
+    }
+
+    // update lại số dư của khách hàng (dùng trong hàm insert của GoiDichVuKhachHangBUS)
+    public boolean updateSoDuKhiMuaGoi(KhachHang kh, Connection conn1){
+        String sql = "UPDATE khachhang SET SoDu = ? WHERE MaKH = ?";
+        try (PreparedStatement ps = conn1.prepareStatement(sql)) {
+            ps.setDouble(1, kh.getSodu());
+            ps.setString(2, kh.getMakh());
+            return ps.executeUpdate() > 0;
+        }catch(Exception e){
+            System.err.println("Lỗi updateSoDuKhiMuaGoi - KhachHangDAO: " + e.getMessage());
+            return false;
+        }
     }
 }
