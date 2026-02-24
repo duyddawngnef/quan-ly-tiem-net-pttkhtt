@@ -233,8 +233,8 @@ public class PhienSuDungDAO {
             pstmt.setDouble(3, phien.getGiosudungtugoi());
             pstmt.setDouble(4, phien.getGiosudungtutaikhoan());
             pstmt.setDouble(5, phien.getTiengiochoi());
-            pstmt.setDouble(6, phien.getTiendichvu());
-            pstmt.setDouble(7, phien.getTongtien());
+            //pstmt.setDouble(6, phien.getTiendichvu());
+            //pstmt.setDouble(7, phien.getTongtien());
             pstmt.setString(8, phien.getLoaithanhtoan());
             pstmt.setString(9, phien.getMaphien());
 
