@@ -49,6 +49,8 @@ public class MayTinhBUS {
      * @throws Exception nếu chưa đăng nhập hoặc không có quyền
      */
     public List<MayTinh> getAllMayTinh() throws Exception {
+        // check login
+        PermissionHelper.requireLogin();
         // 1. Kiểm tra phân quyền (QUANLY hoặc NHANVIEN)
         PermissionHelper.requireNhanVien();
 
@@ -69,6 +71,8 @@ public class MayTinhBUS {
      * @throws Exception nếu chưa đăng nhập hoặc không có quyền
      */
     public List<MayTinh> getMayTrong() throws Exception {
+        // check login
+        PermissionHelper.requireLogin();
         // 1. Kiểm tra phân quyền (QUANLY hoặc NHANVIEN)
         PermissionHelper.requireNhanVien();
 
@@ -105,6 +109,8 @@ public class MayTinhBUS {
      * @throws Exception nếu không có quyền hoặc vi phạm nghiệp vụ
      */
     public MayTinh themMayTinh(MayTinh may) throws Exception {
+        // check login
+        PermissionHelper.requireLogin();
         // 1. Kiểm tra phân quyền QUANLY
         PermissionHelper.requireQuanLy();
 
@@ -165,6 +171,8 @@ public class MayTinhBUS {
      * @throws Exception nếu không có quyền hoặc vi phạm nghiệp vụ
      */
     public MayTinh suaMayTinh(MayTinh may) throws Exception {
+        // check login
+        PermissionHelper.requireLogin();
         // 1. Kiểm tra phân quyền QUANLY
         PermissionHelper.requireQuanLy();
 
@@ -247,6 +255,8 @@ public class MayTinhBUS {
      * @throws Exception nếu không có quyền hoặc vi phạm nghiệp vụ
      */
     public boolean xoaMayTinh(String maMay) throws Exception {
+        // check login
+        PermissionHelper.requireLogin();
         // 1. Kiểm tra phân quyền QUANLY
         PermissionHelper.requireQuanLy();
 
@@ -292,6 +302,8 @@ public class MayTinhBUS {
      * @throws Exception nếu không có quyền hoặc vi phạm quy tắc chuyển trạng thái
      */
     public boolean chuyenTrangThai(String maMay, String ttMoi) throws Exception {
+        // check login
+        PermissionHelper.requireLogin();
         // 1. Kiểm tra phân quyền (QUANLY hoặc NHANVIEN)
         PermissionHelper.requireNhanVien();
 
