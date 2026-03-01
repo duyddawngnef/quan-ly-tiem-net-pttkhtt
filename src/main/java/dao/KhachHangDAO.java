@@ -535,7 +535,7 @@ public class KhachHangDAO {
 
     // update lại số dư của khách hàng (dùng trong hàm insert của GoiDichVuKhachHangBUS)
     public boolean updateSoDuKhiMuaGoi(KhachHang kh) throws Exception{
-        Connection conn1 = ConnectionManager.getConnection();
+        Connection conn1 = DBConnection.getConnection();
         String sql = "UPDATE khachhang SET SoDu = ? WHERE MaKH = ?";
         try (PreparedStatement ps = conn1.prepareStatement(sql)) {
             ps.setDouble(1, kh.getSodu());

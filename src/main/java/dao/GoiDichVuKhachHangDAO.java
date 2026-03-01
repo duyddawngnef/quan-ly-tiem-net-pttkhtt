@@ -108,11 +108,11 @@ public class GoiDichVuKhachHangDAO{
     return: true/false
     */
     public boolean insert(GoiDichVuKhachHang newGDVKH) throws Exception{
-        Connection conn1 = ConnectionManager.getConnection();
+        conn = DBConnection.getConnection();
         String sql = "INSERT INTO goidichvu_khachhang (MaGoiKH, MaKH, MaGoi, MaNV, SoGioBanDau, SoGioConLai" +
                 ", NgayMua, NgayHetHan, GiaMua, TrangThai) " + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
-            ps = conn1.prepareStatement(sql);
+            ps = conn.prepareStatement(sql);
 
             ps.setString(1, this.generateNextMaGoiKH());
             ps.setString(2, newGDVKH.getMakh());
@@ -135,12 +135,12 @@ public class GoiDichVuKhachHangDAO{
 
     // TĂNG MÃ TỰ ĐỘNG
     private String generateNextMaGoiKH() throws Exception{
-        Connection conn1 = ConnectionManager.getConnection();
+        conn = DBConnection.getConnection();
         String sql = "SELECT MaGoiKH FROM goidichvu_khachhang ORDER BY MaGoiKH DESC LIMIT 1";
         String nextID = "GOIKH001";
 
         try {
-            PreparedStatement ps1 = conn1.prepareStatement(sql);
+            PreparedStatement ps1 = conn.prepareStatement(sql);
             ResultSet rs1 = ps1.executeQuery();
 
             if (rs1.next()) {

@@ -7,7 +7,6 @@ import dao.DBConnection;
 import dao.DichVuDAO;
 import dao.SuDungDichVuDAO;
 import dao.PhienSuDungDAO;
-import dao.ConnectionManager;
 import untils.PermissionHelper;
 
 import java.sql.SQLException;
@@ -57,23 +56,17 @@ public class SuDungDichVuBUS{
                 , dv.getDongia()*Math.abs(SoLuong), LocalDateTime.now() );
 
         try{
-            ConnectionManager.beginTransaction();
-
             boolean isUpdate = this.dvDAO.updateSoLuongTon(dv.getMadv(), (-1)*SoLuong);
             boolean isInsert = this.sddvDAO.insert(sddv);
 
             if(isUpdate && isInsert){
-                ConnectionManager.commit();
                 System.out.println("Order dịch vụ thành công");
             }
             else{
                 throw new Exception("Order dịch vụ không thành công");
             }
         }catch(Exception e){
-            ConnectionManager.rollback();
             throw new Exception("Lỗi hệ thống: " + e.getMessage());
-        }finally{
-            ConnectionManager.close();
         }
         return sddv;
     }
@@ -97,20 +90,14 @@ public class SuDungDichVuBUS{
 
         // gọi xuống DAO
         try{
-            ConnectionManager.beginTransaction();
-
             boolean isSuccess = this.sddvDAO.delete(maSDDV);
             boolean isUpdate = this.dvDAO.updateSoLuongTon(sddv.getMadv(), sddv.getSoluong());
             if(isSuccess && isUpdate){
-                ConnectionManager.commit();
                 System.out.println("Hủy dịch vụ thành công!!!");
             }
             else { System.out.println("Hủy dịch vụ không thành công!!!"); }
         }catch(Exception e){
-            ConnectionManager.rollback();
             throw new Exception("Lỗi hệ thống: " + e.getMessage());
-        }finally{
-            ConnectionManager.close();
         }
     }
 
@@ -129,16 +116,9 @@ public class SuDungDichVuBUS{
         // gọi xuống DAO
         List<SuDungDichVu> result = new ArrayList<>();
         try{
-            ConnectionManager.beginTransaction();
-
             result = this.sddvDAO.geyByPhien(maPhien);
-
-            ConnectionManager.commit();
         }catch(Exception e){
-            ConnectionManager.rollback();
             throw new Exception("Lỗi hệ thống: " + e.getMessage());
-        }finally{
-            ConnectionManager.close();
         }
         return result;
     }

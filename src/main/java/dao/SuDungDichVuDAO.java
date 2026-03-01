@@ -23,11 +23,11 @@ public class SuDungDichVuDAO{
 
     // LẤY SỬ DỤNG DỊCH VỤ BẰNG MÃ PHIÊN
     public List<SuDungDichVu> geyByPhien (String maPhien) throws Exception{
-        Connection conn1 = ConnectionManager.getConnection();
+        conn = DBConnection.getConnection();
         String sql = "SELECT * FROM sudungdichvu WHERE MaPhien = ?";
         List<SuDungDichVu> listResult = new ArrayList<>();
         try{
-            ps = conn1.prepareStatement(sql);
+            ps = conn.prepareStatement(sql);
             ps.setString(1, maPhien);
             rs = ps.executeQuery();
             while(rs.next()){
@@ -43,11 +43,11 @@ public class SuDungDichVuDAO{
 
     // THÊM MỘT DỊCH VỤ
     public boolean insert(SuDungDichVu sddv) throws Exception{
-        Connection conn1 = ConnectionManager.getConnection();
+        conn = DBConnection.getConnection();
         String sql = "Insert sudungdichvu (MaSD, MaPhien, MaDV, SoLuong, DonGia, ThanhTien, ThoiGian)"
                 + "VALUES( ?, ?, ?, ?, ?, ?, ?)";
         try{
-            ps = conn1.prepareStatement(sql);
+            ps = conn.prepareStatement(sql);
             ps.setString(1, this.generateNextSuDungDichVu());
             ps.setString(2, sddv.getMaphien());
             ps.setString(3, sddv.getMadv());
@@ -66,11 +66,11 @@ public class SuDungDichVuDAO{
 
     // SINH MÃ TỰ ĐỘNG
     private String generateNextSuDungDichVu() throws Exception{
-        Connection conn1 = ConnectionManager.getConnection();
+        conn = DBConnection.getConnection();
         String sql = "SELECT MaSD FROM sudungdichvu ORDER BY MaSD DESC LIMIT 1";
         String nextID = "SD001"; // Mặc định nếu bảng trống
 
-        try (PreparedStatement ps = conn1.prepareStatement(sql);
+        try (PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
                 String lastID = rs.getString("MaSD"); // Ví dụ: "SD005"
@@ -86,10 +86,10 @@ public class SuDungDichVuDAO{
 
     // XÓA DÒNG SỬ DỤNG DỊCH VỤ ĐÓ.
     public boolean delete(String maSD) throws Exception{
-        Connection conn1 = ConnectionManager.getConnection();
+        conn = DBConnection.getConnection();
         String sql = "DELETE FROM sudungdichvu WHERE MaSD = ?";
         try {
-            ps = conn1.prepareStatement(sql);
+            ps = conn.prepareStatement(sql);
             ps.setString(1, maSD);
 
             int rowAffected = ps.executeUpdate();

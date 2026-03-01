@@ -8,7 +8,6 @@ import entity.NhanVien;
 import dao.GoiDichVuKhachHangDAO;
 import dao.GoiDichVuDAO;
 import dao.KhachHangDAO;
-import dao.ConnectionManager;
 import untils.*;
 
 import java.sql.*;
@@ -71,8 +70,6 @@ public class GoiDichVuKhachHangBUS{
 
         // gọi xuống DAO
         try{
-            ConnectionManager.beginTransaction();
-
             // trừ tiền khách hàng
             kh.setSodu( kh.getSodu() - gdv.getGiagoi());
             boolean truTien = this.khDAO.updateSoDuKhiMuaGoi(kh);
@@ -80,16 +77,12 @@ public class GoiDichVuKhachHangBUS{
             // thêm một dòng gói dịch vụ khách hàng
             boolean isSucess = this.gdvkhDAO.insert(gdvkh);
             if(truTien && isSucess){
-                ConnectionManager.commit();
                 System.out.println("Mua gói dịch vụ thành công!!!");
             }else{
                 System.out.println("Mua gói dịch vụ không thành công!!!");
             }
         }catch(Exception e){
-                ConnectionManager.rollback();
             throw new Exception("Lỗi hệ thống: " + e.getMessage());
-        }finally{
-            ConnectionManager.close();
         }
     }
 

@@ -76,13 +76,13 @@ public class DichVuDAO {
 
     // THÊM DỊCH VỤ
     public boolean insert(DichVu dv) throws Exception{
-        Connection conn1 = ConnectionManager.getConnection();
+        conn = DBConnection.getConnection();
         String sql = "INSERT INTO dichvu (MaDV, TenDV, LoaiDV, DonGia, DonViTinh, SoLuongTon, TrangThai) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
-            ps = conn1.prepareStatement(sql);
+            ps = conn.prepareStatement(sql);
 
-            ps.setString(1, this.generateNextMaDV());   // tăng mã tự động
+            ps.setString(1, this.generateNextMaDV(conn));   // tăng mã tự động
             ps.setString(2, dv.getTendv());
             ps.setString(3, dv.getLoaidv());
             ps.setDouble(4, dv.getDongia());
@@ -99,8 +99,7 @@ public class DichVuDAO {
     }
 
     // SINH MÃ DỊCH VỤ TỰ ĐỘNG
-    private String generateNextMaDV() throws Exception{
-        Connection conn1 = ConnectionManager.getConnection();
+    private String generateNextMaDV(Connection conn1) throws Exception{
         String sql = "SELECT MaDV FROM dichvu ORDER BY MaDV DESC LIMIT 1";
         String nextID = "DV001"; // Mặc định nếu bảng trống
 
@@ -120,10 +119,10 @@ public class DichVuDAO {
 
     // CẬP NHẬP THÔNG TIN
     public boolean update(DichVu dv) throws Exception{
-        Connection conn1 = ConnectionManager.getConnection();
+        conn = DBConnection.getConnection();
         String sql = "UPDATE dichvu SET TenDV = ?, LoaiDV = ?, DonGia = ?, DonViTinh = ?, SoLuongTon = ?, TrangThai = ? WHERE MaDV = ?";
         try {
-            ps = conn1.prepareStatement(sql);
+            ps = conn.prepareStatement(sql);
 
             ps.setString(1, dv.getTendv());
             ps.setString(2, dv.getLoaidv());
@@ -142,10 +141,10 @@ public class DichVuDAO {
 
     // HỦY DỊCH VỤ
     public boolean delete(String maDichVu) throws Exception{
-        Connection conn1 = ConnectionManager.getConnection();
+        conn = DBConnection.getConnection();
         String sql = "UPDATE dichvu SET TrangThai = ? WHERE MaDV = ?";
         try{
-            ps = conn1.prepareStatement(sql);
+            ps = conn.prepareStatement(sql);
             ps.setString(1, "NGUNGBAN");
             ps.setString(2, maDichVu);
 
@@ -158,10 +157,10 @@ public class DichVuDAO {
 
     // KHÔI PHỤC DỊCH VỤ
     public boolean cancelDelete(DichVu dv) throws Exception{
-        Connection conn1 = ConnectionManager.getConnection();
+        conn = DBConnection.getConnection();
         String sql = "UPDATE dichvu SET TrangThai = ? WHERE MaDV = ?";
         try{
-            ps = conn1.prepareStatement(sql);
+            ps = conn.prepareStatement(sql);
 
             if( dv.getSoluongton() > 0){ ps.setString(1, "CONHANG");}
             if( dv.getSoluongton() == 0){ ps.setString(1, "HETHANG");}
@@ -177,12 +176,12 @@ public class DichVuDAO {
 
     // CẬP NHẬP SỐ LƯỢNG TỒN
     public boolean updateSoLuongTon(String maDichVu, int soLuongCanTangGiam) throws Exception{
-        Connection conn1 = ConnectionManager.getConnection();
+        conn = DBConnection.getConnection();
         String sqlSelect = "SELECT SoLuongTon FROM dichvu WHERE MaDV = ?";
         String sqlUpdate = "UPDATE dichvu SET SoLuongTon = ?, TrangThai = ? WHERE MaDV = ?";
         try {
             // Bước 1: Lấy số lượng hiện có
-            ps = conn1.prepareStatement(sqlSelect);
+            ps = conn.prepareStatement(sqlSelect);
             ps.setString(1, maDichVu);
             rs = ps.executeQuery();
 
@@ -197,7 +196,7 @@ public class DichVuDAO {
             int soLuongMoi = soLuongHienCo + soLuongCanTangGiam;
             if (soLuongMoi < 0) return false; // Tránh trường hợp số lượng âm
 
-            ps = conn1.prepareStatement(sqlUpdate);
+            ps = conn.prepareStatement(sqlUpdate);
             ps.setInt(1, soLuongMoi);
             if( soLuongMoi == 0){ ps.setString(2, "HETHANG"); }
             else { ps.setString(2, "CONHANG"); }

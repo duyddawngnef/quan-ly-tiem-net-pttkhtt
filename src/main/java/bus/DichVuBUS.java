@@ -3,7 +3,6 @@ import entity.DichVu;
 import dao.DichVuDAO;
 import dao.DBConnection;
 import dao.NhanVienDAO;
-import dao.ConnectionManager;
 import untils.*;
 
 import java.sql.*;
@@ -12,7 +11,7 @@ import java.util.Iterator;
 import java.util.ArrayList;
 
 /* CÁC METHOD
-    1. List<DichVu> getAll(): lấy tất cả các dịch vụ. (Phân quyền: User)
+    1. List<DichVu> getAll(): lấy tất cả các dịch vụ. (Phân quyền: NHANVIEN/ ADMIN)
     2. List<DichVu> getDichVuConHang(): lấy các dịch vụ còn hàng. (kể cả NGƯNG BÁN). (Phân quyền: KHACHHANG)
     3. void themDichVu(DichVu newDichVu): thêm một dịch vụ. (Phân quyền: QUANLY)
     4. void suaDichVu(DichVu updateDV): cập nhập thông tin dịch vụ. (Phân quyền: QUANLY)
@@ -32,7 +31,7 @@ public class DichVuBUS{
     public List<DichVu> getAll() throws Exception{
         // check login
         PermissionHelper.requireLogin();
-        // kiểm tra phân quyền (quản lí/ nhân viên)
+        // kiểm tra phân quyền (quản lí/ nhân viên/ khách hàng)
         PermissionHelper.requireNhanVien();
 
         // gọi xuống DAO
@@ -74,7 +73,7 @@ public class DichVuBUS{
        List<DichVu> listCurrent = new ArrayList<>();
        listCurrent = dvDAO.getAll();
         for( DichVu item : listCurrent ){
-            if( oldName.equals(item.getTendv()) ){ continue; }
+            if( oldName.equals(item.getTendv()) ){ break; }
             if( chuanHoaTen(tenDV).equals(chuanHoaTen(item.getTendv())) ){
                 return false;
             }
@@ -99,6 +98,9 @@ public class DichVuBUS{
             checkDV.setLoaidv("KHAC");
         }
 
+        // kiểm tra đơn vị tính không được để null
+        if(checkDV.getDonvitinh() == null){ throw new Exception("Đơn vị tính không được để trống!!!"); }
+
         // kiểm tra giá dịch vụ
         if( checkDV.getDongia() <= 0.0){ throw new Exception("Đơn giá không được nhỏ hơn hoặc bằng 0!!!"); }
 
@@ -119,22 +121,16 @@ public class DichVuBUS{
 
         // GỌI DAO ĐỂ THÊM DỊCH VỤ
         try{
-            ConnectionManager.beginTransaction();
-
             boolean isSuccess = dvDAO.insert(newDichVu);  // insert sẽ trả về true/false
 
             if(isSuccess){  // nếu insert thành công
-                ConnectionManager.commit();
                 System.out.println("Thêm dịch vụ thành công");
             }
             else{
                 throw new Exception("Thêm dịch vụ không thành công");
             }
-        }catch(Exception e){
-            ConnectionManager.rollback();
+        }catch(Exception e) {
             throw new Exception("Lỗi hệ thống: " + e.getMessage());
-        }finally{
-            ConnectionManager.close();
         }
     }
 
@@ -157,22 +153,16 @@ public class DichVuBUS{
 
         // gọi xuống DAO
         try{
-            ConnectionManager.beginTransaction();
-
             boolean isSuccess = dvDAO.update(updateDV);  // insert sẽ trả về true/false
 
             if(isSuccess){  // nếu insert thành công
-                ConnectionManager.commit();
                 System.out.println("Sửa dịch vụ thành công");
             }
             else{
                 throw new Exception("Sửa dịch vụ không thành công");
             }
-        }catch(Exception e){
-            ConnectionManager.rollback();
+        }catch(Exception e) {
             throw new Exception("Lỗi hệ thống: " + e.getMessage());
-        }finally{
-            ConnectionManager.close();
         }
     }
 
@@ -190,22 +180,16 @@ public class DichVuBUS{
 
         // gọi xuống DAO
         try{
-            ConnectionManager.beginTransaction();
-
             boolean isSuccess = dvDAO.delete(maDV); // insert sẽ trả về true/false
 
             if(isSuccess){  // nếu insert thành công
-                ConnectionManager.commit();
                 System.out.println("Xóa dịch vụ thành công");
             }
             else{
                 throw new Exception("Xóa dịch vụ không thành công");
             }
-        }catch(Exception e){
-            ConnectionManager.rollback();
+        }catch(Exception e) {
             throw new Exception("Lỗi hệ thống: " + e.getMessage());
-        }finally{
-            ConnectionManager.close();
         }
     }
 
@@ -225,22 +209,16 @@ public class DichVuBUS{
 
         // gọi xuống DAO
         try{
-            ConnectionManager.beginTransaction();
-
             boolean isSuccess = dvDAO.cancelDelete(check);
 
             if(isSuccess){
-                ConnectionManager.commit();
                 System.out.println("Khôi phục dịch vụ thành công");
             }
             else{
                 throw new Exception("Khôi phục dịch vụ không thành công");
             }
         }catch(Exception e){
-            ConnectionManager.rollback();
             throw new Exception("Lỗi hệ thống: " + e.getMessage());
-        }finally{
-            ConnectionManager.close();
         }
     }
 }

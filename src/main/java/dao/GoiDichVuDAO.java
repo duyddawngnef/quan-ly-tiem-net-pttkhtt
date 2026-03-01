@@ -92,12 +92,12 @@ public class GoiDichVuDAO{
 
     // CHỨC NĂNG THÊM GÓI DỊCH VỤ
     public boolean insert(GoiDichVu newGDV) throws Exception{
-        Connection conn1 = ConnectionManager.getConnection();
+        conn = DBConnection.getConnection();
         String sql = "INSERT INTO goidichvu (MaGoi, TenGoi, LoaiGoi, SoGio, SoNgayHieuLuc" +
                 ", GiaGoc, GiaGoi, ApDungChoKhu, TrangThai) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
-            ps = conn1.prepareStatement(sql);
+            ps = conn.prepareStatement(sql);
 
             ps.setString(1, this.generateNextMaGoi());
             ps.setString(2, newGDV.getTengoi());
@@ -119,12 +119,12 @@ public class GoiDichVuDAO{
 
     // TĂNG MÃ TỰ ĐỘNG
     private String generateNextMaGoi() throws Exception{
-        Connection conn1 = ConnectionManager.getConnection();
+        conn = DBConnection.getConnection();
         String sql = "SELECT MaGoi FROM goidichvu ORDER BY MaGoi DESC LIMIT 1";
         String nextID = "GDV001";
 
         try {
-            PreparedStatement ps1 = conn1.prepareStatement(sql);
+            PreparedStatement ps1 = conn.prepareStatement(sql);
             ResultSet rs1 = ps1.executeQuery();
 
             if (rs1.next()) {
@@ -141,11 +141,11 @@ public class GoiDichVuDAO{
 
     // CHỨC NĂNG SỬA THÔNG TIN GÓI DỊCH VỤ
     public boolean update(GoiDichVu updateGDV) throws Exception{
-        Connection conn1 = ConnectionManager.getConnection();
+        conn = DBConnection.getConnection();
         String sql = "UPDATE goidichvu SET TenGoi = ?, LoaiGoi = ?, SoGio = ?, SoNgayHieuLuc = ?, " +
                 "GiaGoc = ?, GiaGoi = ?, ApDungChoKhu = ?, TrangThai = ? WHERE MaGoi = ?";
         try {
-            ps = conn1.prepareStatement(sql);
+            ps = conn.prepareStatement(sql);
 
             ps.setString(1, updateGDV.getTengoi());
             ps.setString(2, updateGDV.getLoaigoi());
@@ -167,10 +167,10 @@ public class GoiDichVuDAO{
 
     // CHỨC NĂNG XÓA MỘT GÓI DỊCH VỤ
     public boolean delete(String maGDV) throws Exception{
-        Connection conn1 = ConnectionManager.getConnection();
+        conn = DBConnection.getConnection();
         String sql = "UPDATE goidichvu SET TrangThai = ? WHERE MaGoi = ?";
         try {
-            ps = conn1.prepareStatement(sql);
+            ps = conn.prepareStatement(sql);
 
             ps.setString(1, "NGUNG");
             ps.setString(2, maGDV);
@@ -185,10 +185,10 @@ public class GoiDichVuDAO{
 
     // CHỨC NĂNG KHÔI PHỤC MỘT GÓI DỊCH VỤ
     public boolean cancelDelete(String maGDV) throws Exception{
-        Connection conn1 = ConnectionManager.getConnection();
+        conn = DBConnection.getConnection();
         String sql = "UPDATE goidichvu SET TrangThai = ? WHERE MaGoi = ?";
         try {
-            ps = conn1.prepareStatement(sql);
+            ps = conn.prepareStatement(sql);
 
             ps.setString(1, "HOATDONG");
             ps.setString(2, maGDV);
