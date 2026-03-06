@@ -21,20 +21,16 @@ public class NhanVienController implements Initializable {
     @FXML private Button btnXoa;
 
     @FXML private TableView<NhanVien> tableNhanVien;
-    @FXML private TableColumn<NhanVien, String> colMaNV;
-    @FXML private TableColumn<NhanVien, String> colHoTen;
-    @FXML private TableColumn<NhanVien, String> colChucVu;
-    @FXML private TableColumn<NhanVien, String> colTrangThai;
+    @FXML private TableColumn<NhanVien, String> colMaNV, colHoTen, colChucVu, colTrangThai;
 
+    // Form bên phải
     @FXML private Label lblFormTitle;
-    @FXML private TextField txtMaNV;
-    @FXML private TextField txtHoTen;
-    @FXML private TextField txtUsername;
+    @FXML private TextField txtMaNV, txtHoTen, txtUsername;
     @FXML private PasswordField txtPassword;
     @FXML private ComboBox<String> cmbChucVuForm;
 
-    private NhanVienBUS nhanVienBUS = new NhanVienBUS();
-    private ObservableList<NhanVien> listNhanVien = FXCollections.observableArrayList();
+    private final NhanVienBUS nhanVienBUS = new NhanVienBUS();
+    private final ObservableList<NhanVien> listNhanVien = FXCollections.observableArrayList();
     private boolean isInsertMode = true;
 
     @Override
@@ -42,6 +38,7 @@ public class NhanVienController implements Initializable {
         setupTable();
         cmbChucVu.getItems().addAll("TATC", "QUANLY", "NHANVIEN", "THUNGAN");
         cmbChucVu.getSelectionModel().selectFirst();
+
         cmbChucVuForm.getItems().addAll("QUANLY", "NHANVIEN", "THUNGAN");
 
         loadData();
@@ -49,8 +46,7 @@ public class NhanVienController implements Initializable {
 
     private void setupTable() {
         colMaNV.setCellValueFactory(new PropertyValueFactory<>("manv"));
-        // Vì Entity tách Họ và Tên, bạn có thể tự implement lấy fullName nếu cần
-        colHoTen.setCellValueFactory(new PropertyValueFactory<>("ten"));
+        colHoTen.setCellValueFactory(new PropertyValueFactory<>("ten")); // Có thể update ghép tên sau
         colChucVu.setCellValueFactory(new PropertyValueFactory<>("chucvu"));
         colTrangThai.setCellValueFactory(new PropertyValueFactory<>("trangthai"));
     }
@@ -68,8 +64,7 @@ public class NhanVienController implements Initializable {
     @FXML
     private void handleSearch() {
         try {
-            String keyword = txtSearch.getText();
-            List<NhanVien> list = nhanVienBUS.timKiemNhanVien(keyword);
+            List<NhanVien> list = nhanVienBUS.timKiemNhanVien(txtSearch.getText());
             listNhanVien.setAll(list);
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Lỗi tìm kiếm", e.getMessage());
@@ -85,7 +80,7 @@ public class NhanVienController implements Initializable {
             txtMaNV.setText(selected.getManv());
             txtHoTen.setText(selected.getHo() + " " + selected.getTen());
             txtUsername.setText(selected.getTendangnhap());
-            txtPassword.setDisable(true); // Sửa thì không cho nhập pass ở đây
+            txtPassword.setDisable(true); // Không cho sửa pass ở form này
             cmbChucVuForm.setValue(selected.getChucvu());
         }
     }
@@ -94,15 +89,16 @@ public class NhanVienController implements Initializable {
     private void handleThem() {
         isInsertMode = true;
         lblFormTitle.setText("THÊM NHÂN VIÊN");
-        handleCancel(); // Clear form
+        handleCancel(); // Xóa sạch form
         txtPassword.setDisable(false);
     }
 
     @FXML
     private void handleSua() {
-        // Logic khi click nút sửa trên thanh công cụ (Focus vào bảng bên form)
         if (tableNhanVien.getSelectionModel().getSelectedItem() == null) {
             showAlert(Alert.AlertType.WARNING, "Cảnh báo", "Vui lòng chọn nhân viên cần sửa!");
+        } else {
+            txtHoTen.requestFocus(); // Focus con trỏ vào form bên phải
         }
     }
 
@@ -114,17 +110,17 @@ public class NhanVienController implements Initializable {
             return;
         }
 
-        try {
-            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "Bạn có chắc muốn xóa nhân viên này?", ButtonType.YES, ButtonType.NO);
-            if (confirm.showAndWait().get() == ButtonType.YES) {
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "Cho nhân viên này nghỉ việc?", ButtonType.YES, ButtonType.NO);
+        if (confirm.showAndWait().orElse(ButtonType.NO) == ButtonType.YES) {
+            try {
                 if (nhanVienBUS.xoaNhanVien(selected.getManv())) {
                     showAlert(Alert.AlertType.INFORMATION, "Thành công", "Đã khóa nhân viên thành công!");
                     loadData();
                     handleCancel();
                 }
+            } catch (Exception e) {
+                showAlert(Alert.AlertType.ERROR, "Lỗi xóa", e.getMessage());
             }
-        } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Lỗi xóa", e.getMessage());
         }
     }
 
@@ -132,10 +128,12 @@ public class NhanVienController implements Initializable {
     private void handleSave() {
         try {
             NhanVien nv = new NhanVien();
-            // Xử lý tách họ và tên tạm thời (giả sử tên là từ cuối cùng)
+            // Tách tạm Họ và Tên (Giả sử từ cuối là Tên, còn lại là Họ)
             String[] parts = txtHoTen.getText().trim().split(" ");
-            nv.setTen(parts[parts.length - 1]);
-            nv.setHo(txtHoTen.getText().replace(nv.getTen(), "").trim());
+            if(parts.length > 0) {
+                nv.setTen(parts[parts.length - 1]);
+                nv.setHo(txtHoTen.getText().replace(nv.getTen(), "").trim());
+            }
 
             nv.setChucvu(cmbChucVuForm.getValue());
             nv.setTendangnhap(txtUsername.getText());
@@ -143,12 +141,13 @@ public class NhanVienController implements Initializable {
             if (isInsertMode) {
                 nv.setMatkhau(txtPassword.getText());
                 nhanVienBUS.themNhanVien(nv);
-                showAlert(Alert.AlertType.INFORMATION, "Thành công", "Thêm nhân viên thành công!");
+                showAlert(Alert.AlertType.INFORMATION, "Thành công", "Thêm nhân viên mới thành công!");
             } else {
                 nv.setManv(txtMaNV.getText());
                 nhanVienBUS.suaNhanVien(nv);
-                showAlert(Alert.AlertType.INFORMATION, "Thành công", "Cập nhật nhân viên thành công!");
+                showAlert(Alert.AlertType.INFORMATION, "Thành công", "Cập nhật thông tin thành công!");
             }
+
             loadData();
             handleCancel();
         } catch (Exception e) {
@@ -163,6 +162,10 @@ public class NhanVienController implements Initializable {
         txtUsername.clear();
         txtPassword.clear();
         cmbChucVuForm.getSelectionModel().clearSelection();
+        tableNhanVien.getSelectionModel().clearSelection();
+        isInsertMode = true;
+        lblFormTitle.setText("THÊM NHÂN VIÊN");
+        txtPassword.setDisable(false);
     }
 
     private void showAlert(Alert.AlertType type, String title, String content) {
