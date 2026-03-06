@@ -11,116 +11,77 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
 
-    @FXML private ToggleButton btnRoleKhachHang;
-    @FXML private ToggleButton btnRoleNhanVien;
     @FXML private TextField txtUsername;
     @FXML private PasswordField txtPassword;
-    @FXML private Button btnLogin;
+    @FXML private ComboBox<String> cmbRole;
     @FXML private Label lblError;
 
-    private final KhachHangBUS khachHangBUS = new KhachHangBUS();
-    private final NhanVienBUS nhanVienBUS = new NhanVienBUS();
-    private boolean isNhanVienMode = false;
+    private KhachHangBUS khachHangBUS = new KhachHangBUS();
+    private NhanVienBUS nhanVienBUS = new NhanVienBUS();
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        ToggleGroup roleGroup = new ToggleGroup();
-        btnRoleKhachHang.setToggleGroup(roleGroup);
-        btnRoleNhanVien.setToggleGroup(roleGroup);
-        btnRoleKhachHang.setSelected(true);
-
-        // Enter key triggers login
-        txtPassword.setOnAction(e -> handleLogin());
-        txtUsername.setOnAction(e -> txtPassword.requestFocus());
-
-        // Clear error when typing
-        txtUsername.textProperty().addListener((obs, o, n) -> clearError());
-        txtPassword.textProperty().addListener((obs, o, n) -> clearError());
+    public void initialize(URL url, ResourceBundle rb) {
+        // Khởi tạo ComboBox loại đăng nhập
+        cmbRole.getItems().addAll("Nhân viên", "Khách hàng");
+        cmbRole.getSelectionModel().selectFirst();
+        lblError.setText("");
     }
 
     @FXML
-    public void handleRoleToggle() {
-        isNhanVienMode = btnRoleNhanVien.isSelected();
-        clearError();
-    }
-
-    @FXML
-    public void handleLogin() {
-        String username = txtUsername.getText().trim();
-        String password = txtPassword.getText().trim();
-
-        // Basic validation
-        if (username.isEmpty()) {
-            showError("Vui lòng nhập tên đăng nhập");
-            txtUsername.requestFocus();
-            return;
-        }
-        if (password.isEmpty()) {
-            showError("Vui lòng nhập mật khẩu");
-            txtPassword.requestFocus();
-            return;
-        }
-
-        btnLogin.setDisable(true);
-        btnLogin.setText("Đang đăng nhập...");
+    private void handleLogin() {
+        String username = txtUsername.getText();
+        String password = txtPassword.getText();
+        String role = cmbRole.getValue();
 
         try {
-            if (isNhanVienMode) {
-                NhanVien nv = nhanVienBUS.dangNhap(username, password);
-                utils.SessionManager.setCurrentUser(nv);
-                openMain();
-            } else {
+            if ("Khách hàng".equals(role)) {
                 KhachHang kh = khachHangBUS.dangNhap(username, password);
-                utils.SessionManager.setCurrentUser(kh);
-                openMain();
+                if (kh != null) {
+                    chuyenHuongMain("Khách hàng");
+                }
+            } else {
+                NhanVien nv = nhanVienBUS.dangNhap(username, password);
+                if (nv != null) {
+                    chuyenHuongMain("Nhân viên");
+                }
             }
         } catch (Exception e) {
-            showError(e.getMessage());
-            txtPassword.clear();
-            txtPassword.requestFocus();
-        } finally {
-            btnLogin.setDisable(false);
-            btnLogin.setText("ĐĂNG NHẬP");
+            lblError.setText(e.getMessage());
+            lblError.setStyle("-fx-text-fill: red;");
         }
     }
 
     @FXML
-    public void handleRegister() {
+    private void handleRegister() {
+        // Logic mở màn hình Register theo tài liệu
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/fxml/register.fxml"));
-            Stage stage = (Stage) btnLogin.getScene().getWindow();
-            stage.setScene(new Scene(root, 900, 700));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/view/register-view.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Đăng ký tài khoản");
+            stage.setScene(new Scene(root));
+            stage.show();
         } catch (Exception e) {
-            showError("Không thể mở trang đăng ký: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
-    private void openMain() {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/fxml/main.fxml"));
-            Stage stage = (Stage) btnLogin.getScene().getWindow();
-            stage.setScene(new Scene(root, 1280, 760));
-            stage.setTitle("Hệ Thống Quản Lý Tiệm Internet");
-            stage.centerOnScreen();
-        } catch (Exception e) {
-            showError("Lỗi mở giao diện chính: " + e.getMessage());
-        }
-    }
+    private void chuyenHuongMain(String role) throws Exception {
+        Stage currentStage = (Stage) txtUsername.getScene().getWindow();
+        currentStage.close();
 
-    private void showError(String msg) {
-        lblError.setText(msg);
-        lblError.setVisible(true);
-        lblError.setManaged(true);
-    }
-
-    private void clearError() {
-        lblError.setText("");
-        lblError.setVisible(false);
-        lblError.setManaged(false);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/view/main-view.fxml"));
+        Parent root = loader.load();
+        Stage stage = new Stage();
+        stage.setTitle("Hệ Thống Quản Lý Tiệm Net - " + role);
+        stage.setScene(new Scene(root, 1200, 800));
+        stage.setMaximized(true);
+        stage.show();
     }
 }
