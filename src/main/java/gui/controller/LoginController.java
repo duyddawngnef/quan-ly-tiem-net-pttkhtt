@@ -18,55 +18,69 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
 
-    // Đã đổi ID tiếng Việt
-    @FXML private TextField txtTenDangNhap;
-    @FXML private PasswordField pfMatKhau;
-    @FXML private ComboBox<String> cbLoaiTaiKhoan;
-    @FXML private Label lblThongBao;
-    @FXML private Button btnDangNhap;
+    // Khai báo đúng 100% tên biến theo file FXML của bạn
+    @FXML private TextField txtUsername;
+    @FXML private PasswordField txtPassword;
+    @FXML private ToggleButton btnRoleKhachHang;
+    @FXML private ToggleButton btnRoleNhanVien;
+    @FXML private Label lblError;
+    @FXML private Button btnLogin;
 
     private KhachHangBUS khachHangBUS = new KhachHangBUS();
     private NhanVienBUS nhanVienBUS = new NhanVienBUS();
 
+    // Nhóm 2 nút Toggle lại để chỉ chọn được 1 trong 2
+    private ToggleGroup roleGroup = new ToggleGroup();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if(cbLoaiTaiKhoan != null) {
-            cbLoaiTaiKhoan.getItems().addAll("Nhân viên", "Khách hàng");
-            cbLoaiTaiKhoan.getSelectionModel().selectFirst();
+        if (btnRoleKhachHang != null && btnRoleNhanVien != null) {
+            btnRoleKhachHang.setToggleGroup(roleGroup);
+            btnRoleNhanVien.setToggleGroup(roleGroup);
         }
-        if(lblThongBao != null) lblThongBao.setText("");
+        if(lblError != null) lblError.setText("");
     }
 
     @FXML
-    private void handleDangNhap() {
-        String username = txtTenDangNhap.getText();
-        String password = pfMatKhau.getText();
-        String role = cbLoaiTaiKhoan.getValue();
+    private void handleRoleToggle() {
+        // Đảm bảo người dùng không thể bỏ chọn cả 2 nút
+        if (roleGroup.getSelectedToggle() == null) {
+            btnRoleKhachHang.setSelected(true);
+        }
+    }
+
+    @FXML
+    private void handleLogin() {
+        String username = txtUsername.getText();
+        String password = txtPassword.getText();
+
+        // Kiểm tra xem nút Khách hàng có đang được nhấn không
+        boolean isKhachHang = btnRoleKhachHang.isSelected();
 
         try {
-            if ("Khách hàng".equals(role)) {
+            if (isKhachHang) {
                 KhachHang kh = khachHangBUS.dangNhap(username, password);
                 if (kh != null) {
-                    SessionManager.setCurrentUser(kh); // Quan trọng
+                    SessionManager.setCurrentUser(kh);
                     chuyenHuongMain("Khách hàng");
                 }
             } else {
                 NhanVien nv = nhanVienBUS.dangNhap(username, password);
                 if (nv != null) {
-                    SessionManager.setCurrentUser(nv); // Quan trọng
+                    SessionManager.setCurrentUser(nv);
                     chuyenHuongMain("Nhân viên");
                 }
             }
         } catch (Exception e) {
-            lblThongBao.setText(e.getMessage());
-            lblThongBao.setStyle("-fx-text-fill: red;");
+            lblError.setText(e.getMessage());
+            lblError.setStyle("-fx-text-fill: red;");
         }
     }
 
     @FXML
-    private void chuyenSangDangKy() {
+    private void handleRegister() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("src/main/resources/fxml/register.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/register.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.setTitle("Đăng ký tài khoản");
@@ -78,15 +92,14 @@ public class LoginController implements Initializable {
     }
 
     private void chuyenHuongMain(String role) throws Exception {
-        Stage currentStage = (Stage) txtTenDangNhap.getScene().getWindow();
+        Stage currentStage = (Stage) btnLogin.getScene().getWindow();
         currentStage.close();
 
-        // Đã sửa file name thành chuẩn docx
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("src/main/resources/fxml/main.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
         Parent root = loader.load();
         Stage stage = new Stage();
         stage.setTitle("Hệ Thống Quản Lý Tiệm Net - " + role);
-        stage.setScene(new Scene(root, 1200, 800));
+        stage.setScene(new Scene(root, 1280, 800));
         stage.setMaximized(true);
         stage.show();
     }

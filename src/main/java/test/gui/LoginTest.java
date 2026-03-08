@@ -17,7 +17,7 @@ public class LoginTest extends Application {
 
             // 1. Tải file giao diện từ thư mục resources
             // Chú ý: Cập nhật lại đường dẫn này nếu file fxml của bạn nằm ở thư mục khác
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/view/login.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
             Parent root = loader.load();
 
             // 2. Gắn giao diện vào một "Cảnh" (Scene)

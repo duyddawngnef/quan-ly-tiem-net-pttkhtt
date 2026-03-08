@@ -114,9 +114,8 @@ public class ThongKeController implements Initializable {
 
     private void loadSummaryCards() {
         try {
-            String vaiTro = getVaiTro();
-            // thongKeTongQuan(vaiTro) -> Map<String, Object>: SoPhien, TongDoanhThu, etc.
-            Map<String, Object> tq = thongKeBUS.thongKeTongQuan(vaiTro);
+            // Không truyền vaiTro vào nữa
+            Map<String, Object> tq = thongKeBUS.thongKeTongQuan();
             double thu     = getDouble(tq, "TongDoanhThu");
             double soPhien = getDouble(tq, "SoPhien");
 
@@ -133,16 +132,16 @@ public class ThongKeController implements Initializable {
         }
     }
 
+
     @FXML
     public void handleThongKe() {
         try {
             LocalDate from = dateFrom != null ? dateFrom.getValue() : LocalDate.now().withDayOfMonth(1);
             LocalDate to   = dateTo   != null ? dateTo.getValue()   : LocalDate.now();
             if (from == null || to == null) return;
-            String vaiTro = getVaiTro();
 
-            // thongKeDoanhThu(LocalDate, LocalDate, String vaiTro)
-            Map<String, Object> data = thongKeBUS.thongKeDoanhThu(from, to, vaiTro);
+            // Chỉ truyền from và to, không truyền vaiTro
+            Map<String, Object> data = thongKeBUS.thongKeDoanhThu(from, to);
 
             // Wrap vào list 1 dòng cho bảng
             Map<String, Object> row = new LinkedHashMap<>();
@@ -164,7 +163,6 @@ public class ThongKeController implements Initializable {
             }
         }
     }
-
     @FXML
     public void handleThongKeThuChi() {
         try {
