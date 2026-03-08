@@ -97,7 +97,28 @@ public class ChiTietPhieuNhapDAO {
             throw new RuntimeException("ChiTietPhieuNhapDAO.getById error", e);
         }
     }
+    // ====== Thêm hàm này để gọi từ BUS ======
+    public List<ChiTietPhieuNhap> getByMaPhieu(String maPhieu) {
+        String sql = "SELECT MaCTPN, MaPhieuNhap, MaDV, SoLuong, GiaNhap, ThanhTien " +
+                "FROM chitietphieunhap WHERE MaPhieuNhap=? ORDER BY MaCTPN";
 
+        List<ChiTietPhieuNhap> list = new ArrayList<>();
+        // Tự động lấy kết nối từ DBConnection (không cần truyền từ ngoài vào)
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, maPhieu);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    // Sử dụng lại hàm map(rs) có sẵn ở cuối file của bạn
+                    list.add(map(rs));
+                }
+            }
+            return list;
+        } catch (SQLException e) {
+            throw new RuntimeException("Lỗi ChiTietPhieuNhapDAO.getByMaPhieu: " + e.getMessage(), e);
+        }
+    }
     // ====== Insert ======
     /**
      * Insert 1 chi tiết (dùng trong transaction của PhieuNhapHangDAO)

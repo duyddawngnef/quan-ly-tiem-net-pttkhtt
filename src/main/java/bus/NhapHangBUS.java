@@ -1,6 +1,7 @@
 package bus;
 
 import dao.PhieuNhapHangDAO;
+import dao.ChiTietPhieuNhapDAO; // Đã thêm import
 import entity.ChiTietPhieuNhap;
 import entity.NhanVien;
 import entity.PhieuNhapHang;
@@ -11,6 +12,7 @@ import java.util.List;
 public class NhapHangBUS {
 
     private final PhieuNhapHangDAO pnDAO = new PhieuNhapHangDAO();
+    private final ChiTietPhieuNhapDAO ctDAO = new ChiTietPhieuNhapDAO(); // Đã khai báo thêm DAO
 
     private NhanVien requireQuanLy() throws Exception {
         if (!SessionManager.isLoggedIn()) throw new Exception("Chưa đăng nhập");
@@ -47,5 +49,19 @@ public class NhapHangBUS {
     public List<PhieuNhapHang> getAllPhieuNhap() throws Exception {
         requireQuanLy();
         return pnDAO.getAll();
+    }
+
+    // =====================================================================
+    // ĐÃ THÊM HÀM NÀY ĐỂ FIX LỖI BÊN CONTROLLER
+    // =====================================================================
+    public List<ChiTietPhieuNhap> getChiTiet(String maPhieu) throws Exception {
+        requireQuanLy(); // Kiểm tra quyền
+        if (maPhieu == null || maPhieu.trim().isEmpty()) {
+            throw new Exception("Mã phiếu không hợp lệ");
+        }
+
+        // Gọi xuống DAO để lấy danh sách chi tiết của phiếu nhập này
+        // Lưu ý: Đảm bảo trong ChiTietPhieuNhapDAO của bạn đã có hàm getByMaPhieu(String)
+        return ctDAO.getByMaPhieu(maPhieu);
     }
 }

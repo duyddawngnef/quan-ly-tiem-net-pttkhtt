@@ -13,7 +13,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -21,116 +20,121 @@ import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
 
+    // Thông tin người dùng (Đã khớp ID với file main.fxml)
+    @FXML private Label lblAvatarChar;
     @FXML private Label lblUserName;
     @FXML private Label lblUserRole;
+
+    // Khu vực Header và Nội dung
     @FXML private Label lblPageTitle;
-    @FXML private Label lblCurrentUser;
     @FXML private Label lblCurrentTime;
     @FXML private StackPane contentPane;
 
-    // Khai báo các nút Sidebar
-    @FXML private Button btnSodoMay;
-    @FXML private Button btnMayTinh;
-    @FXML private Button btnKhuMay;
-    @FXML private Button btnPhienSuDung;
-    @FXML private Button btnDichVu;
-    @FXML private Button btnGoiDichVu;
-    @FXML private Button btnKhuyenMai;
-    @FXML private Button btnKhachHang;
-    @FXML private Button btnNapTien;
-    @FXML private Button btnNhanVien;
-    @FXML private Button btnHoaDon;
-    @FXML private Button btnNhapHang;
-    @FXML private Button btnThongKe;
+    // Danh sách nút Menu ở Sidebar
+    @FXML private Button btnSoDoMay, btnPhienSuDung, btnNapTien, btnHoaDon;
+    @FXML private Button btnDichVu, btnGoiDichVu, btnKhuyenMai, btnNhapHang;
+    @FXML private Button btnKhachHang, btnNhanVien, btnMayTinh, btnKhuMay, btnThongKe;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        updateHeader();
-        setupMenuByRole();
-        showSodoMay(); // Load trang mặc định
+        try {
+            updateHeader();
+            setupMenuByRole();
+            loadSoDoMay(); // Gọi hàm hiển thị trang mặc định
+        } catch (Exception e) {
+            System.err.println("Lỗi khởi tạo màn hình Main: " + e.getMessage());
+        }
     }
 
     private void updateHeader() {
-        // Sử dụng các hàm kiểm tra trạng thái có sẵn trong SessionManager
         if (SessionManager.isNhanVien() || SessionManager.isQuanLy()) {
             NhanVien nv = SessionManager.getCurrentNhanVien();
             if (nv != null) {
-                lblUserName.setText(nv.getHo() + " " + nv.getTen());
-                lblUserRole.setText(nv.getChucvu());
-                lblCurrentUser.setText("Mã NV: " + nv.getManv());
+                if (lblUserName != null) lblUserName.setText(nv.getHo() + " " + nv.getTen());
+                if (lblUserRole != null) lblUserRole.setText(nv.getChucvu());
+                // Lấy chữ cái đầu tiên của Tên làm Avatar
+                if (lblAvatarChar != null && nv.getTen() != null && !nv.getTen().isEmpty()) {
+                    lblAvatarChar.setText(String.valueOf(nv.getTen().charAt(0)).toUpperCase());
+                }
             }
         } else if (SessionManager.isKhachHang()) {
             KhachHang kh = SessionManager.getCurrentKhachHang();
             if (kh != null) {
-                lblUserName.setText(kh.getHo() + " " + kh.getTen());
-                lblUserRole.setText("KHÁCH HÀNG");
-                lblCurrentUser.setText("Số dư: " + String.format("%,.0f đ", kh.getSodu()));
+                if (lblUserName != null) lblUserName.setText(kh.getHo() + " " + kh.getTen());
+                if (lblUserRole != null) lblUserRole.setText("KHACHHANG");
+                // Lấy chữ cái đầu tiên của Tên làm Avatar
+                if (lblAvatarChar != null && kh.getTen() != null && !kh.getTen().isEmpty()) {
+                    lblAvatarChar.setText(String.valueOf(kh.getTen().charAt(0)).toUpperCase());
+                }
             }
         }
-
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-        lblCurrentTime.setText(dtf.format(LocalDateTime.now()));
+        if (lblCurrentTime != null) {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            lblCurrentTime.setText(dtf.format(LocalDateTime.now()));
+        }
     }
 
     private void setupMenuByRole() {
-        // Tắt hết các nút quản lý cấp cao nếu không phải QUANLY
         if (!SessionManager.isQuanLy()) {
-            btnNhanVien.setVisible(false);
-            btnNhanVien.setManaged(false);
-            btnThongKe.setVisible(false);
-            btnThongKe.setManaged(false);
-            btnNhapHang.setVisible(false);
-            btnNhapHang.setManaged(false);
-            btnKhuyenMai.setVisible(false);
-            btnKhuyenMai.setManaged(false);
+            if(btnNhanVien != null) { btnNhanVien.setVisible(false); btnNhanVien.setManaged(false); }
+            if(btnThongKe != null) { btnThongKe.setVisible(false); btnThongKe.setManaged(false); }
+            if(btnNhapHang != null) { btnNhapHang.setVisible(false); btnNhapHang.setManaged(false); }
+            if(btnKhuyenMai != null) { btnKhuyenMai.setVisible(false); btnKhuyenMai.setManaged(false); }
         }
-
-        // Nếu là Khách Hàng (Tự đăng nhập máy trạm) thì tắt các nút nghiệp vụ
         if (SessionManager.isKhachHang()) {
-            btnMayTinh.setVisible(false); btnMayTinh.setManaged(false);
-            btnKhuMay.setVisible(false); btnKhuMay.setManaged(false);
-            btnKhachHang.setVisible(false); btnKhachHang.setManaged(false);
+            if(btnMayTinh != null) { btnMayTinh.setVisible(false); btnMayTinh.setManaged(false); }
+            if(btnKhuMay != null) { btnKhuMay.setVisible(false); btnKhuMay.setManaged(false); }
+            if(btnKhachHang != null) { btnKhachHang.setVisible(false); btnKhachHang.setManaged(false); }
         }
     }
 
     private void loadView(String fxmlPath, String title) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/view/" + fxmlPath));
+            if (contentPane == null) return;
+
+            URL fileUrl = getClass().getResource("/fxml/" + fxmlPath);
+            if (fileUrl == null) {
+                System.err.println("⚠️ Cảnh báo: Không tìm thấy file /fxml/" + fxmlPath + " -> Bỏ qua tải giao diện này để tránh sập app.");
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(fileUrl);
             Node node = loader.load();
             contentPane.getChildren().setAll(node);
-            lblPageTitle.setText(title.toUpperCase());
-        } catch (IOException e) {
-            e.printStackTrace();
+            if(lblPageTitle != null) lblPageTitle.setText(title.toUpperCase());
+        } catch (Exception e) {
+            System.err.println("⛔ Lỗi khi load file " + fxmlPath + ": " + e.getMessage());
         }
     }
 
-    @FXML public void showSodoMay() { loadView("sodo-may-view.fxml", "Sơ đồ máy"); }
-    @FXML public void showMayTinh() { loadView("maytinh-list-view.fxml", "Quản lý máy tính"); }
-    @FXML public void showKhuMay() { loadView("khumay-view.fxml", "Quản lý khu máy"); }
-    @FXML public void showPhienSuDung() { loadView("phiensudung-view.fxml", "Quản lý phiên sử dụng"); }
-    @FXML public void showDichVu() { loadView("dichvu-list-view.fxml", "Quản lý dịch vụ"); }
-    @FXML public void showGoiDichVu() { loadView("goidichvu-list-view.fxml", "Quản lý gói dịch vụ"); }
-    @FXML public void showKhuyenMai() { loadView("khuyenmai-view.fxml", "Chương trình khuyến mãi"); }
-    @FXML public void showKhachHang() { loadView("khachhang-view.fxml", "Quản lý khách hàng"); }
-    @FXML public void showNapTien() { loadView("naptien-view.fxml", "Nạp tiền"); }
-    @FXML public void showNhanVien() { loadView("nhanvien-view.fxml", "Quản lý nhân viên"); }
-    @FXML public void showHoaDon() { loadView("hoadon-view.fxml", "Quản lý hóa đơn"); }
-    @FXML public void showNhapHang() { loadView("nhaphang-view.fxml", "Nhập hàng"); }
-    @FXML public void showThongKe() { loadView("thongke-view.fxml", "Báo cáo thống kê"); }
+    // --- CÁC HÀM XỬ LÝ CLICK MENU (Đã đổi tên theo file FXML của bạn) ---
+    @FXML public void loadSoDoMay() { loadView("sodoMay.fxml", "Sơ đồ máy"); }
+    @FXML public void loadPhienSuDung() { loadView("phienSuDung.fxml", "Quản lý phiên sử dụng"); }
+    @FXML public void loadNapTien() { loadView("napTien.fxml", "Nạp tiền"); }
+    @FXML public void loadHoaDon() { loadView("hoaDon.fxml", "Quản lý hóa đơn"); }
+    @FXML public void loadDichVu() { loadView("dichVu.fxml", "Quản lý dịch vụ"); }
+    @FXML public void loadGoiDichVu() { loadView("goiDichVu.fxml", "Quản lý gói dịch vụ"); }
+    @FXML public void loadKhuyenMai() { loadView("khuyenMai.fxml", "Chương trình khuyến mãi"); }
+    @FXML public void loadNhapHang() { loadView("nhapHang.fxml", "Nhập hàng"); }
+    @FXML public void loadKhachHang() { loadView("khachHang.fxml", "Quản lý khách hàng"); }
+    @FXML public void loadNhanVien() { loadView("nhanVien.fxml", "Quản lý nhân viên"); }
+    @FXML public void loadMayTinh() { loadView("mayTinh.fxml", "Quản lý máy tính"); }
+    @FXML public void loadKhuMay() { loadView("khuMay.fxml", "Quản lý khu máy"); }
+    @FXML public void loadThongKe() { loadView("thongKe.fxml", "Báo cáo thống kê"); }
 
     @FXML
     private void handleLogout() {
         SessionManager.clearSession();
         try {
-            Stage currentStage = (Stage) btnSodoMay.getScene().getWindow();
+            Stage currentStage = (Stage) btnSoDoMay.getScene().getWindow();
             currentStage.close();
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/view/login-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Đăng nhập");
             stage.setScene(new Scene(loader.load()));
             stage.show();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

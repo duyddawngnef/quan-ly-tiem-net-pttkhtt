@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import utils.ThongBaoDialogHelper;
 
+import javafx.stage.Stage;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -77,8 +78,9 @@ public class NhapHangController implements Initializable {
         if (colNCC      != null) colNCC.setCellValueFactory(new PropertyValueFactory<>("maNCC"));
         if (colNgayNhap != null) {
             colNgayNhap.setCellValueFactory(c -> {
-                LocalDate ngay = c.getValue().getNgayNhap();
-                String val = ngay != null ? ngay.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "";
+                LocalDateTime ngayTime = c.getValue().getNgayNhap();
+                // Đổi format để hiện cả giờ phút
+                String val = ngayTime != null ? ngayTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) : "";
                 return new javafx.beans.property.SimpleStringProperty(val);
             });
         }
@@ -151,10 +153,13 @@ public class NhapHangController implements Initializable {
             LocalDate to   = dateTo   != null ? dateTo.getValue() : null;
             if (from != null && to != null) {
                 list = list.stream()
-                    .filter(p -> p.getNgayNhap() != null
-                        && !p.getNgayNhap().isBefore(from)
-                        && !p.getNgayNhap().isAfter(to))
-                    .collect(java.util.stream.Collectors.toList());
+                        .filter(p -> {
+                            if (p.getNgayNhap() == null) return false;
+                            // Chuyển LocalDateTime sang LocalDate để so sánh với DatePicker
+                            LocalDate ngayCuaPhieu = p.getNgayNhap().toLocalDate();
+                            return !ngayCuaPhieu.isBefore(from) && !ngayCuaPhieu.isAfter(to);
+                        })
+                        .collect(java.util.stream.Collectors.toList());
             }
 
             dataList.setAll(list);
@@ -211,9 +216,9 @@ public class NhapHangController implements Initializable {
     private void showDetail(PhieuNhapHang phieu) {
         if (lblDetMaPhieu != null) lblDetMaPhieu.setText(phieu.getMaPhieuNhap());
         if (lblDetNCC     != null) lblDetNCC.setText(phieu.getMaNCC() != null ? phieu.getMaNCC() : "-");
-        if (lblDetNgay    != null) {
+        if (lblDetNgay != null) {
             String ngay = phieu.getNgayNhap() != null
-                ? phieu.getNgayNhap().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "-";
+                    ? phieu.getNgayNhap().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) : "-";
             lblDetNgay.setText(ngay);
         }
         if (lblDetTongTien != null)
