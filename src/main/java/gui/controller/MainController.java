@@ -84,19 +84,19 @@ public class MainController implements Initializable {
     }
 
     // Đã đổi tên các file đuôi .fxml chuẩn docx
-    @FXML public void showSodoMay() { loadView("sodoMay.fxml", "Sơ đồ máy"); }
-    @FXML public void showMayTinh() { loadView("mayTinh.fxml", "Quản lý máy tính"); }
-    @FXML public void showKhuMay() { loadView("khuMay.fxml", "Quản lý khu máy"); }
-    @FXML public void showPhienSuDung() { loadView("phienSuDung.fxml", "Quản lý phiên sử dụng"); }
-    @FXML public void showDichVu() { loadView("dichVu.fxml", "Quản lý dịch vụ"); }
-    @FXML public void showGoiDichVu() { loadView("goiDichVu.fxml", "Quản lý gói dịch vụ"); }
-    @FXML public void showKhuyenMai() { loadView("khuyenMai.fxml", "Chương trình khuyến mãi"); }
-    @FXML public void showKhachHang() { loadView("khachHang.fxml", "Quản lý khách hàng"); }
-    @FXML public void showNapTien() { loadView("napTien.fxml", "Nạp tiền"); }
-    @FXML public void showNhanVien() { loadView("nhanVien.fxml", "Quản lý nhân viên"); }
-    @FXML public void showHoaDon() { loadView("hoaDon.fxml", "Quản lý hóa đơn"); }
-    @FXML public void showNhapHang() { loadView("nhapHang.fxml", "Nhập hàng"); }
-    @FXML public void showThongKe() { loadView("thongKe.fxml", "Báo cáo thống kê"); }
+    @FXML public void showSodoMay() { loadView("src/main/resources/fxml/sodoMay.fxml", "Sơ đồ máy"); }
+    @FXML public void showMayTinh() { loadView("src/main/resources/fxml/mayTinh.fxml", "Quản lý máy tính"); }
+    @FXML public void showKhuMay() { loadView("src/main/resources/fxml/khuMay.fxml", "Quản lý khu máy"); }
+    @FXML public void showPhienSuDung() { loadView("src/main/resources/fxml/phienSuDung.fxml", "Quản lý phiên sử dụng"); }
+    @FXML public void showDichVu() { loadView("src/main/resources/fxml/dichVu.fxml", "Quản lý dịch vụ"); }
+    @FXML public void showGoiDichVu() { loadView("src/main/resources/fxml/goiDichVu.fxml", "Quản lý gói dịch vụ"); }
+    @FXML public void showKhuyenMai() { loadView("src/main/resources/fxml/khuyenMai.fxml", "Chương trình khuyến mãi"); }
+    @FXML public void showKhachHang() { loadView("src/main/resources/fxml/khachHang.fxml", "Quản lý khách hàng"); }
+    @FXML public void showNapTien() { loadView("src/main/resources/fxml/napTien.fxml", "Nạp tiền"); }
+    @FXML public void showNhanVien() { loadView("src/main/resources/fxml/nhanVien.fxml", "Quản lý nhân viên"); }
+    @FXML public void showHoaDon() { loadView("src/main/resources/fxml/hoaDon.fxml", "Quản lý hóa đơn"); }
+    @FXML public void showNhapHang() { loadView("src/main/resources/fxml/nhapHang.fxml", "Nhập hàng"); }
+    @FXML public void showThongKe() { loadView("src/main/resources/fxml/thongKe.fxml", "Báo cáo thống kê"); }
 
     @FXML
     private void handleLogout() {
@@ -105,7 +105,7 @@ public class MainController implements Initializable {
             Stage currentStage = (Stage) btnSodoMay.getScene().getWindow();
             currentStage.close();
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("src/main/resources/fxml/login.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Đăng nhập");
             stage.setScene(new Scene(loader.load()));

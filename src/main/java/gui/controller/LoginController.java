@@ -66,7 +66,7 @@ public class LoginController implements Initializable {
     @FXML
     private void chuyenSangDangKy() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/register.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("src/main/resources/fxml/register.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.setTitle("Đăng ký tài khoản");
@@ -82,7 +82,7 @@ public class LoginController implements Initializable {
         currentStage.close();
 
         // Đã sửa file name thành chuẩn docx
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("src/main/resources/fxml/main.fxml"));
         Parent root = loader.load();
         Stage stage = new Stage();
         stage.setTitle("Hệ Thống Quản Lý Tiệm Net - " + role);
