@@ -74,7 +74,7 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.JavaFX&quot;
   }
 }</component>
-  <component name="RunManager" selected="Application.LoginLauncher">
+  <component name="RunManager" selected="Application.NhanVienLauncher">
     <configuration name="LoginLauncher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="test.gui.LoginLauncher" />
       <module name="DataBase_Java" />
@@ -96,8 +96,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="NhanVienLauncher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.gui.NhanVienLauncher" />
+      <module name="DataBase_Java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.gui.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.NhanVienLauncher" />
         <item itemvalue="Application.LoginLauncher" />
       </list>
     </recent_temporary>
