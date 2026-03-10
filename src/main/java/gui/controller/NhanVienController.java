@@ -169,7 +169,7 @@ public class NhanVienController implements Initializable {
     private void openDialog(NhanVien nv) {
         try {
             // Đã sửa lại đường dẫn chuẩn, loại bỏ chữ src/main/resources
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/dialogs/themNhanVien.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/themNhanVien.fxml"));
             Parent root = loader.load();
 
             ThemNhanVienDialog ctrl = loader.getController();
