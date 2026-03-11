@@ -7,16 +7,13 @@
     <list default="true" id="3837fdc6-0be4-46f9-86ef-c626431d4f44" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bus/PhienSuDungBUS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bus/PhienSuDungBUS.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dao/DBConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/DBConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/controller/HoaDonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/controller/HoaDonController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/controller/KhuyenMaiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/controller/KhuyenMaiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/controller/NapTienController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/controller/NapTienController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/dialog/ThemKhuyenMaiDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/dialog/ThemKhuyenMaiDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/hoaDon.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/hoaDon.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/khuyenMai.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/khuyenMai.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/napTien.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/napTien.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/PhienSuDungDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/PhienSuDungDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/SuDungDichVuDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/SuDungDichVuDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/controller/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/controller/PhienSuDungController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/controller/PhienSuDungController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/phienSuDung.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/phienSuDung.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,20 +70,19 @@
     "Application.TestPhienSuDungDAO.executor": "Run",
     "Application.Unnamed.executor": "Run",
     "Maven.DataBase_Java [clean].executor": "Run",
-    "Maven.quan-ly-tiem-net [javafx:run].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "feature/hoangtinh2",
+    "git-widget-placeholder": "duyddawng-new",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/Admin/Downloads/quan-ly-tiem-net-pttkhtt",
     "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.3770115",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
     "settings.editor.selected.configurable": "preferences.JavaFX"
   }
 }]]></component>
-  <component name="RunManager" selected="Maven.quan-ly-tiem-net [javafx:run]">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="LoginLauncher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="test.gui.LoginLauncher" />
       <module name="DataBase_Java" />
