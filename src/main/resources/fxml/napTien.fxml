@@ -21,7 +21,10 @@
     <HBox spacing="16" VBox.vgrow="ALWAYS">
 
         <!-- Left: Input form -->
-        <VBox spacing="14" styleClass="page-card" prefWidth="420" minWidth="360">
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                    prefWidth="440" minWidth="380"
+                    style="-fx-background-color:transparent; -fx-background:transparent; -fx-border-color:transparent;">
+        <VBox spacing="14" styleClass="page-card">
             <Label text="Thông tin nạp tiền" styleClass="section-title-blue"/>
             <Separator/>
 
@@ -90,26 +93,26 @@
             <!-- Summary -->
             <VBox spacing="6" styleClass="summary-box-blue">
                 <HBox>
-                    <Label text="Tiền nạp:" styleClass="text-muted" HBox.hgrow="ALWAYS"/>
-                    <Label fx:id="lblSoTienFmt" text="0 ₫" styleClass="text-bold"/>
+                    <Label text="Tiền nạp:" style="-fx-text-fill:#555555;" HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="lblSoTienFmt" text="0 ₫" style="-fx-font-weight:bold; -fx-text-fill:#222222;"/>
                 </HBox>
                 <HBox>
-                    <Label text="Tiền khuyến mãi:" styleClass="text-muted" HBox.hgrow="ALWAYS"/>
-                    <Label fx:id="lblTienKMFmt" text="0 ₫" styleClass="text-green"/>
+                    <Label text="Tiền khuyến mãi:" style="-fx-text-fill:#555555;" HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="lblTienKMFmt" text="0 ₫" style="-fx-text-fill:#388E3C;"/>
                 </HBox>
                 <Separator/>
                 <HBox>
-                    <Label text="Tổng cộng nhận được:" styleClass="text-bold" HBox.hgrow="ALWAYS"/>
-                    <Label fx:id="lblTongCong" text="0 ₫" styleClass="currency-label, font-16"/>
+                    <Label text="Tổng cộng nhận được:" style="-fx-font-weight:bold; -fx-text-fill:#222222;" HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="lblTongCong" text="0 ₫" styleClass="currency-label" style="-fx-font-size:16px;"/>
                 </HBox>
             </VBox>
-
             <Label fx:id="lblError" styleClass="error-label" text="" wrapText="true"/>
 
             <Button fx:id="btnNapTien" text="💳  XÁC NHẬN NẠP TIỀN" styleClass="btn btn-primary, btn-confirm-large"
                     maxWidth="Infinity"
                     onAction="#handleNapTien"/>
         </VBox>
+        </ScrollPane>
 
         <!-- Right: History -->
         <VBox spacing="12" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" styleClass="page-card, no-padding">
