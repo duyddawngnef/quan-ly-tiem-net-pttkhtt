@@ -41,16 +41,15 @@
     <VBox VBox.vgrow="ALWAYS" styleClass="page-card, no-padding" spacing="0">
         <TableView fx:id="tableView" VBox.vgrow="ALWAYS"
                    styleClass="table-rounded">
-            <TableColumn fx:id="colMaKH" text="Mã KH" prefWidth="80"/>
-            <TableColumn fx:id="colHoTen" text="Họ tên" prefWidth="180"/>
-            <TableColumn fx:id="colSDT" text="Điện thoại" prefWidth="120"/>
-            <TableColumn fx:id="colTenDN" text="Tên đăng nhập" prefWidth="140"/>
-            <TableColumn fx:id="colSoDu" text="Số dư (VNĐ)" prefWidth="120"/>
-            <TableColumn fx:id="colTrangThai" text="Trạng thái" prefWidth="120"/>
-            <TableColumn fx:id="colNgayTao" text="Ngày tạo" prefWidth="120"/>
+            <columns>
+                <TableColumn fx:id="colMaKH" text="Mã KH" prefWidth="100"/>
+                <TableColumn fx:id="colHoTen" text="Họ tên" prefWidth="250"/>
+                <TableColumn fx:id="colSDT" text="Điện thoại" prefWidth="150"/>
+                <TableColumn fx:id="colSoDu" text="Số dư (VNĐ)" prefWidth="150"/>
+                <TableColumn fx:id="colTrangThai" text="Trạng thái" prefWidth="150"/>
+            </columns>
         </TableView>
 
-        <!-- Footer -->
         <HBox alignment="CENTER_RIGHT" spacing="12" styleClass="table-footer">
             <Label fx:id="lblTotal" text="Tổng: 0 bản ghi" styleClass="page-subtitle"/>
         </HBox>
