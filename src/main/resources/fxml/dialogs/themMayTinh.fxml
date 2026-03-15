@@ -8,7 +8,7 @@
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="gui.dialog.ThemMayTinhDialog"
       stylesheets="@../../css/style.css"
-      spacing="0" style="-fx-min-width:460; -fx-max-width:520;">
+      spacing="0" styleClass="dialog-root-lg">
 
     <!-- Header -->
     <HBox styleClass="dialog-header" spacing="12" alignment="CENTER_LEFT">
@@ -19,7 +19,7 @@
     </HBox>
 
     <!-- Body -->
-    <ScrollPane fitToWidth="true" style="-fx-background-color:transparent; -fx-border-color:transparent; -fx-max-height:480;">
+    <ScrollPane fitToWidth="true" styleClass="dialog-scroll-max">
         <VBox styleClass="dialog-body" spacing="12">
             <VBox spacing="4">
                 <Label text="Mã máy *" styleClass="form-label"/>
