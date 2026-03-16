@@ -120,27 +120,23 @@ public class MayTinhDAO {
             throw new RuntimeException("Lỗi insert MayTinh : " + e.getMessage());
         }
     }
-    // trong GUI co the tach nut sua gia va sua thong tin khac rieng voi nhau
-    public boolean UpdateGiaMoiGio (String mamay,Double GiaMoiGioMoi) {
-        if(hasActiveSession(mamay)) {
-            throw new IllegalArgumentException("may dang dung ko the sua gia moi gio !");
-        }
-        String sql="UPDATE maytinh SET GiaMoiGio=? WHERE MaMay=?";
-        try {
-            Connection conn=DBConnection.getConnection();
-            PreparedStatement pstmt= conn.prepareStatement(sql);
-            pstmt.setDouble(1,GiaMoiGioMoi);
-            pstmt.setString(2,mamay);
-            pstmt.executeUpdate();
-            pstmt.close();
-        }catch (SQLException e) {
-            throw new RuntimeException("Lỗi update GiaMoiGio : " + e.getMessage());
-        }
-        return true;
-    }
-    public boolean UpdateThongTinKhac(MayTinh mt) {
-        if(!ValidateMaKhu(mt.getMakhu())) {
-            throw new IllegalArgumentException("Mã khu không tồn tại hoặc khu không hoạt động");
+        // trong GUI co the tach nut sua gia va sua thong tin khac rieng voi nhau
+        public boolean UpdateGiaMoiGio (String mamay,Double GiaMoiGioMoi) {
+            if(hasActiveSession(mamay)) {
+                throw new IllegalArgumentException("may dang dung ko the sua gia moi gio !");
+            }
+            String sql="UPDATE maytinh SET GiaMoiGio=? WHERE MaMay=?";
+            try {
+                Connection conn=DBConnection.getConnection();
+                PreparedStatement pstmt= conn.prepareStatement(sql);
+                pstmt.setDouble(1,GiaMoiGioMoi);
+                pstmt.setString(2,mamay);
+                pstmt.executeUpdate();
+                pstmt.close();
+            }catch (SQLException e) {
+                throw new RuntimeException("Lỗi update GiaMoiGio : " + e.getMessage());
+            }
+            return true;
         }
         String sql="UPDATE maytinh SET TenMay=?, MaKhu=?, CauHinh=?, TrangThai=? WHERE MaMay=? ";
         try{
@@ -156,8 +152,6 @@ public class MayTinhDAO {
         }catch(SQLException e) {
             throw new RuntimeException("Lỗi update ThongTinKhac : " + e.getMessage());
         }
-        return true;
-    }
     public boolean delete(String mamay) {
         MayTinh mt=getById(mamay);
         if(mt==null) {

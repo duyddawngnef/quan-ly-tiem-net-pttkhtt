@@ -5,11 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3837fdc6-0be4-46f9-86ef-c626431d4f44" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/HoaDonExporter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/controller/HoaDonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/controller/HoaDonController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/hoaDon.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/hoaDon.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/controller/KhuyenMaiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/controller/KhuyenMaiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/controller/NapTienController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/controller/NapTienController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/dialog/ThemKhuyenMaiDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/dialog/ThemKhuyenMaiDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/khuyenMai.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/khuyenMai.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/napTien.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/napTien.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -87,7 +87,7 @@
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
-  <component name="RunManager" selected="Maven.quan-ly-tiem-net [javafx:run]">
+  <component name="RunManager" selected="Application.main">
     <configuration name="LoginLauncher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="test.gui.LoginLauncher" />
       <module name="DataBase_Java" />
@@ -166,13 +166,6 @@
         <item itemvalue="Application.NhanVienLauncher" />
       </list>
     </recent_temporary>
-  </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.240" />
-      </set>
-    </attachedChunks>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

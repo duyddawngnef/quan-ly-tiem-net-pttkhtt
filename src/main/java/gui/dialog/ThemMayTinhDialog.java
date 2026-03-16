@@ -14,7 +14,7 @@ import javafx.util.StringConverter;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-
+import javafx.scene.input.MouseEvent;
 public class ThemMayTinhDialog implements Initializable {
 
     @FXML private Label    lblTitle;
@@ -119,7 +119,10 @@ public class ThemMayTinhDialog implements Initializable {
             setError(e.getMessage());
         }
     }
-
+    @FXML
+    private void debugClickSave(MouseEvent e) {
+        System.out.println("Save button clicked (mouse)!");
+    }
     @FXML public void handleCancel() { closeDialog(); }
 
     private void setError(String msg)  { if (lblError != null) lblError.setText(msg); }
