@@ -8,7 +8,7 @@
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="gui.dialog.ThemMayTinhDialog"
       stylesheets="@../../css/style.css"
-      spacing="0" styleClass="dialog-root-lg">
+      spacing="0" style="-fx-min-width:460; -fx-max-width:520;">
 
     <!-- Header -->
     <HBox styleClass="dialog-header" spacing="12" alignment="CENTER_LEFT">
@@ -19,11 +19,11 @@
     </HBox>
 
     <!-- Body -->
-    <ScrollPane fitToWidth="true" styleClass="dialog-scroll-max">
+    <ScrollPane fitToWidth="true" style="-fx-background-color:transparent; -fx-border-color:transparent; -fx-max-height:480;">
         <VBox styleClass="dialog-body" spacing="12">
             <VBox spacing="4">
                 <Label text="Mã máy *" styleClass="form-label"/>
-                <TextField fx:id="txtMaMay" promptText="VD: PC001" styleClass="text-field" maxWidth="Infinity"/>
+                <TextField fx:id="txtMaMay" promptText="VD: PC001" styleClass="text-field" maxWidth="Infinity" disable="true"/>
                 <Label fx:id="lbltxtMaMayError" styleClass="error-label" text=""/>
             </VBox>
             <VBox spacing="4">
@@ -61,7 +61,7 @@
         <Button fx:id="btnCancel" text="✕  Hủy" styleClass="btn btn-secondary"
                 onAction="#handleCancel"/>
         <Button fx:id="btnSave" text="💾  Lưu" styleClass="btn btn-primary"
-                onAction="#handleSave" onMouseClicked="#debugClickSave"/>
+                onAction="#handleSave" />
     </HBox>
 
 </VBox>
