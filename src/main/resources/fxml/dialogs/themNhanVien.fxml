@@ -9,13 +9,11 @@
       stylesheets="@../../css/style.css"
       spacing="0" styleClass="dialog-root-lg">
 
-    <!-- Header -->
     <HBox styleClass="dialog-header" spacing="12" alignment="CENTER_LEFT">
         <Label text="🏢" styleClass="dialog-icon"/>
         <Label fx:id="lblDialogTitle" text="Thêm / Sửa Nhân Viên" styleClass="dialog-title"/>
     </HBox>
 
-    <!-- Body -->
     <ScrollPane fitToWidth="true" styleClass="dialog-scroll-max">
         <VBox styleClass="dialog-body" spacing="12">
             <VBox spacing="4">
@@ -27,11 +25,6 @@
                 <Label text="Tên *" styleClass="form-label"/>
                 <TextField fx:id="txtTen" promptText="Nhập tên" styleClass="text-field" maxWidth="Infinity"/>
                 <Label fx:id="lbltxtTenError" styleClass="error-label" text=""/>
-            </VBox>
-            <VBox spacing="4">
-                <Label text="Số điện thoại *" styleClass="form-label"/>
-                <TextField fx:id="txtSDT" promptText="VD: 0912345678" styleClass="text-field" maxWidth="Infinity"/>
-                <Label fx:id="lbltxtSDTError" styleClass="error-label" text=""/>
             </VBox>
             <VBox spacing="4">
                 <Label text="Tên đăng nhập *" styleClass="form-label"/>
@@ -48,17 +41,11 @@
                 <ComboBox fx:id="cboChucVu" promptText="Chọn chức vụ" styleClass="combo-box" maxWidth="Infinity"/>
                 <Label fx:id="lblcboChucVuError" styleClass="error-label" text=""/>
             </VBox>
-            <VBox spacing="4">
-                <Label text="Ngày vào làm" styleClass="form-label"/>
-                <DatePicker fx:id="datNgayVaoLam" promptText="Chọn ngày" maxWidth="Infinity"/>
-                <Label fx:id="lbldatNgayVaoLamError" styleClass="error-label" text=""/>
-            </VBox>
 
             <Label fx:id="lblError" styleClass="error-label" text="" wrapText="true"/>
         </VBox>
     </ScrollPane>
 
-    <!-- Footer -->
     <HBox styleClass="dialog-footer" spacing="10" alignment="CENTER_RIGHT">
         <Button fx:id="btnCancel" text="✕  Hủy" styleClass="btn btn-secondary"
                 onAction="#handleCancel"/>

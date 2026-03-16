@@ -12,15 +12,13 @@ import java.util.ResourceBundle;
 
 public class ThemNhanVienDialog implements Initializable {
 
-    // --- CÁC ID KHỚP 100% VỚI FILE FXML CỦA BẠN ---
+    // ĐÃ XÓA BIẾN SDT VÀ NGÀY VÀO LÀM
     @FXML private Label lblDialogTitle;
     @FXML private TextField txtHo;
     @FXML private TextField txtTen;
-    @FXML private TextField txtSDT;
     @FXML private TextField txtTenDangNhap;
     @FXML private PasswordField txtMatKhau;
     @FXML private ComboBox<String> cboChucVu;
-    @FXML private DatePicker datNgayVaoLam;
     @FXML private Label lblError;
     @FXML private Button btnSave;
     @FXML private Button btnCancel;
@@ -112,7 +110,6 @@ public class ThemNhanVienDialog implements Initializable {
             ((Stage) btnCancel.getScene().getWindow()).close();
     }
 
-    // Dùng Alert gốc của JavaFX để cực kỳ ổn định, không lo lỗi Location is not set
     private void showAlert(Alert.AlertType type, String title, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
