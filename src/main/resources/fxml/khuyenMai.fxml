@@ -39,6 +39,7 @@
                 <TableColumn fx:id="colTenKM" text="Tên CTKM" prefWidth="200"/>
                 <TableColumn fx:id="colLoai" text="Loại" prefWidth="120"/>
                 <TableColumn fx:id="colGiaTri" text="Giá trị" prefWidth="100"/>
+                <TableColumn fx:id="colNapToiThieu" text="Nạp tối thiểu" prefWidth="120"/>
                 <TableColumn fx:id="colTuNgay" text="Từ ngày" prefWidth="120"/>
                 <TableColumn fx:id="colDenNgay" text="Đến ngày" prefWidth="120"/>
                 <TableColumn fx:id="colTrangThai" text="Trạng thái" prefWidth="100"/>
