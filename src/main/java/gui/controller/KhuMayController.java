@@ -1,7 +1,9 @@
+
 package gui.controller;
 
 import bus.KhuMayBUS;
 import entity.KhuMay;
+import gui.dialog.ThemKhuMayDialog;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -182,11 +184,9 @@ public class KhuMayController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/dialogs/themKhuMay.fxml"));
             Parent root = loader.load();
-            Object ctrl = loader.getController();
-            try {
-                ctrl.getClass().getMethod("setEntity", Object.class).invoke(ctrl, entity);
-                ctrl.getClass().getMethod("setOnSaveCallback", Runnable.class).invoke(ctrl, (Runnable) this::loadData);
-            } catch (NoSuchMethodException ignored) {}
+            ThemKhuMayDialog ctrl = loader.getController();
+            ctrl.setEntity(entity);
+            ctrl.setOnSaveCallback(this::loadData);  // ← đơn giản, gọi thẳng
 
             Stage stage = new Stage(StageStyle.UNDECORATED);
             stage.initModality(Modality.APPLICATION_MODAL);
