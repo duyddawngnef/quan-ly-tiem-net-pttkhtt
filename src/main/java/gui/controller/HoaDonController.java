@@ -10,72 +10,65 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
+import utils.HoaDonExporter;
 import utils.ThongBaoDialogHelper;
 
+import java.io.File;
 import java.net.URL;
-import java.time.format.DateTimeFormatter;
-import javafx.beans.property.SimpleStringProperty;
-import java.util.stream.Collectors;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class HoaDonController implements Initializable {
 
     @FXML private TableView<HoaDon> tableView;
     @FXML private TableColumn<HoaDon, String> colMaHD;
-    @FXML private TableColumn<HoaDon, String> colMaPhien;
-    @FXML private TableColumn<HoaDon, String> colKH;
-    @FXML private TableColumn<HoaDon, String> colNV;
-    @FXML private TableColumn<HoaDon, String> colNgayLap;
+    @FXML private TableColumn<HoaDon, String> colKhachHang;
+    @FXML private TableColumn<HoaDon, String> colMaMay;
+    @FXML private TableColumn<HoaDon, String> colNhanVien;
+    @FXML private TableColumn<HoaDon, String> colNgayHD;
     @FXML private TableColumn<HoaDon, String> colTongTien;
-    @FXML private TableColumn<HoaDon, String> colThanhToan;
-    @FXML private TableColumn<HoaDon, String> colPTTT;
     @FXML private TableColumn<HoaDon, String> colTrangThai;
 
-    @FXML private DatePicker dpTuNgay;
-    @FXML private DatePicker dpDenNgay;
     @FXML private DatePicker dateFrom;
     @FXML private DatePicker dateTo;
-    @FXML private TextField txtTimKiemKH;
-    @FXML private TextField txtSearch;
-    @FXML private Label lblTotal;
-    @FXML private Label lblTongDoanhThu;
-    @FXML private Label lblTongTienAll;
-    @FXML private Button btnXuatPDF;
+    @FXML private TextField  txtSearch;
+    @FXML private Button     btnXuatPDF;
+    @FXML private Label      lblTotal;
+    @FXML private Label      lblTongTienAll;
 
-    @FXML private VBox vboxDetail;
-    @FXML private Label lblNoSelection;
-    @FXML private Label lblDetMaHD;
-    @FXML private Label lblDetKH;
-    @FXML private Label lblDetMay;
-    @FXML private Label lblDetThoiGian;
-    @FXML private Label lblDetTienMay;
-    @FXML private Label lblDetTongTien;
-    @FXML private TableView<ChiTietHoaDon> tblChiTietHD;
-    @FXML private TableView<ChiTietHoaDon> tableChiTiet;
-    @FXML private TableColumn<ChiTietHoaDon, String> colCtLoai;
-    @FXML private TableColumn<ChiTietHoaDon, String> colCtMoTa;
-    @FXML private TableColumn<ChiTietHoaDon, Double> colCtSoLuong;
-    @FXML private TableColumn<ChiTietHoaDon, String> colCtDonGia;
-    @FXML private TableColumn<ChiTietHoaDon, String> colCtThanhTien;
+    @FXML private VBox   vboxDetail;
+    @FXML private Label  lblNoSelection;
+    @FXML private Label  lblDetMaHD;
+    @FXML private Label  lblDetKH;
+    @FXML private Label  lblDetMay;
+    @FXML private Label  lblDetThoiGian;
+    @FXML private Label  lblDetTienMay;
+    @FXML private Label  lblDetTongTien;
+    @FXML private Label  lblDetGiamGia;
+    @FXML private Label  lblDetThanhToan;
+    @FXML private Button btnXacNhanThanhToan;  // nút mới
+
+    @FXML private TableView<ChiTietHoaDon>           tableChiTiet;
+    @FXML private TableColumn<ChiTietHoaDon, String> colCTDV;
+    @FXML private TableColumn<ChiTietHoaDon, String> colCTSL;
+    @FXML private TableColumn<ChiTietHoaDon, String> colCTDonGia;
+    @FXML private TableColumn<ChiTietHoaDon, String> colCTThanhTien;
 
     private final HoaDonBUS hoaDonBUS = new HoaDonBUS();
-    private ObservableList<HoaDon> dataList = FXCollections.observableArrayList();
+    private final ObservableList<HoaDon> dataList = FXCollections.observableArrayList();
+    private List<ChiTietHoaDon> currentChiTiet;
     private HoaDon selectedHD;
-
-    private static final DateTimeFormatter FMT_DT = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        LocalDate defaultFrom = LocalDate.now().withDayOfMonth(1);
-        LocalDate defaultTo   = LocalDate.now();
-        if (dpTuNgay  != null) dpTuNgay.setValue(defaultFrom);
-        if (dpDenNgay != null) dpDenNgay.setValue(defaultTo);
-        if (dateFrom  != null) dateFrom.setValue(defaultFrom);
-        if (dateTo    != null) dateTo.setValue(defaultTo);
+        if (dateFrom != null) dateFrom.setValue(LocalDate.now().withDayOfMonth(1));
+        if (dateTo   != null) dateTo.setValue(LocalDate.now());
         setupTableColumns();
         setupTableSelection();
         hideDetail();
@@ -83,112 +76,121 @@ public class HoaDonController implements Initializable {
     }
 
     private void setupTableColumns() {
-        if (colMaHD    != null) colMaHD.setCellValueFactory(new PropertyValueFactory<>("maHD"));
-        if (colMaPhien != null) colMaPhien.setCellValueFactory(new PropertyValueFactory<>("maPhien"));
-        if (colKH      != null) colKH.setCellValueFactory(new PropertyValueFactory<>("maKH"));
-        if (colNV      != null) colNV.setCellValueFactory(new PropertyValueFactory<>("maNV"));
-        if (colNgayLap != null) colNgayLap.setCellValueFactory(c -> {
-            var d = c.getValue().getNgayLap();
-            return new SimpleStringProperty(d != null ? d.format(FMT_DT) : "");
-        });
-        if (colTongTien != null) colTongTien.setCellValueFactory(c ->
-                new SimpleStringProperty(String.format("%,.0f ₫", c.getValue().getTongTien())));
-        if (colThanhToan != null) colThanhToan.setCellValueFactory(c ->
-                new SimpleStringProperty(String.format("%,.0f ₫", c.getValue().getThanhToan())));
-        if (colPTTT != null) colPTTT.setCellValueFactory(new PropertyValueFactory<>("phuongThucTT"));
-        if (colTrangThai != null) colTrangThai.setCellValueFactory(c -> {
-            String tt = c.getValue().getTrangThai();
-            return new SimpleStringProperty(tt == null ? "" : switch (tt) {
-                case "DATHANHTOAN"   -> "Đã thanh toán";
-                case "CHUATHANHTOAN" -> "Chưa thanh toán";
-                default -> tt;
-            });
-        });
-        // Chi tiết hóa đơn
-        if (colCtLoai     != null) colCtLoai.setCellValueFactory(new PropertyValueFactory<>("loaiChiTiet"));
-        if (colCtMoTa     != null) colCtMoTa.setCellValueFactory(new PropertyValueFactory<>("moTa"));
-        if (colCtSoLuong  != null) colCtSoLuong.setCellValueFactory(new PropertyValueFactory<>("soLuong"));
-        if (colCtDonGia   != null) colCtDonGia.setCellValueFactory(c ->
-                new SimpleStringProperty(String.format("%,.0f ₫", c.getValue().getDonGia())));
-        if (colCtThanhTien != null) colCtThanhTien.setCellValueFactory(c ->
-                new SimpleStringProperty(String.format("%,.0f ₫", c.getValue().getThanhTien())));
+        if (colMaHD      != null) colMaHD.setCellValueFactory(new PropertyValueFactory<>("maHD"));
+        if (colKhachHang != null) colKhachHang.setCellValueFactory(new PropertyValueFactory<>("maKH"));
+        if (colMaMay     != null) colMaMay.setCellValueFactory(new PropertyValueFactory<>("maPhien"));
+        if (colNhanVien  != null) colNhanVien.setCellValueFactory(new PropertyValueFactory<>("maNV"));
+        if (colNgayHD    != null) colNgayHD.setCellValueFactory(new PropertyValueFactory<>("ngayLapFormatted"));
+        if (colTongTien  != null) colTongTien.setCellValueFactory(new PropertyValueFactory<>("tongTienFormatted"));
+        if (colTrangThai != null) colTrangThai.setCellValueFactory(new PropertyValueFactory<>("trangThai"));
+        if (colCTDV        != null) colCTDV.setCellValueFactory(new PropertyValueFactory<>("moTa"));
+        if (colCTSL        != null) colCTSL.setCellValueFactory(new PropertyValueFactory<>("soLuong"));
+        if (colCTDonGia    != null) colCTDonGia.setCellValueFactory(new PropertyValueFactory<>("donGiaFormatted"));
+        if (colCTThanhTien != null) colCTThanhTien.setCellValueFactory(new PropertyValueFactory<>("thanhTienFormatted"));
     }
 
     private void setupTableSelection() {
-        tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-            selectedHD = newVal;
-            if (btnXuatPDF != null) btnXuatPDF.setDisable(newVal == null);
-            if (newVal != null) {
-                showDetail(newVal);
-                onRowHoaDonSelected(newVal);
-            } else
-                hideDetail();
+        tableView.getSelectionModel().selectedItemProperty().addListener((obs, o, n) -> {
+            selectedHD = n;
+            if (btnXuatPDF != null) btnXuatPDF.setDisable(n == null);
+            if (n != null) showDetail(n);
+            else hideDetail();
         });
     }
 
-    public void loadHoaDon() {
-        loadData();
-    }
+    public void loadHoaDon() { loadData(); }
 
     public void loadData() {
         try {
-            LocalDate from = getDateFrom();
-            LocalDate to   = getDateTo();
-            if (from == null || to == null) return;
+            LocalDate from = (dateFrom != null && dateFrom.getValue() != null)
+                    ? dateFrom.getValue() : LocalDate.now().withDayOfMonth(1);
+            LocalDate to = (dateTo != null && dateTo.getValue() != null)
+                    ? dateTo.getValue() : LocalDate.now();
 
             LocalDateTime dtFrom = from.atStartOfDay();
             LocalDateTime dtTo   = to.atTime(LocalTime.MAX);
-            List<HoaDon> allList = hoaDonBUS.getAllHoaDon();
-            List<HoaDon> list = allList.stream()
-                    .filter(h -> h.getNgayLap() != null
-                            && !h.getNgayLap().isBefore(dtFrom)
-                            && !h.getNgayLap().isAfter(dtTo))
-                    .collect(Collectors.toList());
-            // Filter by search text
-            String kw = getSearchKeyword();
+
+            List<HoaDon> list;
+            try {
+                list = hoaDonBUS.getHoaDonsByDateRange(dtFrom, dtTo);
+            } catch (Exception ex) {
+                list = hoaDonBUS.getAllHoaDon().stream()
+                        .filter(h -> h.getNgayLap() != null
+                                && !h.getNgayLap().isBefore(dtFrom)
+                                && !h.getNgayLap().isAfter(dtTo))
+                        .collect(java.util.stream.Collectors.toList());
+            }
+
+            String kw = (txtSearch != null) ? txtSearch.getText().toLowerCase().trim() : "";
             if (!kw.isEmpty()) {
                 list = list.stream()
                         .filter(h -> h.getMaHD().toLowerCase().contains(kw)
                                 || (h.getMaKH() != null && h.getMaKH().toLowerCase().contains(kw))
                                 || (h.getMaNV() != null && h.getMaNV().toLowerCase().contains(kw)))
-                        .collect(Collectors.toList());
+                        .collect(java.util.stream.Collectors.toList());
             }
 
             dataList.setAll(list);
             tableView.setItems(dataList);
-            tinhTongDoanhThu(list);
+            updateFooter(list);
         } catch (Exception e) {
             if (lblTotal != null) lblTotal.setText("Lỗi: " + e.getMessage());
         }
     }
 
-    private void onRowHoaDonSelected(HoaDon hd) {
-        if (hd == null) return;
+    private void updateFooter(List<HoaDon> list) {
+        if (lblTotal     != null) lblTotal.setText("Tổng: " + list.size() + " hóa đơn");
+        double sum = list.stream().mapToDouble(HoaDon::getThanhToan).sum();
+        if (lblTongTienAll != null) lblTongTienAll.setText(String.format("Tổng tiền: %,.0f ₫", sum));
+    }
+
+    private void showDetail(HoaDon hd) {
+        if (lblNoSelection != null) { lblNoSelection.setVisible(false); lblNoSelection.setManaged(false); }
+        if (vboxDetail     != null) { vboxDetail.setVisible(true);      vboxDetail.setManaged(true); }
+
+        if (lblDetMaHD     != null) lblDetMaHD.setText(hd.getMaHD());
+        if (lblDetKH       != null) lblDetKH.setText(hd.getMaKH() != null ? hd.getMaKH() : "-");
+        if (lblDetMay      != null) lblDetMay.setText(hd.getMaPhien() != null ? hd.getMaPhien() : "-");
+        if (lblDetThoiGian != null) {
+            try { lblDetThoiGian.setText(hd.getNgayLapFormatted()); }
+            catch (Exception e) { lblDetThoiGian.setText(hd.getNgayLap() != null ? hd.getNgayLap().toString() : "-"); }
+        }
+        if (lblDetTienMay  != null) lblDetTienMay.setText(String.format("%,.0f VND", hd.getTienGioChoi()));
+        if (lblDetTongTien != null) lblDetTongTien.setText(String.format("%,.0f VND", hd.getTongTien()));
+        if (lblDetGiamGia  != null) lblDetGiamGia.setText(
+                hd.getGiamGia() > 0 ? "- " + String.format("%,.0f VND", hd.getGiamGia()) : "0 VND");
+        if (lblDetThanhToan != null) lblDetThanhToan.setText(String.format("%,.0f VND", hd.getThanhToan()));
+
+        updateThanhToanButton(hd);
         loadChiTietHoaDon(hd.getMaHD());
     }
 
-    private void loadChiTietHoaDon(String maHD) {
-        TableView<ChiTietHoaDon> detailTable = (tblChiTietHD != null) ? tblChiTietHD : tableChiTiet;
-        if (detailTable == null) return;
-        try {
-            List<ChiTietHoaDon> ctList = hoaDonBUS.xemChiTietHoaDon(maHD);
-            detailTable.setItems(FXCollections.observableArrayList(ctList));
-        } catch (Exception e) {
-            detailTable.setItems(FXCollections.observableArrayList());
+    private void updateThanhToanButton(HoaDon hd) {
+        if (btnXacNhanThanhToan == null) return;
+        String tt = hd.getTrangThai();
+        boolean chuaTT = tt != null && (tt.equals("CHUA") || tt.equals("CHUATHANHTOAN") || tt.toUpperCase().contains("CHUA"));
+        btnXacNhanThanhToan.setVisible(chuaTT);
+        btnXacNhanThanhToan.setManaged(chuaTT);
+    }
+
+    private void hideDetail() {
+        if (vboxDetail     != null) { vboxDetail.setVisible(false);    vboxDetail.setManaged(false); }
+        if (lblNoSelection != null) { lblNoSelection.setVisible(true); lblNoSelection.setManaged(true); }
+        if (btnXacNhanThanhToan != null) {
+            btnXacNhanThanhToan.setVisible(false);
+            btnXacNhanThanhToan.setManaged(false);
         }
+        currentChiTiet = null;
     }
 
-    private void tinhTongDoanhThu(List<HoaDon> list) {
-        double sum = list.stream().mapToDouble(HoaDon::getThanhToan).sum();
-        String formatted = String.format("Tổng tiền: %,.0f ₫", sum);
-        if (lblTongDoanhThu != null) lblTongDoanhThu.setText(formatted);
-        if (lblTongTienAll  != null) lblTongTienAll.setText(formatted); // alias
-        if (lblTotal        != null) lblTotal.setText("Tổng: " + list.size() + " hóa đơn");
-    }
-
-    @FXML
-    public void handleLocNgay() {
-        loadData();
+    private void loadChiTietHoaDon(String maHD) {
+        if (tableChiTiet == null) return;
+        try {
+            currentChiTiet = hoaDonBUS.xemChiTietHoaDon(maHD);
+            tableChiTiet.setItems(FXCollections.observableArrayList(currentChiTiet));
+        } catch (Exception ignored) {
+            currentChiTiet = java.util.Collections.emptyList();
+        }
     }
 
     @FXML public void handleSearch()     { loadData(); }
@@ -196,61 +198,81 @@ public class HoaDonController implements Initializable {
     @FXML public void handleRefresh()    { loadData(); }
 
     @FXML
+    public void handleXacNhanThanhToan() {
+        if (selectedHD == null) return;
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("TAIKHOAN", "TAIKHOAN", "TIENMAT");
+        dialog.setTitle("Xác nhận thanh toán");
+        dialog.setHeaderText("Hóa đơn: " + selectedHD.getMaHD() + "   |   Thanh toán: " + String.format("%,.0f VND", selectedHD.getThanhToan()));
+        dialog.setContentText("Chọn phương thức thanh toán:");
+
+        Optional<String> result = dialog.showAndWait();
+        if (result.isEmpty()) return;
+        String phuongThuc = result.get();
+
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Xác nhận");
+        confirm.setHeaderText("Thanh toán hóa đơn " + selectedHD.getMaHD() + "?");
+        confirm.setContentText(
+                "Khách hàng: " + selectedHD.getMaKH() + "\n"
+                        + "Số tiền: " + String.format("%,.0f VND", selectedHD.getThanhToan()) + "\n"
+                        + "Phương thức: " + (phuongThuc.equals("TAIKHOAN") ? "Tài khoản" : "Tiền mặt"));
+        confirm.getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
+        Optional<ButtonType> btn = confirm.showAndWait();
+        if (btn.isEmpty() || btn.get() != ButtonType.OK) return;
+
+        try {
+            hoaDonBUS.thanhToanHoaDon(selectedHD.getMaHD(), phuongThuc);
+            ThongBaoDialogHelper.showSuccess(tableView.getScene(), "Thanh toán thành công!\nHóa đơn: " + selectedHD.getMaHD());
+            loadData(); // refresh bảng
+        } catch (Exception e) {
+            ThongBaoDialogHelper.showError(tableView.getScene(), "Lỗi thanh toán: " + e.getMessage());
+        }
+    }
+
+    @FXML
     public void handleXuatPDF() {
         if (selectedHD == null) {
             ThongBaoDialogHelper.showWarning(tableView.getScene(), "Vui lòng chọn một hóa đơn để xuất PDF.");
             return;
         }
+        Window window = tableView.getScene().getWindow();
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Lưu hóa đơn PDF");
+        fc.setInitialFileName("HoaDon_" + selectedHD.getMaHD() + ".pdf");
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+        File file = fc.showSaveDialog(window);
+        if (file == null) return;
         try {
-            ThongBaoDialogHelper.showInfo(tableView.getScene(),
-                    "Đang xuất PDF hóa đơn " + selectedHD.getMaHD() + "...\n(Chức năng đang hoàn thiện)");
+            List<ChiTietHoaDon> ct = (currentChiTiet != null) ? currentChiTiet : hoaDonBUS.xemChiTietHoaDon(selectedHD.getMaHD());
+            HoaDonExporter.xuatPDFHoaDon(selectedHD, ct, file.getAbsolutePath());
+            ThongBaoDialogHelper.showSuccess(tableView.getScene(), "Xuất PDF thành công!\nFile: " + file.getName());
         } catch (Exception e) {
             ThongBaoDialogHelper.showError(tableView.getScene(), "Lỗi xuất PDF: " + e.getMessage());
         }
     }
 
-    @FXML
-    public void handleXuatPDFChiTiet() { handleXuatPDF(); }
+    @FXML public void handleXuatPDFChiTiet() { handleXuatPDF(); }
 
     @FXML
     public void handleXuatExcel() {
-        ThongBaoDialogHelper.showInfo(tableView.getScene(), "Chức năng xuất Excel đang phát triển.");
-    }
-
-    private void showDetail(HoaDon hd) {
-        if (lblNoSelection != null) { lblNoSelection.setVisible(false); lblNoSelection.setManaged(false); }
-        if (vboxDetail     != null) { vboxDetail.setVisible(true);     vboxDetail.setManaged(true); }
-        if (lblDetMaHD     != null) lblDetMaHD.setText(hd.getMaHD());
-        if (lblDetKH       != null) lblDetKH.setText(hd.getMaKH() != null ? hd.getMaKH() : "-");
-        if (lblDetMay      != null) lblDetMay.setText(hd.getMaPhien() != null ? hd.getMaPhien() : "-");
-        if (lblDetThoiGian != null) lblDetThoiGian.setText(
-                hd.getNgayLap() != null ? hd.getNgayLap().format(FMT_DT) : "-");
-        if (lblDetTienMay  != null) lblDetTienMay.setText(
-                String.format("%,.0f ₫", hd.getTienGioChoi()));
-        if (lblDetTongTien != null) lblDetTongTien.setText(
-                String.format("%,.0f ₫", hd.getThanhToan()));
-    }
-
-    private void hideDetail() {
-        if (vboxDetail     != null) { vboxDetail.setVisible(false);    vboxDetail.setManaged(false); }
-        if (lblNoSelection != null) { lblNoSelection.setVisible(true); lblNoSelection.setManaged(true); }
-    }
-
-    private LocalDate getDateFrom() {
-        if (dpTuNgay != null && dpTuNgay.getValue() != null) return dpTuNgay.getValue();
-        if (dateFrom != null && dateFrom.getValue() != null) return dateFrom.getValue();
-        return LocalDate.now().withDayOfMonth(1);
-    }
-
-    private LocalDate getDateTo() {
-        if (dpDenNgay != null && dpDenNgay.getValue() != null) return dpDenNgay.getValue();
-        if (dateTo    != null && dateTo.getValue()    != null) return dateTo.getValue();
-        return LocalDate.now();
-    }
-
-    private String getSearchKeyword() {
-        if (txtTimKiemKH != null) return txtTimKiemKH.getText().toLowerCase().trim();
-        if (txtSearch    != null) return txtSearch.getText().toLowerCase().trim();
-        return "";
+        if (dataList.isEmpty()) {
+            ThongBaoDialogHelper.showWarning(tableView.getScene(), "Không có dữ liệu để xuất Excel.");
+            return;
+        }
+        Window window = tableView.getScene().getWindow();
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Lưu danh sách hóa đơn Excel");
+        fc.setInitialFileName("DanhSachHoaDon.xlsx");
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"));
+        File file = fc.showSaveDialog(window);
+        if (file == null) return;
+        try {
+            HoaDonExporter.xuatExcelDanhSach(dataList, file.getAbsolutePath());
+            ThongBaoDialogHelper.showSuccess(tableView.getScene(),
+                    "Xuất Excel thành công!\nFile: " + file.getName()
+                            + "\nTổng: " + dataList.size() + " hóa đơn");
+        } catch (Exception e) {
+            ThongBaoDialogHelper.showError(tableView.getScene(), "Lỗi xuất Excel: " + e.getMessage());
+        }
     }
 }

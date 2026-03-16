@@ -21,8 +21,8 @@ public class KhachHangBUS {
         chuanHoaDuLieuKhachHang(kh);
         validateKhachHangToanDien(kh, true);
 
-        String encodedPass = PasswordEncoder.encode(kh.getMatkhau());
-        kh.setMatkhau(encodedPass);
+        //String encodedPass = PasswordEncoder.encode(kh.getMatkhau());
+        //kh.setMatkhau(encodedPass);//
 
         try {
             boolean isSuccess = khachHangDAO.insert(kh);
@@ -57,7 +57,6 @@ public class KhachHangBUS {
             throw new Exception("Mật khẩu không chính xác!");
         }
 
-        SessionManager.setCurrentUser(kh);
         return kh;
     }
 

@@ -160,15 +160,15 @@ public class SuDungDichVuDAO{
     }
 
 
-    //tính tống tiền sử dụng dịch vụ
-    public  double tinhTongTienKhachHang(String maKH ) throws Exception {
-        String sql = "SELECT SUM(DonGia) FROM sudungdichvu" +
-                "WHERE MaPhien = ?";
+
+    public  double tinhTongTienPhien(String maPhien ) throws Exception {
+        String sql = "SELECT SUM(DonGia) FROM sudungdichvu " +
+                " WHERE MaPhien = ?";
 
         try(Connection conn = DBConnection.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
         ){
-            pstmt.setString(1,maKH);
+            pstmt.setString(1,maPhien);
 
             try (ResultSet rs = pstmt.executeQuery()){
                 if(rs.next()){
