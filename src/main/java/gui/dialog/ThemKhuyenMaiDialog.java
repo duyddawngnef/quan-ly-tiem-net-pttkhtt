@@ -49,6 +49,16 @@ public class ThemKhuyenMaiDialog implements Initializable {
         if (datTuNgay  != null) datTuNgay.setValue(LocalDate.now());
         if (datDenNgay != null) datDenNgay.setValue(LocalDate.now().plusMonths(1));
         updateUnit();
+        if (txtGiaTri != null) {
+            txtGiaTri.textProperty().addListener((obs, oldVal, newVal) -> {
+                if (!newVal.matches("\\d*\\.?\\d*")) txtGiaTri.setText(oldVal);
+            });
+        }
+        if (txtNapToiThieu != null) {
+            txtNapToiThieu.textProperty().addListener((obs, oldVal, newVal) -> {
+                if (!newVal.matches("\\d*\\.?\\d*")) txtNapToiThieu.setText(oldVal);
+            });
+        }
     }
 
     private void updateUnit() {
