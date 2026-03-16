@@ -138,20 +138,27 @@ public class MayTinhDAO {
             }
             return true;
         }
-        String sql="UPDATE maytinh SET TenMay=?, MaKhu=?, CauHinh=?, TrangThai=? WHERE MaMay=? ";
-        try{
-            Connection conn=DBConnection.getConnection();
-            PreparedStatement pstmt= conn.prepareStatement(sql);
-            pstmt.setString(1,mt.getTenmay());
-            pstmt.setString(2,mt.getMakhu());
-            pstmt.setString(3,mt.getCauhinh());
-            pstmt.setString(4,mt.getTrangthai());
-            pstmt.setString(5,mt.getMamay());
+    public boolean UpdateThongTinKhac(MayTinh mt) {
+        if (!ValidateMaKhu(mt.getMakhu())) {
+            throw new IllegalArgumentException("Mã khu không tồn tại hoặc khu không hoạt động");
+        }
+        String sql = "UPDATE maytinh SET TenMay=?, MaKhu=?, CauHinh=?, TrangThai=? WHERE MaMay=? ";
+        try {
+            Connection conn = DBConnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, mt.getTenmay());
+            pstmt.setString(2, mt.getMakhu());
+            pstmt.setString(3, mt.getCauhinh());
+            pstmt.setString(4, mt.getTrangthai());
+            pstmt.setString(5, mt.getMamay());
             pstmt.executeUpdate();
             pstmt.close();
-        }catch(SQLException e) {
+
+        } catch (SQLException e) {
             throw new RuntimeException("Lỗi update ThongTinKhac : " + e.getMessage());
         }
+        return true;
+    }
     public boolean delete(String mamay) {
         MayTinh mt=getById(mamay);
         if(mt==null) {
@@ -190,6 +197,7 @@ public class MayTinhDAO {
         }
     }
 
+
     public boolean duaVaoBaoTri(String maMay) {
         // Chỉ máy đang TRONG mới đưa vào bảo trì được
         return updateTrangThai(maMay, "TRONG", "BAOTRI");
@@ -208,6 +216,7 @@ public class MayTinhDAO {
         // chuyển trạng thái DANGDUNG sang TRONG
         updateTrangThai(maMay, "DANGDUNG", "TRONG");
     }
+
 
     public boolean ngungSuDung(String maMay) {
         String sql = "UPDATE MayTinh SET TrangThai = 'NGUNG' " +
