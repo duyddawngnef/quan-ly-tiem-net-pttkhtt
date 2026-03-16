@@ -2,6 +2,7 @@ package gui.controller;
 
 import bus.KhuMayBUS;
 import entity.KhuMay;
+import gui.dialog.ThemKhuMayDialog;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -182,7 +183,8 @@ public class KhuMayController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/dialogs/themKhuMay.fxml"));
             Parent root = loader.load();
-            Object ctrl = loader.getController();
+           ThemKhuMayDialog ctrl = loader.getController();
+            ctrl.setEntity(entity);
             try {
                 ctrl.getClass().getMethod("setEntity", Object.class).invoke(ctrl, entity);
                 ctrl.getClass().getMethod("setOnSaveCallback", Runnable.class).invoke(ctrl, (Runnable) this::loadData);
