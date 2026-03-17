@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="192f3a2f-9e72-44fb-81d8-673dafe8642c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bus/ThongKeBUS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bus/ThongKeBUS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/ThongkeDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/ThongkeDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/controller/ThongKeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/controller/ThongKeController.java" afterDir="false" />
-    </list>
+    <list default="true" id="192f3a2f-9e72-44fb-81d8-673dafe8642c" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
