@@ -46,7 +46,7 @@ public class MainController implements Initializable {
     @FXML private StackPane contentPane;
 
     @FXML private Button btnSoDoMay, btnPhienSuDung, btnNapTien, btnHoaDon;
-    @FXML private Button btnDichVu, btnGoiDichVu, btnKhuyenMai, btnNhapHang;
+    @FXML private Button btnDichVu, btnGoiDichVu, btnGoiDichVuKH, btnKhuyenMai, btnNhapHang;
     @FXML private Button btnKhachHang, btnNhanVien, btnMayTinh, btnKhuMay, btnThongKe;
 
     // ================================================================
@@ -165,6 +165,7 @@ public class MainController implements Initializable {
     @FXML public void loadHoaDon()      { loadView("hoaDon.fxml",        "Quản lý hóa đơn"); }
     @FXML public void loadDichVu()      { loadView("dichVu.fxml",        "Quản lý dịch vụ"); }
     @FXML public void loadGoiDichVu()   { loadView("goiDichVu.fxml",     "Quản lý gói dịch vụ"); }
+    @FXML public void loadGoiDichVuKH()    { loadView("goiDichVuKhachHang.fxml",   "Quản lý gói dịch vụ khách hàng"); }
     @FXML public void loadKhuyenMai()   { loadView("khuyenMai.fxml",     "Chương trình khuyến mãi"); }
     @FXML public void loadNhapHang()    { loadView("nhapHang.fxml",      "Nhập hàng"); }
     @FXML public void loadKhachHang()   { loadView("khachHang.fxml",     "Quản lý khách hàng"); }

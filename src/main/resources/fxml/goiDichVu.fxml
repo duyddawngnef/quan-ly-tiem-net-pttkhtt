@@ -11,7 +11,7 @@
        <VBox spacing="15" HBox.hgrow="ALWAYS">
 
               <VBox spacing="4">
-                     <Label text="QUAN LY GOI DICH VU"
+                     <Label text="QUẢN LÝ GÓI DỊCH VỤ"
                             styleClass="manager-title" />
                      <Label fx:id="lblSubtitle" text="..."
                             styleClass="manager-subtitle" />
