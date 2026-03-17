@@ -145,6 +145,7 @@ public class ThongKeController implements Initializable {
         }
 
         // Tab 3
+        // Tab 3
         if (colTopSTT != null) {
             colTopSTT.setCellValueFactory(c ->
                     new SimpleStringProperty(readArray(c.getValue(), 0)));
@@ -162,7 +163,7 @@ public class ThongKeController implements Initializable {
 
         if (colTopThoiGian != null) {
             colTopThoiGian.setCellValueFactory(c ->
-                    new SimpleStringProperty(readArray(c.getValue(), 3)));
+                    new SimpleStringProperty(fmtHours(readArrayObject(c.getValue(), 3))));
         }
 
         if (colTopTongTien != null) {
@@ -333,10 +334,7 @@ public class ThongKeController implements Initializable {
 
             if (nam == null) return;
 
-            LocalDateTime from = LocalDate.of(nam, 1, 1).atStartOfDay();
-            LocalDateTime to = LocalDate.of(nam, 12, 31).atTime(23, 59, 59);
-
-            List<Object[]> data = hoaDonBUS.topKhachHangChiTieu(n, from, to);
+            List<Object[]> data = thongKeBUS.thongKeTopKhachHang(nam, n);
 
             if (tableTop != null) {
                 tableTop.setItems(FXCollections.observableArrayList(data));
@@ -763,6 +761,14 @@ public class ThongKeController implements Initializable {
             return Double.parseDouble(String.valueOf(val));
         } catch (Exception e) {
             return 0.0;
+        }
+    }
+    private String fmtHours(Object val) {
+        if (val == null) return "0.00";
+        try {
+            return String.format("%.2f", ((Number) val).doubleValue());
+        } catch (Exception e) {
+            return String.valueOf(val);
         }
     }
 }
