@@ -132,6 +132,7 @@ public class KhachHangDAO {
         }
     }
     // cập nhật dữ liệu cho khách hàng
+    // cập nhật dữ liệu cho khách hàng
     public boolean update (KhachHang kh){
 
         KhachHang existing = getById(kh.getMakh());
@@ -141,10 +142,7 @@ public class KhachHangDAO {
             throw new RuntimeException("Lỗi khách hàng không tồn tại !");
         }
 
-        // khách hàng đã bị xóa trước đó thì không cho sửa
-        if(existing.isNgung()){
-            throw new RuntimeException("Khách hàng đã bị xóa !");
-        }
+        // ĐÃ XÓA CHẶN: Cho phép cập nhật và khôi phục khách hàng từ NGUNG sang HOATDONG
 
         // BẢO MẬT: Nếu người dùng cố tình chuyển sang NGUNG trong form sửa,
         // phải kiểm tra xem khách đó có đang chơi net không
