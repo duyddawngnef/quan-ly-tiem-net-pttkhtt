@@ -24,18 +24,10 @@
     <HBox styleClass="toolbar" spacing="8" alignment="CENTER_LEFT">
         <TextField fx:id="txtSearch" promptText="🔍  Tìm kiếm..." styleClass="search-bar"
                    prefWidth="260" onKeyReleased="#handleSearch"/>
-                <HBox spacing="15">
-                    <VBox spacing="4" HBox.hgrow="ALWAYS">
-                        <Label text="Chức vụ *" styleClass="form-label"/>
-                        <ComboBox fx:id="cboChucVu" promptText="Chọn chức vụ" styleClass="combo-box" maxWidth="Infinity"/>
-                    </VBox>
-                    <VBox spacing="4" HBox.hgrow="ALWAYS">
-                        <Label text="Trạng thái *" styleClass="form-label"/>
-                        <ComboBox fx:id="cboTrangThai" promptText="Chọn trạng thái" styleClass="combo-box" maxWidth="Infinity"/>
-                    </VBox>
-                </HBox>
-                <ComboBox fx:id="cboTrangThai" promptText="Trạng thái" styleClass="combo-box" prefWidth="140">
-                </ComboBox>
+
+        <ComboBox fx:id="cboChucVu" promptText="Chức vụ" styleClass="combo-box" prefWidth="140"/>
+        <ComboBox fx:id="cboTrangThai" promptText="Trạng thái" styleClass="combo-box" prefWidth="140"/>
+
         <Pane HBox.hgrow="ALWAYS"/>
         <Button fx:id="btnThem" text="＋  Thêm" styleClass="btn btn-primary"
                 onAction="#handleThem"/>
