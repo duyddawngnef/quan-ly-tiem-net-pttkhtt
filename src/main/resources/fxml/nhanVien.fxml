@@ -22,23 +22,30 @@
 
     <!-- Toolbar -->
     <HBox styleClass="toolbar" spacing="8" alignment="CENTER_LEFT">
-        <TextField fx:id="txtSearch" promptText="🔍  Tìm kiếm..." styleClass="search-bar"
+        <TextField fx:id="txtSearch" promptText="🔍 Tìm kiếm..." styleClass="search-bar"
                    prefWidth="260" onKeyReleased="#handleSearch"/>
-
-        <ComboBox fx:id="cboChucVu" promptText="Chức vụ" styleClass="combo-box" prefWidth="140"/>
-        <ComboBox fx:id="cboTrangThai" promptText="Trạng thái" styleClass="combo-box" prefWidth="140"/>
-
+        <HBox spacing="15">
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                <Label text="Chức vụ *" styleClass="form-label"/>
+                <ComboBox fx:id="cboChucVu" promptText="Chọn chức vụ" styleClass="combo-box" maxWidth="Infinity"/>
+            </VBox>
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                <Label text="Trạng thái *" styleClass="form-label"/>
+                <ComboBox fx:id="cboTrangThai" promptText="Chọn trạng thái" styleClass="combo-box" maxWidth="Infinity"/>
+            </VBox>
+        </HBox>
+        <ComboBox fx:id="cboTrangThai" promptText="Trạng thái" styleClass="combo-box" prefWidth="140">
+        </ComboBox>
         <Pane HBox.hgrow="ALWAYS"/>
-        <Button fx:id="btnThem" text="＋  Thêm" styleClass="btn btn-primary"
+        <Button fx:id="btnThem" text="＋ Thêm" styleClass="btn btn-primary"
                 onAction="#handleThem"/>
-        <Button fx:id="btnSua" text="✎  Sửa" styleClass="btn btn-warning"
+        <Button fx:id="btnSua" text="✎ Sửa" styleClass="btn btn-warning"
                 onAction="#handleSua" disable="true"/>
-        <Button fx:id="btnXoa" text="✕  Xóa" styleClass="btn btn-danger"
+        <Button fx:id="btnXoa" text="✕ Xóa" styleClass="btn btn-danger"
                 onAction="#handleXoa" disable="true"/>
-        <Button fx:id="btnLamMoi" text="↺  Làm mới" styleClass="btn btn-secondary"
+        <Button fx:id="btnLamMoi" text="↺ Làm mới" styleClass="btn btn-secondary"
                 onAction="#handleLamMoi"/>
     </HBox>
-
     <VBox VBox.vgrow="ALWAYS" styleClass="page-card, no-padding" spacing="0">
         <TableView fx:id="tableView" VBox.vgrow="ALWAYS"
                    styleClass="table-rounded">
