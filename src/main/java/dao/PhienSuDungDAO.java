@@ -214,7 +214,7 @@ public class PhienSuDungDAO {
         ) {
             if (rs.next()) {
                 String lastMa = rs.getString("MaPhien");
-                int num = Integer.parseInt(lastMa.substring(3));
+                int num = Integer.parseInt(lastMa.substring(2));
                 return String.format("PS%03d", num + 1);
             }
         } catch (SQLException e) {
