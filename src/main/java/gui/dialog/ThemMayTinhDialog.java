@@ -7,6 +7,7 @@ import entity.MayTinh;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
@@ -63,7 +64,7 @@ public class ThemMayTinhDialog implements Initializable {
         this.isEditMode = (mt != null);
         if (isEditMode) {
             if (lblTitle  != null) lblTitle.setText("Sửa Máy Tính");
-            if (txtMaMay  != null) { txtMaMay.setText(mt.getMamay()); txtMaMay.setDisable(true); }
+            if (txtMaMay  != null) {  txtMaMay.setDisable(true); }
             if (txtTenMay != null) txtTenMay.setText(mt.getTenmay());
             if (txtCauHinh != null) txtCauHinh.setText(mt.getCauhinh());
             if (txtGiaMoiGio != null) txtGiaMoiGio.setText(String.valueOf(mt.getGiamoigio()));
@@ -85,9 +86,7 @@ public class ThemMayTinhDialog implements Initializable {
     @FXML
     public void handleSave() {
         clearError();
-        String maMay  = txtMaMay  != null ? txtMaMay.getText().trim()  : "";
         String tenMay = txtTenMay != null ? txtTenMay.getText().trim() : "";
-        if (!isEditMode && maMay.isEmpty()) { setError("Mã máy không được để trống"); return; }
         if (tenMay.isEmpty()) { setError("Tên máy không được để trống"); return; }
         double gia;
         try {
@@ -99,7 +98,7 @@ public class ThemMayTinhDialog implements Initializable {
         String maKhu = khu != null ? khu.getMakhu() : "";
 
         MayTinh mt = isEditMode ? entity : new MayTinh();
-        if (!isEditMode) mt.setMamay(maMay);
+        if (!isEditMode && txtMaMay!=null ) mt.setMamay(txtMaMay.getText().trim());
         mt.setTenmay(tenMay);
         mt.setCauhinh(txtCauHinh != null ? txtCauHinh.getText().trim() : "");
         mt.setMakhu(maKhu);
@@ -132,4 +131,6 @@ public class ThemMayTinhDialog implements Initializable {
                                             ((Stage) btnCancel.getScene().getWindow()).close(); }
     private Stage getStage()           { return btnSave != null && btnSave.getScene() != null
                                             ? (Stage) btnSave.getScene().getWindow() : null; }
+
+
 }
