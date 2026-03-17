@@ -12,13 +12,13 @@ import java.util.ResourceBundle;
 
 public class ThemNhanVienDialog implements Initializable {
 
-    // ĐÃ XÓA BIẾN SDT VÀ NGÀY VÀO LÀM
     @FXML private Label lblDialogTitle;
     @FXML private TextField txtHo;
     @FXML private TextField txtTen;
     @FXML private TextField txtTenDangNhap;
     @FXML private PasswordField txtMatKhau;
     @FXML private ComboBox<String> cboChucVu;
+    @FXML private ComboBox<String> cboTrangThai; // Đã thêm lại
     @FXML private Label lblError;
     @FXML private Button btnSave;
     @FXML private Button btnCancel;
@@ -34,6 +34,10 @@ public class ThemNhanVienDialog implements Initializable {
             cboChucVu.getItems().setAll("NHANVIEN", "QUANLY", "THUNGAN");
             cboChucVu.setValue("NHANVIEN");
         }
+        if (cboTrangThai != null) {
+            cboTrangThai.getItems().setAll("DANGLAMVIEC", "NGHIVIEC");
+            cboTrangThai.setValue("DANGLAMVIEC");
+        }
     }
 
     public void setEntity(NhanVien nv) {
@@ -45,12 +49,14 @@ public class ThemNhanVienDialog implements Initializable {
             if (txtTen != null) txtTen.setText(nv.getTen() != null ? nv.getTen() : "");
             if (txtTenDangNhap != null) {
                 txtTenDangNhap.setText(nv.getTendangnhap() != null ? nv.getTendangnhap() : "");
-                txtTenDangNhap.setDisable(true); // Không cho phép đổi tên đăng nhập
+                txtTenDangNhap.setDisable(true);
             }
             if (txtMatKhau != null) txtMatKhau.setPromptText("Bỏ trống nếu không đổi");
             if (cboChucVu != null) cboChucVu.setValue(nv.getChucvu());
+            if (cboTrangThai != null) cboTrangThai.setValue(nv.getTrangthai());
         } else {
             if (lblDialogTitle != null) lblDialogTitle.setText("THÊM NHÂN VIÊN MỚI");
+            if (cboTrangThai != null) cboTrangThai.setDisable(true); // Thêm mới thì mặc định là đang làm việc
         }
     }
 
@@ -82,9 +88,7 @@ public class ThemNhanVienDialog implements Initializable {
         if (!isEditMode) nv.setTendangnhap(tenDN);
         if (!isEditMode || !matKhau.isEmpty()) nv.setMatkhau(matKhau);
         nv.setChucvu(cboChucVu != null ? cboChucVu.getValue() : "NHANVIEN");
-
-        // Mặc định nhân viên mới thêm là ĐANG LÀM VIỆC
-        if (!isEditMode) nv.setTrangthai("DANGLAMVIEC");
+        nv.setTrangthai(cboTrangThai != null ? cboTrangThai.getValue() : "DANGLAMVIEC");
 
         try {
             if (isEditMode) {
