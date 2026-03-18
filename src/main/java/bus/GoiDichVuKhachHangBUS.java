@@ -34,7 +34,7 @@ public class GoiDichVuKhachHangBUS{
         PermissionHelper.requireLogin();
 
         // kiểm tra phân quyền.
-        PermissionHelper.requireQuanLy();
+        PermissionHelper.requireNhanVien();
 
         // kiểm tra VALIDATION
         // check mã gói dịch vụ
@@ -92,7 +92,7 @@ public class GoiDichVuKhachHangBUS{
         PermissionHelper.requireLogin();
 
         // kiểm tra phân quyền.
-        PermissionHelper.requireQuanLy();
+        PermissionHelper.requireNhanVien();
 
         // KIỂM TRA VALIDATION
         // kiểm tra khách hàng
@@ -130,7 +130,7 @@ public class GoiDichVuKhachHangBUS{
         PermissionHelper.requireLogin();
 
         // kiểm tra phân quyền.
-        PermissionHelper.requireQuanLy();
+        PermissionHelper.requireNhanVien();
 
         // kiểm tra VALIDATION
         if( maGoiKH == null ){ throw new Exception("Mã gói khách hàng không được để trống!!!"); }
@@ -151,14 +151,14 @@ public class GoiDichVuKhachHangBUS{
 
     public List<GoiDichVuKhachHang> getAll() throws Exception {
         PermissionHelper.requireLogin();
-        PermissionHelper.requireQuanLy();
+        PermissionHelper.requireNhanVien();
         List<GoiDichVuKhachHang> result = this.gdvkhDAO.getAll();
         return result != null ? result : new java.util.ArrayList<>();
     }
 
     public void updateTrangThai(GoiDichVuKhachHang gdvkh) throws Exception {
         PermissionHelper.requireLogin();
-        PermissionHelper.requireQuanLy();
+        PermissionHelper.requireNhanVien();
         if (gdvkh == null || gdvkh.getMagoikh() == null)
             throw new Exception("Thông tin gói không hợp lệ!");
         boolean ok = this.gdvkhDAO.update(gdvkh);
