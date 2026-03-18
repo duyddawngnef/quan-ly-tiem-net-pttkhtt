@@ -24,7 +24,7 @@ public class DBConnection  {
         try {
             if(conn == null || conn.isClosed()){
                 conn = DriverManager.getConnection(URL,USER,PASS);
-                System.out.println("Kết nối database thành công !");
+//                System.out.println("Kết nối database thành công !");
             }
         }catch (SQLException e ){
             System.out.println("Lỗi kết nối database !");
@@ -37,7 +37,7 @@ public class DBConnection  {
             if(conn != null && !conn.isClosed()){
                 conn.close();
                 conn = null;
-                System.out.println("Đã đống kết nối database ! ");
+//                System.out.println("Đã đống kết nối database ! ");
             }
         }catch (SQLException e ){
             System.out.println("Lỗi đống kết nối database ! ");
