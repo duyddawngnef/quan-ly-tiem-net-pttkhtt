@@ -189,8 +189,8 @@ public class HoaDonBUS {
             }
 
             // Trừ tiền từ tài khoản
-            kh.setSodu(kh.getSodu() - hoaDon.getThanhToan());
-            khachHangDAO.update(kh);
+            double soDuMoi = kh.getSodu() - hoaDon.getThanhToan();
+            khachHangDAO.updateSoDu(kh.getMakh(), soDuMoi);
         }
 
         // 5. Cập nhật trạng thái hóa đơn
