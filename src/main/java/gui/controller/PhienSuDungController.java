@@ -393,10 +393,10 @@ public class PhienSuDungController implements Initializable {
         Stage dialog = makeDialogWide();
 
         // ── THÔNG TIN PHIÊN ──────────────────────────────────────────
-        VBox secPhien = section("📋  Thông tin phiên");
+        VBox secPhien = section("▣  Thông tin phiên");
         GridPane gridPhien = infoGrid();
         addInfoRow(gridPhien, 0, "Mã phiên:",    phien.getMaPhien());
-        addInfoRow(gridPhien, 1, "Khách hàng:",  phien.getMaKH() + " — " + tenKH.trim());
+        addInfoRow(gridPhien, 1, "Khách hàng:",  phien.getMaKH() + " - " + tenKH.trim());
         addInfoRow(gridPhien, 2, "Máy:",         phien.getMaMay());
         addInfoRow(gridPhien, 3, "Giờ bắt đầu:", phien.getGioBatDau() != null ? phien.getGioBatDau().format(FMT) : "--");
         addInfoRow(gridPhien, 4, "Thời gian:",   phut / 60 + "h " + String.format("%02dm", phut % 60));
@@ -443,7 +443,7 @@ public class PhienSuDungController implements Initializable {
         tongCong = tienGio + tienDichVu; // tienGio đã được điều chỉnh đúng
 
         // ── DỊCH VỤ ─────────────────────────────────────────────────
-        VBox secDV = section("🍹  Dịch vụ sử dụng");
+        VBox secDV = section("☆  Dịch vụ sử dụng");
         if (dsDichVu.isEmpty()) {
             Label lblNoDV = new Label("Không có sử dụng dịch vụ");
             lblNoDV.setStyle("-fx-text-fill:#888; -fx-font-style:italic; -fx-font-size:12px;");
@@ -471,20 +471,23 @@ public class PhienSuDungController implements Initializable {
         lblTong.setMaxWidth(Double.MAX_VALUE);
 
         // ── THANH TOÁN ───────────────────────────────────────────────
-        VBox secTT = section("💳  Phương thức thanh toán");
+        VBox secTT = section("▸  Phương thức thanh toán");
 
         final double tongCongFinal = tongCong;
         final double soDuFinal     = soDuKH;
+        // Tính số tiền thiếu sau khi dùng hết tài khoản
+        final double tienTruTK     = Math.min(soDuFinal, tongCongFinal); // phần trừ từ TK
+        final double tienThieu     = Math.max(0, tongCongFinal - soDuFinal); // phần còn thiếu
 
         // 5 phương thức - mỗi cái là một Toggle card
         ToggleGroup grpTT = new ToggleGroup();
 
         String[][] ptOptions = {
-                {"TAIKHOAN",    "🏦 Tài khoản",     "#E8F5E9", "#2e7d32"},
-                {"TIENMAT",     "💵 Tiền mặt",       "#FFF8E1", "#f57f17"},
-                {"CHUYENKHOAN", "🏧 Chuyển khoản",   "#E3F2FD", "#1565C0"},
-                {"MOMO",        "💜 MoMo",            "#FCE4EC", "#880e4f"},
-                {"VNPAY",       "🟦 VNPay",           "#E8EAF6", "#1a237e"},
+                {"TAIKHOAN",    "▣ Tài khoản",     "#E8F5E9", "#2e7d32"},
+                {"TIENMAT",     "○ Tiền mặt",       "#FFF8E1", "#f57f17"},
+                {"CHUYENKHOAN", "□ Chuyển khoản",   "#E3F2FD", "#1565C0"},
+                {"MOMO",        "◆ MoMo",            "#FCE4EC", "#880e4f"},
+                {"VNPAY",       "■ VNPay",           "#E8EAF6", "#1a237e"},
         };
 
         HBox hboxPT = new HBox(8);
@@ -527,21 +530,39 @@ public class PhienSuDungController implements Initializable {
                 + " -fx-border-color:#a5d6a7; -fx-border-radius:8; -fx-border-width:1;");
         Label lblSoDu = new Label("Số dư hiện tại: " + String.format("%,.0f ₫", soDuFinal));
         lblSoDu.setStyle("-fx-font-size:13px; -fx-text-fill:#2e7d32; -fx-font-weight:bold;");
-        double conLai = soDuFinal - tongCongFinal;
-        Label lblConLai = new Label(conLai >= 0
-                ? "Sau thanh toán còn: " + String.format("%,.0f ₫", conLai)
-                : "Sau thanh toán còn: 0 ₫");
-        lblConLai.setStyle("-fx-font-size:12px; -fx-text-fill:#388E3C;");
-        panelTaiKhoan.getChildren().addAll(lblSoDu, lblConLai);
+        if (soDuFinal >= tongCongFinal) {
+            // Đủ tiền → hiển thị số dư sau thanh toán
+            double conLai = soDuFinal - tongCongFinal;
+            Label lblConLai = new Label("Sau thanh toán còn: " + String.format("%,.0f ₫", conLai));
+            lblConLai.setStyle("-fx-font-size:12px; -fx-text-fill:#388E3C;");
+            panelTaiKhoan.getChildren().addAll(lblSoDu, lblConLai);
+        } else {
+            // Không đủ tiền → hiển thị thông tin trừ TK + phần thiếu
+            Label lblTruTK = new Label("Sẽ trừ từ tài khoản: " + String.format("%,.0f ₫", tienTruTK));
+            lblTruTK.setStyle("-fx-font-size:12px; -fx-text-fill:#388E3C;");
+            Label lblThieu = new Label("⚠ Còn thiếu: " + String.format("%,.0f ₫", tienThieu)
+                    + " - vui lòng chọn phương thức khác để trả phần thiếu");
+            lblThieu.setStyle("-fx-font-size:12px; -fx-text-fill:#e65100; -fx-font-weight:bold; -fx-wrap-text:true;");
+            lblThieu.setMaxWidth(Double.MAX_VALUE);
+            panelTaiKhoan.getChildren().addAll(lblSoDu, lblTruTK, lblThieu);
+        }
 
         // --- Panel Tiền mặt ---
         VBox panelTienMat = new VBox(6);
         panelTienMat.setStyle("-fx-background-color:#FFF8E1; -fx-padding:12; -fx-background-radius:8;"
                 + " -fx-border-color:#ffe082; -fx-border-radius:8; -fx-border-width:1;");
-        Label lblTienMat = new Label("💵  Thanh toán tiền mặt: " + String.format("%,.0f ₫", tongCongFinal));
+        double tienMatCanTra = tienThieu > 0 ? tienThieu : tongCongFinal;
+        Label lblTienMat = new Label("○  Thanh toán tiền mặt: " + String.format("%,.0f ₫", tienMatCanTra));
         lblTienMat.setStyle("-fx-font-size:13px; -fx-text-fill:#f57f17; -fx-font-weight:bold;");
-        Label lblTienMatNote = new Label("Nhân viên thu tiền mặt và xác nhận.");
-        lblTienMatNote.setStyle("-fx-font-size:12px; -fx-text-fill:#795548;");
+        Label lblTienMatNote;
+        if (tienThieu > 0 && tienTruTK > 0) {
+            lblTienMatNote = new Label("Đã trừ tài khoản: " + String.format("%,.0f ₫", tienTruTK)
+                    + ". Nhân viên thu tiền mặt phần còn thiếu và xác nhận.");
+        } else {
+            lblTienMatNote = new Label("Nhân viên thu tiền mặt và xác nhận.");
+        }
+        lblTienMatNote.setStyle("-fx-font-size:12px; -fx-text-fill:#795548; -fx-wrap-text:true;");
+        lblTienMatNote.setMaxWidth(Double.MAX_VALUE);
         panelTienMat.getChildren().addAll(lblTienMat, lblTienMatNote);
         panelTienMat.setVisible(false); panelTienMat.setManaged(false);
 
@@ -557,7 +578,8 @@ public class PhienSuDungController implements Initializable {
         StackPane qrBox = buildFakeQR(260);
         Label lblQRTitle = new Label("");
         lblQRTitle.setStyle("-fx-font-size:15px; -fx-font-weight:bold; -fx-text-fill:#333;");
-        Label lblQRAmount = new Label(String.format("Số tiền: %,.0f ₫", tongCongFinal));
+        double tienQR = tienThieu > 0 ? tienThieu : tongCongFinal;
+        Label lblQRAmount = new Label(String.format("Số tiền: %,.0f ₫", tienQR));
         lblQRAmount.setStyle("-fx-font-size:14px; -fx-font-weight:bold; -fx-text-fill:#1565C0;");
         Label lblQRContent = new Label("Nội dung: TT-" + phien.getMaPhien());
         lblQRContent.setStyle("-fx-font-size:12px; -fx-text-fill:#555;");
@@ -594,18 +616,19 @@ public class PhienSuDungController implements Initializable {
             switch (code) {
                 case "TAIKHOAN" -> {
                     panelTaiKhoan.setVisible(true); panelTaiKhoan.setManaged(true);
-                    panelQR.setStyle("-fx-background-color:#F3E5F5; -fx-background-radius:8; -fx-border-color:#ce93d8; -fx-border-radius:8; -fx-border-width:1;");
-                    // Kiểm tra số dư đủ không
-                    if (soDuFinal < tongCongFinal) {
-                        lblLoi.setText("⚠ Số dư không đủ để thanh toán! Vui lòng nạp thêm hoặc chọn phương thức khác.");
-                        lblLoi.setStyle("-fx-text-fill:#C62828; -fx-font-size:12px; -fx-font-weight:bold; -fx-wrap-text:true;");
-                        btnXacNhan.setDisable(true);
-                        btnXacNhan.setStyle("-fx-background-color:#BDBDBD; -fx-text-fill:#757575; "
-                                + "-fx-font-weight:bold; -fx-pref-height:36px; -fx-pref-width:210px; -fx-background-radius:6;");
-                    } else {
+                    if (soDuFinal >= tongCongFinal) {
+                        // Đủ tiền → cho phép thanh toán bằng tài khoản
                         lblLoi.setText("");
                         btnXacNhan.setDisable(false);
                         btnXacNhan.setStyle("-fx-background-color:#1b5e20; -fx-text-fill:white; "
+                                + "-fx-font-weight:bold; -fx-pref-height:36px; -fx-pref-width:210px; -fx-background-radius:6;");
+                    } else {
+                        // Không đủ tiền → disable nút, hướng dẫn chọn phương thức khác
+                        lblLoi.setText("⚠ Số dư không đủ! Vui lòng chọn Tiền mặt / Chuyển khoản / MoMo / VNPay để trả phần thiếu "
+                                + String.format("%,.0f ₫", tienThieu) + " (đã tự động trừ TK " + String.format("%,.0f ₫", tienTruTK) + ")");
+                        lblLoi.setStyle("-fx-text-fill:#C62828; -fx-font-size:12px; -fx-font-weight:bold; -fx-wrap-text:true;");
+                        btnXacNhan.setDisable(true);
+                        btnXacNhan.setStyle("-fx-background-color:#BDBDBD; -fx-text-fill:#757575; "
                                 + "-fx-font-weight:bold; -fx-pref-height:36px; -fx-pref-width:210px; -fx-background-radius:6;");
                     }
                 }
@@ -615,23 +638,38 @@ public class PhienSuDungController implements Initializable {
                 case "CHUYENKHOAN" -> {
                     panelQR.setVisible(true); panelQR.setManaged(true);
                     panelQR.setStyle("-fx-background-color:#E3F2FD; -fx-background-radius:8; -fx-border-color:#90caf9; -fx-border-radius:8; -fx-border-width:1;");
-                    lblQRTitle.setText("🏧  Quét mã để chuyển khoản");
-                    lblQRNote.setText("Khách quét mã và chuyển khoản, sau đó xác nhận.");
-                    setupQRButton(btnXacNhan, btnHuy, autoTimer, phien, dialog, tongCongFinal, "Chuyển khoản", tenKH);
+                    lblQRTitle.setText("□  Quét mã để chuyển khoản");
+                    if (tienThieu > 0 && tienTruTK > 0) {
+                        lblQRNote.setText("Đã trừ TK: " + String.format("%,.0f ₫", tienTruTK)
+                                + ". Khách quét mã chuyển khoản phần còn thiếu.");
+                    } else {
+                        lblQRNote.setText("Khách quét mã và chuyển khoản, sau đó xác nhận.");
+                    }
+                    setupQRButton(btnXacNhan, btnHuy, autoTimer, phien, dialog, tienQR, "Chuyển khoản", tenKH);
                 }
                 case "MOMO" -> {
                     panelQR.setVisible(true); panelQR.setManaged(true);
                     panelQR.setStyle("-fx-background-color:#FCE4EC; -fx-background-radius:8; -fx-border-color:#f48fb1; -fx-border-radius:8; -fx-border-width:1;");
-                    lblQRTitle.setText("💜  Quét mã MoMo");
-                    lblQRNote.setText("Khách quét mã MoMo và chuyển tiền, sau đó xác nhận.");
-                    setupQRButton(btnXacNhan, btnHuy, autoTimer, phien, dialog, tongCongFinal, "MoMo", tenKH);
+                    lblQRTitle.setText("◆  Quét mã MoMo");
+                    if (tienThieu > 0 && tienTruTK > 0) {
+                        lblQRNote.setText("Đã trừ TK: " + String.format("%,.0f ₫", tienTruTK)
+                                + ". Khách quét mã MoMo trả phần còn thiếu.");
+                    } else {
+                        lblQRNote.setText("Khách quét mã MoMo và chuyển tiền, sau đó xác nhận.");
+                    }
+                    setupQRButton(btnXacNhan, btnHuy, autoTimer, phien, dialog, tienQR, "MoMo", tenKH);
                 }
                 case "VNPAY" -> {
                     panelQR.setVisible(true); panelQR.setManaged(true);
                     panelQR.setStyle("-fx-background-color:#E8EAF6; -fx-background-radius:8; -fx-border-color:#9fa8da; -fx-border-radius:8; -fx-border-width:1;");
-                    lblQRTitle.setText("🟦  Quét mã VNPay");
-                    lblQRNote.setText("Khách quét mã VNPay và thanh toán, sau đó xác nhận.");
-                    setupQRButton(btnXacNhan, btnHuy, autoTimer, phien, dialog, tongCongFinal, "VNPay", tenKH);
+                    lblQRTitle.setText("■  Quét mã VNPay");
+                    if (tienThieu > 0 && tienTruTK > 0) {
+                        lblQRNote.setText("Đã trừ TK: " + String.format("%,.0f ₫", tienTruTK)
+                                + ". Khách quét mã VNPay trả phần còn thiếu.");
+                    } else {
+                        lblQRNote.setText("Khách quét mã VNPay và thanh toán, sau đó xác nhận.");
+                    }
+                    setupQRButton(btnXacNhan, btnHuy, autoTimer, phien, dialog, tienQR, "VNPay", tenKH);
                 }
             }
         });
