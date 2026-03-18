@@ -19,9 +19,9 @@
     <ScrollPane fitToWidth="true" styleClass="dialog-scroll-max">
         <VBox styleClass="dialog-body" spacing="12">
             <VBox spacing="4">
-                <Label text="Mã KM *" styleClass="form-label"/>
-                <TextField fx:id="txtMaKM" promptText="VD: NOEL2026" styleClass="text-field" maxWidth="Infinity"/>
-                <Label fx:id="lbltxtMaKMError" styleClass="error-label" text=""/>
+                <Label text="Mã KM" styleClass="form-label"/>
+                <TextField fx:id="txtMaKM" styleClass="text-field" maxWidth="Infinity"
+                           disable="true" promptText="Tự động"/>
             </VBox>
             <VBox spacing="4">
                 <Label text="Tên chương trình *" styleClass="form-label"/>
