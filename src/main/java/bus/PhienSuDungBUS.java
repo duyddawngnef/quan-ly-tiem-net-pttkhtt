@@ -38,6 +38,7 @@ public class PhienSuDungBUS {
     private final GoiDichVuKhachHangDAO goiDichVuKhachHangDAO;
     private final SuDungDichVuDAO       suDungDichVuDAO;
     private final HoaDonDAO             hoaDonDAO;
+    private final ChiTietHoaDonDAO      chiTietHoaDonDAO;
 
     // ================================================================
     //  PHẦN 2: CONSTRUCTOR
@@ -57,6 +58,7 @@ public class PhienSuDungBUS {
         this.goiDichVuKhachHangDAO = goiDichVuKhachHangDAO;
         this.suDungDichVuDAO       = suDungDichVuDAO;
         this.hoaDonDAO             = hoaDonDAO;
+        this.chiTietHoaDonDAO      = new ChiTietHoaDonDAO();
     }
 
     // ================================================================
@@ -300,6 +302,9 @@ public class PhienSuDungBUS {
         HoaDon hoaDon = tinhTienVaTaoHoaDon(phien, tienGioChoi, khachHang);
         hoaDonDAO.them(hoaDon);
 
+        // Tạo và lưu chi tiết hóa đơn SAU KHI hóa đơn đã tồn tại trong DB
+        luuChiTietHoaDon(hoaDon.getMaHD(), phien, tienGioChoi);
+
         PermissionHelper.logAction("KET_THUC_PHIEN",
                 "MaPhien="     + maPhien
                         + ", TongGio=" + String.format("%.2f", tongGio)
@@ -334,8 +339,10 @@ public class PhienSuDungBUS {
         double thanhTien   = tienGioChoi + tienDichVu;
         double soDuHienTai = khachHang.getSodu();
 
+        String maHD = hoaDonDAO.taoMaHoaDonTuDong();
+
         HoaDon hoaDon = new HoaDon();
-        hoaDon.setMaHD(hoaDonDAO.taoMaHoaDonTuDong());
+        hoaDon.setMaHD(maHD);
         hoaDon.setMaPhien(phien.getMaPhien());
         hoaDon.setMaKH(phien.getMaKH());
         hoaDon.setMaNV(phien.getMaNV() != null ? phien.getMaNV() : "");
@@ -364,6 +371,49 @@ public class PhienSuDungBUS {
         }
 
         return hoaDon;
+    }
+
+    /** Tạo và lưu chi tiết hóa đơn (gọi SAU KHI hoaDonDAO.them đã thành công) */
+    private void luuChiTietHoaDon(String maHD, PhienSuDung phien, double tienGioChoi) {
+        try {
+            List<ChiTietHoaDon> danhSachChiTiet = new ArrayList<>();
+
+            // 1. Chi tiết giờ chơi
+            if (tienGioChoi > 0) {
+                ChiTietHoaDon ctGioChoi = new ChiTietHoaDon();
+                ctGioChoi.setMaCTHD(chiTietHoaDonDAO.taoMaChiTietTuDong());
+                ctGioChoi.setMaHD(maHD);
+                ctGioChoi.setLoaiChiTiet("GIOCHOI");
+                ctGioChoi.setMoTa(String.format("Giờ chơi máy %s", phien.getMaMay()));
+                ctGioChoi.setSoLuong(phien.getGioSuDungTuTaiKhoan());
+                ctGioChoi.setDonGia(phien.getGiaMoiGio());
+                ctGioChoi.tinhThanhTien();
+                danhSachChiTiet.add(ctGioChoi);
+            }
+
+            // 2. Chi tiết dịch vụ đã order
+            List<SuDungDichVu> danhSachDV = suDungDichVuDAO.geyByPhien(phien.getMaPhien());
+            if (danhSachDV != null) {
+                for (SuDungDichVu sdDV : danhSachDV) {
+                    ChiTietHoaDon ctDV = new ChiTietHoaDon();
+                    ctDV.setMaCTHD(chiTietHoaDonDAO.taoMaChiTietTuDong());
+                    ctDV.setMaHD(maHD);
+                    ctDV.setLoaiChiTiet("DICHVU");
+                    ctDV.setMoTa("Dịch vụ: " + sdDV.getMadv());
+                    ctDV.setSoLuong(sdDV.getSoluong());
+                    ctDV.setDonGia(sdDV.getDongia());
+                    ctDV.tinhThanhTien();
+                    danhSachChiTiet.add(ctDV);
+                }
+            }
+
+            // 3. Lưu chi tiết hóa đơn
+            if (!danhSachChiTiet.isEmpty()) {
+                chiTietHoaDonDAO.themNhieu(danhSachChiTiet);
+            }
+        } catch (Exception e) {
+            System.err.println("[LuuChiTiet] Lỗi tạo chi tiết hóa đơn: " + e.getMessage());
+        }
     }
 
     // ================================================================

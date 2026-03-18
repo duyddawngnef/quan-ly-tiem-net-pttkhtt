@@ -6,8 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="192f3a2f-9e72-44fb-81d8-673dafe8642c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/PhieuNhapHangDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/PhieuNhapHangDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/controller/NhapHangController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/controller/NhapHangController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bus/HoaDonBUS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bus/HoaDonBUS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bus/PhienSuDungBUS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bus/PhienSuDungBUS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/DBConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/DBConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/controller/HoaDonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/controller/HoaDonController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,6 +19,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "duyddawngnef"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/duyddawngnef/quan-ly-tiem-net-pttkhtt.git",
+    "accountId": "12995de0-0277-4d14-adba-1704a62fcffd"
+  }
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
 }</component>
@@ -28,20 +42,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.quan-ly-tiem-net [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.quan-ly-tiem-net [org.openjfx:javafx-maven-plugin:0.0.8:run].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;phutai254&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.39885056&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "Application.Unnamed.executor": "Run",
+    "Maven.quan-ly-tiem-net [clean].executor": "Run",
+    "Maven.quan-ly-tiem-net [org.openjfx:javafx-maven-plugin:0.0.8:run].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "duyddawng-new",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.39885056",
+    "settings.editor.selected.configurable": "MavenSettings"
   }
-}</component>
+}]]></component>
+  <component name="RunManager">
+    <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="DataBase_Java" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\Users\duydd\Downloads\openjfx-25.0.2_windows-x64_bin-sdk\javafx-sdk-25.0.2\lib&quot; --add-modules javafx.controls,javafx.fxml --enable-native-access=javafx.graphics" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="192f3a2f-9e72-44fb-81d8-673dafe8642c" name="Changes" comment="" />
