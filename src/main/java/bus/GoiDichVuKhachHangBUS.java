@@ -148,4 +148,20 @@ public class GoiDichVuKhachHangBUS{
             return false;
         }
     }
+
+    public List<GoiDichVuKhachHang> getAll() throws Exception {
+        PermissionHelper.requireLogin();
+        PermissionHelper.requireQuanLy();
+        List<GoiDichVuKhachHang> result = this.gdvkhDAO.getAll();
+        return result != null ? result : new java.util.ArrayList<>();
+    }
+
+    public void updateTrangThai(GoiDichVuKhachHang gdvkh) throws Exception {
+        PermissionHelper.requireLogin();
+        PermissionHelper.requireQuanLy();
+        if (gdvkh == null || gdvkh.getMagoikh() == null)
+            throw new Exception("Thông tin gói không hợp lệ!");
+        boolean ok = this.gdvkhDAO.update(gdvkh);
+        if (!ok) throw new Exception("Cập nhật trạng thái thất bại!");
+    }
 }

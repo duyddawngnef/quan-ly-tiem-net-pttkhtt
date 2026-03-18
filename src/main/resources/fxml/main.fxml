@@ -66,6 +66,8 @@
                             styleClass="menu-button" onAction="#loadDichVu"/>
                     <Button fx:id="btnGoiDichVu" text="📦  Gói dịch vụ"
                             styleClass="menu-button" onAction="#loadGoiDichVu"/>
+                    <Button fx:id="btnGoiDichVuKH" text="🎫  Gói DV khách hàng"
+                            styleClass="menu-button" onAction="#loadGoiDichVuKH"/>
                     <Button fx:id="btnKhuyenMai" text="🎁  Khuyến mãi"
                             styleClass="menu-button" onAction="#loadKhuyenMai"/>
                     <Button fx:id="btnNhapHang" text="📥  Nhập hàng"

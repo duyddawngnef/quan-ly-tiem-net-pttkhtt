@@ -24,8 +24,16 @@
     <HBox styleClass="toolbar" spacing="8" alignment="CENTER_LEFT">
         <TextField fx:id="txtSearch" promptText="🔍  Tìm kiếm..." styleClass="search-bar"
                    prefWidth="260" onKeyReleased="#handleSearch"/>
-                <ComboBox fx:id="cboChucVu" promptText="Chức vụ" styleClass="combo-box" prefWidth="140">
-                </ComboBox>
+                <HBox spacing="15">
+                    <VBox spacing="4" HBox.hgrow="ALWAYS">
+                        <Label text="Chức vụ *" styleClass="form-label"/>
+                        <ComboBox fx:id="cboChucVu" promptText="Chọn chức vụ" styleClass="combo-box" maxWidth="Infinity"/>
+                    </VBox>
+                    <VBox spacing="4" HBox.hgrow="ALWAYS">
+                        <Label text="Trạng thái *" styleClass="form-label"/>
+                        <ComboBox fx:id="cboTrangThai" promptText="Chọn trạng thái" styleClass="combo-box" maxWidth="Infinity"/>
+                    </VBox>
+                </HBox>
                 <ComboBox fx:id="cboTrangThai" promptText="Trạng thái" styleClass="combo-box" prefWidth="140">
                 </ComboBox>
         <Pane HBox.hgrow="ALWAYS"/>
@@ -39,22 +47,18 @@
                 onAction="#handleLamMoi"/>
     </HBox>
 
-    <!-- Table -->
     <VBox VBox.vgrow="ALWAYS" styleClass="page-card, no-padding" spacing="0">
         <TableView fx:id="tableView" VBox.vgrow="ALWAYS"
                    styleClass="table-rounded">
             <columns>
-                <TableColumn fx:id="colMaNV" text="Mã NV" prefWidth="80"/>
-                <TableColumn fx:id="colHoTen" text="Họ tên" prefWidth="180"/>
-                <TableColumn fx:id="colSDT" text="Điện thoại" prefWidth="120"/>
-                <TableColumn fx:id="colTenDN" text="Tên đăng nhập" prefWidth="140"/>
-                <TableColumn fx:id="colChucVu" text="Chức vụ" prefWidth="120"/>
-                <TableColumn fx:id="colTrangThai" text="Trạng thái" prefWidth="120"/>
-                <TableColumn fx:id="colNgayVaoLam" text="Ngày vào làm" prefWidth="120"/>
+                <TableColumn fx:id="colMaNV" text="Mã NV" prefWidth="100"/>
+                <TableColumn fx:id="colHoTen" text="Họ tên" prefWidth="250"/>
+                <TableColumn fx:id="colTenDN" text="Tên đăng nhập" prefWidth="200"/>
+                <TableColumn fx:id="colChucVu" text="Chức vụ" prefWidth="150"/>
+                <TableColumn fx:id="colTrangThai" text="Trạng thái" prefWidth="150"/>
             </columns>
         </TableView>
 
-        <!-- Footer -->
         <HBox alignment="CENTER_RIGHT" spacing="12" styleClass="table-footer">
             <Label fx:id="lblTotal" text="Tổng: 0 bản ghi" styleClass="page-subtitle"/>
         </HBox>

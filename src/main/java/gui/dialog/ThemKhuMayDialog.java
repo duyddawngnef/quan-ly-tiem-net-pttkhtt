@@ -33,7 +33,7 @@ public class ThemKhuMayDialog implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if (cboTrangThai != null) {
-            cboTrangThai.getItems().setAll("TRONG", "HOATDONG", "BAOTRI", "NGUNG");
+            cboTrangThai.getItems().setAll("HOATDONG");
             cboTrangThai.setValue("HOATDONG"); // mặc định hợp lý cho khu mới
         }
         clearError();
@@ -50,25 +50,25 @@ public class ThemKhuMayDialog implements Initializable {
             if (lblTitle != null) lblTitle.setText("Sửa Khu Máy");
 
             if (txtMaKhu != null) {
-                txtMaKhu.setText(km.getMakhu());
+                txtMaKhu.setDisable(true);
                 txtMaKhu.setDisable(true); // khóa mã khu khi sửa
             }
             if (txtTenKhu != null) txtTenKhu.setText(km.getTenkhu());
             if (txtGiaCoSo != null) txtGiaCoSo.setText(String.valueOf(km.getGiacoso()));
             if (txtSoMayToiDa != null) txtSoMayToiDa.setText(String.valueOf(km.getSomaytoida()));
-            if (cboTrangThai != null) cboTrangThai.setValue(km.getTrangthai());
+            if (cboTrangThai != null) cboTrangThai.setDisable(true);
 
         } else {
             if (lblTitle != null) lblTitle.setText("Thêm Khu Máy");
 
             if (txtMaKhu != null) {
                 txtMaKhu.clear();
-                txtMaKhu.setDisable(false);
+                txtMaKhu.setDisable(true);
             }
             if (txtTenKhu != null) txtTenKhu.clear();
             if (txtGiaCoSo != null) txtGiaCoSo.clear();
             if (txtSoMayToiDa != null) txtSoMayToiDa.clear();
-            if (cboTrangThai != null) cboTrangThai.setValue("HOATDONG");
+            if (cboTrangThai != null) cboTrangThai.setDisable(true);
         }
     }
 
@@ -83,10 +83,7 @@ public class ThemKhuMayDialog implements Initializable {
         String maKhu = txtMaKhu != null ? txtMaKhu.getText().trim() : "";
         String tenKhu = txtTenKhu != null ? txtTenKhu.getText().trim() : "";
 
-        if (!isEditMode && maKhu.isEmpty()) {
-            setError("Mã khu không được để trống");
-            return;
-        }
+
         if (tenKhu.isEmpty()) {
             setError("Tên khu không được để trống");
             return;
