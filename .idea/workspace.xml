@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="192f3a2f-9e72-44fb-81d8-673dafe8642c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bus/HoaDonBUS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bus/HoaDonBUS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/controller/HoaDonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/controller/HoaDonController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/dialog/ThemKhuyenMaiDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/dialog/ThemKhuyenMaiDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/dialogs/themKhuyenMai.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/dialogs/themKhuyenMai.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/DBConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/DBConnection.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
