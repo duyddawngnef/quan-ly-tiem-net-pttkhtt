@@ -46,13 +46,15 @@
                 <VBox spacing="2" focusTraversable="false"
                       styleClass="sidebar-scroll-content">
 
+                    <!-- ========== MENU NHÂN VIÊN / QUẢN LÝ ========== -->
+
                     <!-- DASHBOARD -->
-                    <Label text="TỔNG QUAN" styleClass="sidebar-section-label" focusTraversable="false"/>
+                    <Label fx:id="lblSectionTongQuan" text="TỔNG QUAN" styleClass="sidebar-section-label" focusTraversable="false"/>
                     <Button fx:id="btnSoDoMay" text="▦  Sơ đồ máy"
                             styleClass="menu-button" onAction="#loadSoDoMay"/>
 
                     <!-- VẬN HÀNH -->
-                    <Label text="VẬN HÀNH" styleClass="sidebar-section-label" focusTraversable="false"/>
+                    <Label fx:id="lblSectionVanHanh" text="VẬN HÀNH" styleClass="sidebar-section-label" focusTraversable="false"/>
                     <Button fx:id="btnPhienSuDung" text="◷  Phiên sử dụng"
                             styleClass="menu-button" onAction="#loadPhienSuDung"/>
                     <Button fx:id="btnNapTien" text="▸  Nạp tiền"
@@ -60,8 +62,8 @@
                     <Button fx:id="btnHoaDon" text="☷  Hóa đơn"
                             styleClass="menu-button" onAction="#loadHoaDon"/>
 
-                    <!-- DỊCH VỤ -->
-                    <Label text="DỊCH VỤ" styleClass="sidebar-section-label" focusTraversable="false"/>
+                    <!-- DỊCH VỤ (NhanVien) -->
+                    <Label fx:id="lblSectionDichVuNV" text="DỊCH VỤ" styleClass="sidebar-section-label" focusTraversable="false"/>
                     <Button fx:id="btnDichVu" text="☆  Dịch vụ"
                             styleClass="menu-button" onAction="#loadDichVu"/>
                     <Button fx:id="btnGoiDichVu" text="□  Gói dịch vụ"
@@ -74,7 +76,7 @@
                             styleClass="menu-button" onAction="#loadNhapHang"/>
 
                     <!-- QUẢN LÝ -->
-                    <Label text="QUẢN LÝ" styleClass="sidebar-section-label" focusTraversable="false"/>
+                    <Label fx:id="lblSectionQuanLy" text="QUẢN LÝ" styleClass="sidebar-section-label" focusTraversable="false"/>
                     <Button fx:id="btnKhachHang" text="♠  Khách hàng"
                             styleClass="menu-button" onAction="#loadKhachHang"/>
                     <Button fx:id="btnNhanVien" text="⌂  Nhân viên"
@@ -85,9 +87,38 @@
                             styleClass="menu-button" onAction="#loadKhuMay"/>
 
                     <!-- BÁO CÁO -->
-                    <Label text="BÁO CÁO" styleClass="sidebar-section-label" focusTraversable="false"/>
+                    <Label fx:id="lblSectionBaoCao" text="BÁO CÁO" styleClass="sidebar-section-label" focusTraversable="false"/>
                     <Button fx:id="btnThongKe" text="◤  Thống kê"
                             styleClass="menu-button" onAction="#loadThongKe"/>
+
+                    <!-- ========== MENU KHÁCH HÀNG (ẩn mặc định) ========== -->
+
+                    <!-- TÀI KHOẢN -->
+                    <Label fx:id="lblSectionTaiKhoan" text="TÀI KHOẢN CỦA TÔI"
+                           styleClass="sidebar-section-label" focusTraversable="false"
+                           visible="false" managed="false"/>
+                    <Button fx:id="btnThongTinKH" text="👤  Thông tin &amp; Số dư"
+                            styleClass="menu-button" onAction="#loadThongTinKhachHang"
+                            visible="false" managed="false"/>
+
+                    <!-- SỬ DỤNG -->
+                    <Label fx:id="lblSectionSuDung" text="SỬ DỤNG"
+                           styleClass="sidebar-section-label" focusTraversable="false"
+                           visible="false" managed="false"/>
+                    <Button fx:id="btnPhienCuaToi" text="◷  Phiên của tôi"
+                            styleClass="menu-button" onAction="#loadPhienCuaToi"
+                            visible="false" managed="false"/>
+                    <Button fx:id="btnGoiCuaToi" text="□  Gói dịch vụ của tôi"
+                            styleClass="menu-button" onAction="#loadGoiCuaToi"
+                            visible="false" managed="false"/>
+
+                    <!-- ĐẶT DỊCH VỤ -->
+                    <Label fx:id="lblSectionOrderKH" text="DỊCH VỤ"
+                           styleClass="sidebar-section-label" focusTraversable="false"
+                           visible="false" managed="false"/>
+                    <Button fx:id="btnDatDichVu" text="☆  Đặt dịch vụ"
+                            styleClass="menu-button" onAction="#loadDatDichVu"
+                            visible="false" managed="false"/>
 
                 </VBox>
             </ScrollPane>
