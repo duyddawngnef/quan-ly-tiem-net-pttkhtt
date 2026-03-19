@@ -17,7 +17,7 @@
             <!-- Logo -->
             <VBox styleClass="sidebar-logo-area" spacing="4" focusTraversable="false">
                 <HBox spacing="10" alignment="CENTER_LEFT" focusTraversable="false">
-                    <Label text="🖥" focusTraversable="false"
+                    <Label text="▣" focusTraversable="false"
                            styleClass="sidebar-logo-icon-label"/>
                     <VBox spacing="2" focusTraversable="false">
                         <Label text="TIỆM NET" styleClass="sidebar-logo-text" focusTraversable="false"/>
@@ -48,43 +48,45 @@
 
                     <!-- DASHBOARD -->
                     <Label text="TỔNG QUAN" styleClass="sidebar-section-label" focusTraversable="false"/>
-                    <Button fx:id="btnSoDoMay" text="🗺  Sơ đồ máy"
+                    <Button fx:id="btnSoDoMay" text="▦  Sơ đồ máy"
                             styleClass="menu-button" onAction="#loadSoDoMay"/>
 
                     <!-- VẬN HÀNH -->
                     <Label text="VẬN HÀNH" styleClass="sidebar-section-label" focusTraversable="false"/>
-                    <Button fx:id="btnPhienSuDung" text="⏱  Phiên sử dụng"
+                    <Button fx:id="btnPhienSuDung" text="◷  Phiên sử dụng"
                             styleClass="menu-button" onAction="#loadPhienSuDung"/>
-                    <Button fx:id="btnNapTien" text="💳  Nạp tiền"
+                    <Button fx:id="btnNapTien" text="▸  Nạp tiền"
                             styleClass="menu-button" onAction="#loadNapTien"/>
-                    <Button fx:id="btnHoaDon" text="🧾  Hóa đơn"
+                    <Button fx:id="btnHoaDon" text="☷  Hóa đơn"
                             styleClass="menu-button" onAction="#loadHoaDon"/>
 
                     <!-- DỊCH VỤ -->
                     <Label text="DỊCH VỤ" styleClass="sidebar-section-label" focusTraversable="false"/>
-                    <Button fx:id="btnDichVu" text="🥤  Dịch vụ"
+                    <Button fx:id="btnDichVu" text="☆  Dịch vụ"
                             styleClass="menu-button" onAction="#loadDichVu"/>
-                    <Button fx:id="btnGoiDichVu" text="📦  Gói dịch vụ"
+                    <Button fx:id="btnGoiDichVu" text="□  Gói dịch vụ"
                             styleClass="menu-button" onAction="#loadGoiDichVu"/>
-                    <Button fx:id="btnKhuyenMai" text="🎁  Khuyến mãi"
+                    <Button fx:id="btnGoiDichVuKH" text="★  Gói DV khách hàng"
+                            styleClass="menu-button" onAction="#loadGoiDichVuKH"/>
+                    <Button fx:id="btnKhuyenMai" text="✴  Khuyến mãi"
                             styleClass="menu-button" onAction="#loadKhuyenMai"/>
-                    <Button fx:id="btnNhapHang" text="📥  Nhập hàng"
+                    <Button fx:id="btnNhapHang" text="↓  Nhập hàng"
                             styleClass="menu-button" onAction="#loadNhapHang"/>
 
                     <!-- QUẢN LÝ -->
                     <Label text="QUẢN LÝ" styleClass="sidebar-section-label" focusTraversable="false"/>
-                    <Button fx:id="btnKhachHang" text="👥  Khách hàng"
+                    <Button fx:id="btnKhachHang" text="♠  Khách hàng"
                             styleClass="menu-button" onAction="#loadKhachHang"/>
-                    <Button fx:id="btnNhanVien" text="🏢  Nhân viên"
+                    <Button fx:id="btnNhanVien" text="⌂  Nhân viên"
                             styleClass="menu-button" onAction="#loadNhanVien"/>
-                    <Button fx:id="btnMayTinh" text="💻  Máy tính"
+                    <Button fx:id="btnMayTinh" text="▣  Máy tính"
                             styleClass="menu-button" onAction="#loadMayTinh"/>
-                    <Button fx:id="btnKhuMay" text="🗂  Khu máy"
+                    <Button fx:id="btnKhuMay" text="≡  Khu máy"
                             styleClass="menu-button" onAction="#loadKhuMay"/>
 
                     <!-- BÁO CÁO -->
                     <Label text="BÁO CÁO" styleClass="sidebar-section-label" focusTraversable="false"/>
-                    <Button fx:id="btnThongKe" text="📊  Thống kê"
+                    <Button fx:id="btnThongKe" text="◤  Thống kê"
                             styleClass="menu-button" onAction="#loadThongKe"/>
 
                 </VBox>
@@ -95,7 +97,7 @@
                   styleClass="sidebar-logout-area">
                 <Separator focusTraversable="false"
                            styleClass="sidebar-logout-separator"/>
-                <Button text="🔓  Đăng xuất" styleClass="menu-button, logout-button"
+                <Button text="→  Đăng xuất" styleClass="menu-button, logout-button"
                         onAction="#handleLogout"/>
             </VBox>
 

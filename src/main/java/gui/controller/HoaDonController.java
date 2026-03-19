@@ -188,8 +188,10 @@ public class HoaDonController implements Initializable {
         try {
             currentChiTiet = hoaDonBUS.xemChiTietHoaDon(maHD);
             tableChiTiet.setItems(FXCollections.observableArrayList(currentChiTiet));
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
             currentChiTiet = java.util.Collections.emptyList();
+            tableChiTiet.setItems(FXCollections.observableArrayList());
         }
     }
 
