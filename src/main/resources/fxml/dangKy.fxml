@@ -16,7 +16,7 @@
         <!-- Header -->
         <VBox alignment="CENTER" spacing="4">
             <StackPane styleClass="login-logo-circle">
-                <Label styleClass="login-logo-icon" text="📝" />
+                <Label styleClass="login-logo-icon, icon" text="&#xe3c9;" />
             </StackPane>
             <Label styleClass="login-app-name" text="ĐĂNG KÝ TÀI KHOẢN" />
             <Label styleClass="login-app-sub" text="Tạo tài khoản khách hàng mới" />
@@ -28,7 +28,7 @@
         <VBox maxWidth="320" spacing="4">
             <Label alignment="CENTER_LEFT" styleClass="login-subtitle" text="Họ *" />
             <HBox alignment="CENTER_LEFT" spacing="8" styleClass="login-field-icon-box">
-                <Label styleClass="login-icon" text="👤" />
+                <Label styleClass="login-icon, icon" text="&#xe7fd;" />
                 <TextField fx:id="txtHo" promptText="Nhập họ" styleClass="login-text-field" HBox.hgrow="ALWAYS" />
             </HBox>
         </VBox>
@@ -37,7 +37,7 @@
         <VBox maxWidth="320" spacing="4">
             <Label alignment="CENTER_LEFT" styleClass="login-subtitle" text="Tên *" />
             <HBox alignment="CENTER_LEFT" spacing="8" styleClass="login-field-icon-box">
-                <Label styleClass="login-icon" text="👤" />
+                <Label styleClass="login-icon, icon" text="&#xe7fd;" />
                 <TextField fx:id="txtTen" promptText="Nhập tên" styleClass="login-text-field" HBox.hgrow="ALWAYS" />
             </HBox>
         </VBox>
@@ -46,7 +46,7 @@
         <VBox maxWidth="320" spacing="4">
             <Label alignment="CENTER_LEFT" styleClass="login-subtitle" text="Số điện thoại *" />
             <HBox alignment="CENTER_LEFT" spacing="8" styleClass="login-field-icon-box">
-                <Label styleClass="login-icon" text="📱" />
+                <Label styleClass="login-icon, icon" text="&#xe0cd;" />
                 <TextField fx:id="txtSdt" promptText="Nhập số điện thoại" styleClass="login-text-field" HBox.hgrow="ALWAYS" />
             </HBox>
         </VBox>
@@ -55,7 +55,7 @@
         <VBox maxWidth="320" spacing="4">
             <Label alignment="CENTER_LEFT" styleClass="login-subtitle" text="Tên đăng nhập *" />
             <HBox alignment="CENTER_LEFT" spacing="8" styleClass="login-field-icon-box">
-                <Label styleClass="login-icon" text="🪪" />
+                <Label styleClass="login-icon, icon" text="&#xe0c9;" />
                 <TextField fx:id="txtUsername" promptText="Tên đăng nhập (không dấu)" styleClass="login-text-field" HBox.hgrow="ALWAYS" />
             </HBox>
         </VBox>
@@ -64,7 +64,7 @@
         <VBox maxWidth="320" spacing="4">
             <Label alignment="CENTER_LEFT" styleClass="login-subtitle" text="Mật khẩu *" />
             <HBox alignment="CENTER_LEFT" spacing="8" styleClass="login-field-icon-box">
-                <Label styleClass="login-icon" text="🔒" />
+                <Label styleClass="login-icon, icon" text="&#xe899;" />
                 <PasswordField fx:id="txtPassword" promptText="Ít nhất 6 ký tự" styleClass="login-text-field" HBox.hgrow="ALWAYS" />
             </HBox>
         </VBox>
@@ -73,7 +73,7 @@
         <VBox maxWidth="320" spacing="4">
             <Label alignment="CENTER_LEFT" styleClass="login-subtitle" text="Xác nhận mật khẩu *" />
             <HBox alignment="CENTER_LEFT" spacing="8" styleClass="login-field-icon-box">
-                <Label styleClass="login-icon" text="🔒" />
+                <Label styleClass="login-icon, icon" text="&#xe899;" />
                 <PasswordField fx:id="txtConfirmPassword" promptText="Nhập lại mật khẩu" styleClass="login-text-field" HBox.hgrow="ALWAYS" />
             </HBox>
         </VBox>
@@ -83,7 +83,10 @@
 
         <!-- Buttons -->
         <VBox maxWidth="320" spacing="8">
-            <Button fx:id="btnDangKy" maxWidth="Infinity" onAction="#handleDangKy" styleClass="login-btn" text="✔  ĐĂNG KÝ" />
+            <Button fx:id="btnDangKy" maxWidth="Infinity" onAction="#handleDangKy" styleClass="login-btn">
+                <graphic><Label text="&#xe876;" styleClass="icon-sm"/></graphic>
+                <text>  ĐĂNG KÝ</text>
+            </Button>
             <Button maxWidth="Infinity" onAction="#handleQuayLai" styleClass="btn-gray" text="← Quay lại đăng nhập" />
         </VBox>
 

@@ -72,6 +72,8 @@ public class PhienCuaToiController implements Initializable {
             String tt = d.getValue().getTrangThai();
             return new SimpleStringProperty("DANGCHOI".equals(tt) ? "🟢 Đang chạy" : "✅ Đã kết thúc");
         });
+        btnKetThucPhien.setOnAction(e -> handleKetThucPhien());
+
     }
 
     private void loadData() {

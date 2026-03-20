@@ -24,7 +24,10 @@
             <Label text="Lọc loại:" styleClass="form-field-label"/>
             <ComboBox fx:id="cboLoai" prefWidth="160" styleClass="manager-combo"
                       onAction="#handleFilter"/>
-            <Button text="🔄 Làm mới" styleClass="btn-gray" onAction="#handleLamMoi"/>
+            <Button styleClass="btn-gray" onAction="#handleLamMoi">
+                <graphic><Label text="&#xe5d5;" styleClass="icon-sm"/></graphic>
+                <text>  Làm mới</text>
+            </Button>
         </HBox>
 
         <TableView fx:id="tableDichVu" prefHeight="220" styleClass="manager-table">
@@ -44,7 +47,10 @@
         <VBox spacing="8" VBox.vgrow="ALWAYS" fx:id="paneDaDat"
               visible="false" managed="false">
             <HBox alignment="CENTER_LEFT" spacing="12">
-                <Label text="🛎  DỊCH VỤ ĐÃ ĐẶT TRONG PHIÊN" styleClass="form-title-dark"/>
+                <HBox spacing="6" alignment="CENTER_LEFT">
+                    <Label text="&#xe7f4;" styleClass="icon" style="-fx-text-fill:#1565C0;"/>
+                    <Label text="DỊCH VỤ ĐÃ ĐẶT TRONG PHIÊN" styleClass="form-title-dark"/>
+                </HBox>
                 <HBox HBox.hgrow="ALWAYS"/>
                 <Label fx:id="lblTongDaDat" text="Tổng: 0 ₫"
                        style="-fx-font-weight:bold; -fx-font-size:13; -fx-text-fill:#1565c0;"/>
@@ -100,12 +106,18 @@
                    wrapText="true"/>
 
             <HBox spacing="10">
-                <Button fx:id="btnDat" text="✔ Đặt ngay" styleClass="btn-save"
+                <Button fx:id="btnDat" styleClass="btn-save"
                         HBox.hgrow="ALWAYS" maxWidth="Infinity"
-                        onAction="#handleDatDichVu"/>
-                <Button text="✖ Huỷ" styleClass="btn-cancel"
+                        onAction="#handleDatDichVu">
+                    <graphic><Label text="&#xe876;" styleClass="icon-sm"/></graphic>
+                    <text>  Đặt ngay</text>
+                </Button>
+                <Button styleClass="btn-cancel"
                         HBox.hgrow="ALWAYS" maxWidth="Infinity"
-                        onAction="#handleHuy"/>
+                        onAction="#handleHuy">
+                    <graphic><Label text="&#xe5c9;" styleClass="icon-sm"/></graphic>
+                    <text>  Huỷ</text>
+                </Button>
             </HBox>
 
         </VBox>

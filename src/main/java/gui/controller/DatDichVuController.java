@@ -29,47 +29,71 @@ import java.util.stream.Collectors;
 
 public class DatDichVuController implements Initializable {
 
-    @FXML private Label    lblPhienInfo;
-    @FXML private Label    lblCanhBao;
-    @FXML private ComboBox<String> cboLoai;
-    @FXML private ScrollPane paneForm;
+    @FXML
+    private Label lblPhienInfo;
+    @FXML
+    private Label lblCanhBao;
+    @FXML
+    private ComboBox<String> cboLoai;
+    @FXML
+    private ScrollPane paneForm;
 
     // --- Bảng catalogue ---
-    @FXML private TableView<DichVu> tableDichVu;
-    @FXML private TableColumn<DichVu, String> colMaDV;
-    @FXML private TableColumn<DichVu, String> colTenDV;
-    @FXML private TableColumn<DichVu, String> colLoai;
-    @FXML private TableColumn<DichVu, String> colDonGia;
-    @FXML private TableColumn<DichVu, String> colSoLuong;
+    @FXML
+    private TableView<DichVu> tableDichVu;
+    @FXML
+    private TableColumn<DichVu, String> colMaDV;
+    @FXML
+    private TableColumn<DichVu, String> colTenDV;
+    @FXML
+    private TableColumn<DichVu, String> colLoai;
+    @FXML
+    private TableColumn<DichVu, String> colDonGia;
+    @FXML
+    private TableColumn<DichVu, String> colSoLuong;
 
     // --- Form đặt ---
-    @FXML private Label              lblChonDV;
-    @FXML private Label              lblGia;
-    @FXML private Spinner<Integer>   spinnerSoLuong;
-    @FXML private Label              lblTongTien;
-    @FXML private Label              lblFormError;
-    @FXML private Button             btnDat;
+    @FXML
+    private Label lblChonDV;
+    @FXML
+    private Label lblGia;
+    @FXML
+    private Spinner<Integer> spinnerSoLuong;
+    @FXML
+    private Label lblTongTien;
+    @FXML
+    private Label lblFormError;
+    @FXML
+    private Button btnDat;
 
     // --- Bảng dịch vụ đã đặt ---
-    @FXML private VBox               paneDaDat;
-    @FXML private Label              lblTongDaDat;
-    @FXML private TableView<SuDungDichVu> tableDaDat;
-    @FXML private TableColumn<SuDungDichVu, String> colDDTen;
-    @FXML private TableColumn<SuDungDichVu, String> colDDSoLuong;
-    @FXML private TableColumn<SuDungDichVu, String> colDDDonGia;
-    @FXML private TableColumn<SuDungDichVu, String> colDDThanhTien;
-    @FXML private TableColumn<SuDungDichVu, String> colDDThoiGian;
+    @FXML
+    private VBox paneDaDat;
+    @FXML
+    private Label lblTongDaDat;
+    @FXML
+    private TableView<SuDungDichVu> tableDaDat;
+    @FXML
+    private TableColumn<SuDungDichVu, String> colDDTen;
+    @FXML
+    private TableColumn<SuDungDichVu, String> colDDSoLuong;
+    @FXML
+    private TableColumn<SuDungDichVu, String> colDDDonGia;
+    @FXML
+    private TableColumn<SuDungDichVu, String> colDDThanhTien;
+    @FXML
+    private TableColumn<SuDungDichVu, String> colDDThoiGian;
 
-    private final DichVuBUS       dichVuBUS = new DichVuBUS();
-    private final DichVuDAO       dichVuDAO = new DichVuDAO();
-    private final PhienSuDungDAO  phienDAO  = new PhienSuDungDAO();
+    private final DichVuBUS dichVuBUS = new DichVuBUS();
+    private final DichVuDAO dichVuDAO = new DichVuDAO();
+    private final PhienSuDungDAO phienDAO = new PhienSuDungDAO();
     private final SuDungDichVuDAO suDungDAO = new SuDungDichVuDAO();
-    private final KhachHangDAO    khachHangDAO = new KhachHangDAO();
-    private final NumberFormat    fmt       = NumberFormat.getNumberInstance(new Locale("vi", "VN"));
-    private final DateTimeFormatter dtf     = DateTimeFormatter.ofPattern("dd/MM HH:mm");
+    private final KhachHangDAO khachHangDAO = new KhachHangDAO();
+    private final NumberFormat fmt = NumberFormat.getNumberInstance(new Locale("vi", "VN"));
+    private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM HH:mm");
 
-    private List<DichVu> allDV       = new ArrayList<>();
-    private PhienSuDung  phienHienTai = null;
+    private List<DichVu> allDV = new ArrayList<>();
+    private PhienSuDung phienHienTai = null;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -84,10 +108,10 @@ public class DatDichVuController implements Initializable {
         colMaDV.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getMadv()));
         colTenDV.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getTendv()));
         colLoai.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getLoaidv()));
-        colDonGia.setCellValueFactory(d ->
-                new SimpleStringProperty(fmt.format(d.getValue().getDongia()) + " ₫"));
-        colSoLuong.setCellValueFactory(d ->
-                new SimpleStringProperty(String.valueOf(d.getValue().getSoluongton())));
+        colDonGia.setCellValueFactory(d
+                -> new SimpleStringProperty(fmt.format(d.getValue().getDongia()) + " ₫"));
+        colSoLuong.setCellValueFactory(d
+                -> new SimpleStringProperty(String.valueOf(d.getValue().getSoluongton())));
 
         tableDichVu.getSelectionModel().selectedItemProperty().addListener((obs, old, nw) -> {
             if (nw != null) {
@@ -105,12 +129,12 @@ public class DatDichVuController implements Initializable {
             DichVu dv = dichVuDAO.getByID(d.getValue().getMadv());
             return new SimpleStringProperty(dv != null ? dv.getTendv() : d.getValue().getMadv());
         });
-        colDDSoLuong.setCellValueFactory(d ->
-                new SimpleStringProperty(String.valueOf(d.getValue().getSoluong())));
-        colDDDonGia.setCellValueFactory(d ->
-                new SimpleStringProperty(fmt.format(d.getValue().getDongia()) + " ₫"));
-        colDDThanhTien.setCellValueFactory(d ->
-                new SimpleStringProperty(fmt.format(d.getValue().getThanhtien()) + " ₫"));
+        colDDSoLuong.setCellValueFactory(d
+                -> new SimpleStringProperty(String.valueOf(d.getValue().getSoluong())));
+        colDDDonGia.setCellValueFactory(d
+                -> new SimpleStringProperty(fmt.format(d.getValue().getDongia()) + " ₫"));
+        colDDThanhTien.setCellValueFactory(d
+                -> new SimpleStringProperty(fmt.format(d.getValue().getThanhtien()) + " ₫"));
         colDDThoiGian.setCellValueFactory(d -> {
             LocalDateTime t = d.getValue().getThoigian();
             return new SimpleStringProperty(t != null ? t.format(dtf) : "");
@@ -118,12 +142,14 @@ public class DatDichVuController implements Initializable {
     }
 
     private void setupSpinner() {
-        SpinnerValueFactory<Integer> factory =
-                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50, 1);
+        SpinnerValueFactory<Integer> factory
+                = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50, 1);
         spinnerSoLuong.setValueFactory(factory);
         spinnerSoLuong.valueProperty().addListener((obs, old, nw) -> {
             DichVu selected = tableDichVu.getSelectionModel().getSelectedItem();
-            if (selected != null) updateTongTien(selected);
+            if (selected != null) {
+                updateTongTien(selected);
+            }
         });
     }
 
@@ -134,7 +160,9 @@ public class DatDichVuController implements Initializable {
 
     private void loadPhienAndDichVu() {
         String maKH = SessionManager.getCurrentMaKH();
-        if (maKH == null) return;
+        if (maKH == null) {
+            return;
+        }
 
         try {
             phienHienTai = phienDAO.getPhienDangChoiByKhachHang(maKH);
@@ -150,7 +178,7 @@ public class DatDichVuController implements Initializable {
             paneForm.setDisable(false);
         } else {
             lblPhienInfo.setText("Bạn chưa có phiên sử dụng.");
-            lblCanhBao.setText("⚠️ Bạn chưa sử dụng máy. Vui lòng yêu cầu nhân viên mở phiên trước khi đặt dịch vụ.");
+            lblCanhBao.setText(" Bạn chưa sử dụng máy. Vui lòng yêu cầu nhân viên mở phiên trước khi đặt dịch vụ.");
             lblCanhBao.setVisible(true);
             lblCanhBao.setManaged(true);
             btnDat.setDisable(true);
@@ -173,7 +201,9 @@ public class DatDichVuController implements Initializable {
         loadDaDat();
     }
 
-    /** Tải lại danh sách dịch vụ KH đã đặt trong phiên hiện tại */
+    /**
+     * Tải lại danh sách dịch vụ KH đã đặt trong phiên hiện tại
+     */
     private void loadDaDat() {
         if (phienHienTai == null) {
             paneDaDat.setVisible(false);
@@ -214,11 +244,20 @@ public class DatDichVuController implements Initializable {
     @FXML
     private void handleDatDichVu() {
         DichVu selected = tableDichVu.getSelectionModel().getSelectedItem();
-        if (selected == null) { lblFormError.setText("Vui lòng chọn một dịch vụ."); return; }
-        if (phienHienTai == null) { lblFormError.setText("Bạn chưa có phiên đang chạy."); return; }
+        if (selected == null) {
+            lblFormError.setText("Vui lòng chọn một dịch vụ.");
+            return;
+        }
+        if (phienHienTai == null) {
+            lblFormError.setText("Bạn chưa có phiên đang chạy.");
+            return;
+        }
 
         int sl = spinnerSoLuong.getValue();
-        if (sl < 1) { lblFormError.setText("Số lượng phải ít nhất là 1."); return; }
+        if (sl < 1) {
+            lblFormError.setText("Số lượng phải ít nhất là 1.");
+            return;
+        }
 
         // Kiểm tra số dư trước khi đặt dịch vụ
         try {
@@ -236,7 +275,11 @@ public class DatDichVuController implements Initializable {
             // Tiền dịch vụ đã order
             double tienDVDaOrder = 0;
             List<SuDungDichVu> daDat = suDungDAO.geyByPhien(phienHienTai.getMaPhien());
-            if (daDat != null) for (SuDungDichVu sv : daDat) tienDVDaOrder += sv.getThanhtien();
+            if (daDat != null) {
+                for (SuDungDichVu sv : daDat) {
+                    tienDVDaOrder += sv.getThanhtien();
+                }
+            }
             // Tiền order mới
             double tienMoi = selected.getDongia() * sl;
             double tongCan = tienMay + tienDVDaOrder + tienMoi;
@@ -244,8 +287,8 @@ public class DatDichVuController implements Initializable {
             if (soDu - tongCan < 0) {
                 lblFormError.setStyle("-fx-text-fill: red;");
                 lblFormError.setText(String.format(
-                    "⚠ Số dư không đủ! Cần: %,.0f ₫  |  Hiện có: %,.0f ₫  |  Thiếu: %,.0f ₫",
-                    tongCan, soDu, tongCan - soDu));
+                        "⚠ Số dư không đủ! Cần: %,.0f ₫  |  Hiện có: %,.0f ₫  |  Thiếu: %,.0f ₫",
+                        tongCan, soDu, tongCan - soDu));
                 return;
             }
         } catch (Exception e) {

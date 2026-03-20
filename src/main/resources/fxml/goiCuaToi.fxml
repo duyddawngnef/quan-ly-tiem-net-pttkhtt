@@ -15,7 +15,10 @@
     </VBox>
 
     <HBox alignment="CENTER_RIGHT">
-        <Button text="🔄 Làm mới" styleClass="btn-gray" onAction="#handleLamMoi"/>
+        <Button styleClass="btn-gray" onAction="#handleLamMoi">
+            <graphic><Label text="&#xe5d5;" styleClass="icon-sm"/></graphic>
+            <text>  Làm mới</text>
+        </Button>
     </HBox>
 
     <TableView fx:id="tableGoi" VBox.vgrow="ALWAYS" styleClass="manager-table">

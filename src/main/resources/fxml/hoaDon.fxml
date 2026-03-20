@@ -10,7 +10,7 @@
       spacing="16" styleClass="no-padding">
 
     <HBox alignment="CENTER_LEFT" spacing="12">
-        <Label text="🧾" styleClass="page-icon"/>
+        <Label text="&#xef6e;" styleClass="page-icon, icon-lg"/>
         <VBox spacing="2">
             <Label text="Hóa Đơn" styleClass="page-title"/>
             <Label text="Xem và xuất hóa đơn dịch vụ" styleClass="page-subtitle"/>
@@ -22,7 +22,10 @@
         <DatePicker fx:id="dateFrom" prefWidth="130"/>
         <Label text="Đến:" styleClass="text-muted"/>
         <DatePicker fx:id="dateTo" prefWidth="130"/>
-        <Button text="🔍  Tìm" styleClass="btn btn-primary" onAction="#handleSearch"/>
+        <Button styleClass="btn btn-primary" onAction="#handleSearch">
+            <graphic><Label text="&#xe8b6;" styleClass="icon-sm"/></graphic>
+            <text>  Tìm</text>
+        </Button>
         <Separator orientation="VERTICAL" styleClass="separator-vertical-pad"/>
         <TextField fx:id="txtSearch" promptText="Tìm theo mã HĐ, KH..." styleClass="search-bar"
                    prefWidth="200" onKeyReleased="#handleSearchText"/>
@@ -30,10 +33,16 @@
 
 
 
-        <Button fx:id="btnXuatPDF" text="📄  Xuất PDF" styleClass="btn btn-danger"
-                onAction="#handleXuatPDF" disable="true"/>
-        <Button text="📊  Xuất Excel" styleClass="btn btn-success" onAction="#handleXuatExcel"/>
-        <Button text="↺" styleClass="btn btn-secondary" onAction="#handleRefresh"/>
+        <Button fx:id="btnXuatPDF" styleClass="btn btn-danger"
+                onAction="#handleXuatPDF" disable="true">
+            <graphic><Label text="&#xe415;" styleClass="icon-sm"/></graphic>
+            <text>  Xuất PDF</text>
+        </Button>
+        <Button styleClass="btn btn-success" onAction="#handleXuatExcel">
+            <graphic><Label text="&#xeb9e;" styleClass="icon-sm"/></graphic>
+            <text>  Xuất Excel</text>
+        </Button>
+        <Button text="&#xe5d5;" styleClass="btn btn-secondary, icon" onAction="#handleRefresh"/>
     </HBox>
 
     <SplitPane VBox.vgrow="ALWAYS" dividerPositions="0.6">
@@ -114,8 +123,11 @@
                         style="-fx-font-size:13px; -fx-padding:10;"
                         onAction="#handleXacNhanThanhToan"
                         visible="false" managed="false"/>
-                <Button text="📄  Xuất PDF hóa đơn này" styleClass="btn btn-danger"
-                        maxWidth="Infinity" onAction="#handleXuatPDFChiTiet"/>
+                <Button styleClass="btn btn-danger"
+                        maxWidth="Infinity" onAction="#handleXuatPDFChiTiet">
+                    <graphic><Label text="&#xe415;" styleClass="icon-sm"/></graphic>
+                    <text>  Xuất PDF hóa đơn này</text>
+                </Button>
             </VBox>
 
             <Label fx:id="lblNoSelection" text="← Chọn một hóa đơn để xem chi tiết"

@@ -21,7 +21,10 @@
         <!-- Card thông tin cá nhân -->
         <VBox spacing="12" HBox.hgrow="ALWAYS" styleClass="form-panel">
             <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
-            <Label text="👤  THÔNG TIN CÁ NHÂN" styleClass="form-title-dark"/>
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <Label text="&#xe7fd;" styleClass="icon"/>
+                <Label text="THÔNG TIN CÁ NHÂN" styleClass="form-title-dark"/>
+            </HBox>
             <Separator/>
 
             <HBox spacing="12" alignment="CENTER_LEFT">
@@ -49,7 +52,10 @@
         <!-- Card số dư -->
         <VBox spacing="12" prefWidth="280" styleClass="form-panel">
             <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
-            <Label text="💰  SỐ DƯ TÀI KHOẢN" styleClass="form-title-dark"/>
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <Label text="&#xe850;" styleClass="icon"/>
+                <Label text="SỐ DƯ TÀI KHOẢN" styleClass="form-title-dark"/>
+            </HBox>
             <Separator/>
             <VBox alignment="CENTER" spacing="8" VBox.vgrow="ALWAYS">
                 <Label fx:id="lblSoDu" text="0 ₫"
@@ -64,7 +70,10 @@
     <VBox spacing="8" VBox.vgrow="ALWAYS">
         <HBox alignment="CENTER_LEFT" spacing="10">
             <Label text="LỊCH SỬ NẠP TIỀN" styleClass="manager-title"/>
-            <Button text="🔄 Làm mới" styleClass="btn-gray" onAction="#loadNapTien" fx:id="btn_load"/>
+            <Button styleClass="btn-gray" onAction="#loadNapTien" fx:id="btn_load">
+                <graphic><Label text="&#xe5d5;" styleClass="icon-sm"/></graphic>
+                <text>  Làm mới</text>
+            </Button>
         </HBox>
 
         <TableView fx:id="tableNapTien" VBox.vgrow="ALWAYS" styleClass="manager-table">

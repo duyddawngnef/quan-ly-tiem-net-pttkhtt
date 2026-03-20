@@ -2,6 +2,8 @@ package gui.controller;
 
 import bus.KhachHangBUS;
 import bus.NhanVienBUS;
+import bus.PhienSuDungBUS;
+import dao.*;
 import entity.KhachHang;
 import entity.NhanVien;
 import utils.SessionManager;
@@ -30,6 +32,9 @@ public class LoginController implements Initializable {
 
     private final NhanVienBUS nhanVienBUS = new NhanVienBUS();
     private final KhachHangBUS khachHangBUS = new KhachHangBUS();
+    private final PhienSuDungBUS phienBUS = new PhienSuDungBUS(
+            new PhienSuDungDAO(), new MayTinhDAO(), new KhachHangDAO(),
+            new GoiDichVuKhachHangDAO(), new SuDungDichVuDAO(), new HoaDonDAO());
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -78,6 +83,7 @@ public class LoginController implements Initializable {
             KhachHang kh = khachHangBUS.dangNhap(username, password);
             if (kh != null) {
                 SessionManager.setCurrentKhachHang(kh);
+//                phienBUS.moPhienTuDongKhiDangNhap(kh.getMakh());
                 chuyenHuongMain();
             } else {
                 showError("Tên đăng nhập hoặc mật khẩu không đúng.");
@@ -103,7 +109,7 @@ public class LoginController implements Initializable {
                 // SessionManager.setCurrentUser() được gọi trong NhanVienBUS.dangNhap()
                 chuyenHuongMain();
             } else {
-                showError("Tên đăng nhập hoặc mật khẩu không đúng.");
+                showError("Tên đăng nhập hoặc mật khẩu không đúng. Vui lòng thử lại!");
             }
         } catch (Exception e) {
             showError(e.getMessage());

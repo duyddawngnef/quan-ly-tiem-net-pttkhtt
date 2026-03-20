@@ -15,7 +15,7 @@
         <!-- Logo -->
         <VBox styleClass="login-logo-area" alignment="CENTER" spacing="6">
             <StackPane styleClass="login-logo-circle">
-                <Label text="🖥" styleClass="login-logo-icon"/>
+                <Label text="&#xe30b;" styleClass="login-logo-icon, icon-xl"/>
             </StackPane>
             <Label text="TIỆM NET ONLINE" styleClass="login-app-name"/>
             <Label text="Hệ thống quản lý tiệm Internet" styleClass="login-app-sub"/>
@@ -25,14 +25,20 @@
 
         <!-- Tab chọn loại tài khoản (Khách hàng | Nhân viên) -->
         <HBox styleClass="login-role-toggle" alignment="CENTER" maxWidth="320">
-            <Button fx:id="btnTabKhachHang" text="👤  Khách hàng"
+            <Button fx:id="btnTabKhachHang"
                     styleClass="login-role-btn, login-role-btn-active"
                     maxWidth="Infinity" HBox.hgrow="ALWAYS"
-                    onAction="#handleSelectKhachHang"/>
-            <Button fx:id="btnTabNhanVien" text="🪪  Nhân viên"
+                    onAction="#handleSelectKhachHang">
+                <graphic><Label text="&#xe7fd;" styleClass="icon-sm"/></graphic>
+                <text>  Khách hàng</text>
+            </Button>
+            <Button fx:id="btnTabNhanVien"
                     styleClass="login-role-btn"
                     maxWidth="Infinity" HBox.hgrow="ALWAYS"
-                    onAction="#handleSelectNhanVien"/>
+                    onAction="#handleSelectNhanVien">
+                <graphic><Label text="&#xe869;" styleClass="icon-sm"/></graphic>
+                <text>  Nhân viên</text>
+            </Button>
         </HBox>
 
         <!-- Label "Tên đăng nhập" dynamic -->
@@ -42,7 +48,7 @@
 
             <!-- Username -->
             <HBox styleClass="login-field-icon-box" alignment="CENTER_LEFT" spacing="8" maxWidth="320">
-                <Label fx:id="lblUsernameIcon" text="👤" styleClass="login-icon"/>
+                <Label fx:id="lblUsernameIcon" text="&#xe7fd;" styleClass="login-icon, icon"/>
                 <TextField fx:id="txtUsername" promptText="Nhập tên đăng nhập"
                            styleClass="login-text-field" HBox.hgrow="ALWAYS"/>
             </HBox>
@@ -55,7 +61,7 @@
                    maxWidth="320" />
             <!-- Password -->
             <HBox styleClass="login-field-icon-box" alignment="CENTER_LEFT" spacing="8" maxWidth="320">
-                <Label text="🔒" styleClass="login-icon"/>
+                <Label text="&#xe897;" styleClass="login-icon, icon"/>
                 <PasswordField fx:id="txtPassword" promptText="Mật khẩu"
                                styleClass="login-text-field" HBox.hgrow="ALWAYS"/>
             </HBox>

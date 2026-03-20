@@ -15,7 +15,10 @@
     <VBox fx:id="cardPhienDangChay" spacing="10" styleClass="form-panel"
           visible="false" managed="false">
         <padding><Insets top="16" right="16" bottom="16" left="16"/></padding>
-        <Label text="🟢  PHIÊN ĐANG CHẠY" styleClass="form-title-dark"/>
+        <HBox spacing="6" alignment="CENTER_LEFT">
+            <Label text="&#xe939;" styleClass="icon" style="-fx-text-fill:#4CAF50;"/>
+            <Label text="PHIÊN ĐANG CHẠY" styleClass="form-title-dark"/>
+        </HBox>
         <Separator/>
         <HBox spacing="30" alignment="CENTER_LEFT">
             <VBox spacing="4">
@@ -32,9 +35,11 @@
             </VBox>
             <!-- Đẩy nút sang phải -->
             <HBox HBox.hgrow="ALWAYS"/>
-            <Button fx:id="btnKetThucPhien" text="⏹  Kết thúc phiên"
-                    styleClass="btn-danger"
-                    onAction="#handleKetThucPhien"/>
+            <Button fx:id="btnKetThucPhien" styleClass="btn-danger"
+                    onAction="#handleKetThucPhien">
+                <graphic><Label text="&#xe047;" styleClass="icon-sm"/></graphic>
+                <text>  Kết thúc phiên</text>
+            </Button>
         </HBox>
     </VBox>
 
@@ -46,7 +51,10 @@
     <VBox spacing="8" VBox.vgrow="ALWAYS">
         <HBox alignment="CENTER_LEFT" spacing="10">
             <Label text="LỊCH SỬ PHIÊN" styleClass="manager-title"/>
-            <Button text="🔄 Làm mới" styleClass="btn-gray" onAction="#handleLamMoi"/>
+            <Button styleClass="btn-gray" onAction="#handleLamMoi">
+                <graphic><Label text="&#xe5d5;" styleClass="icon-sm"/></graphic>
+                <text>  Làm mới</text>
+            </Button>
         </HBox>
 
         <TableView fx:id="tablePhien" VBox.vgrow="ALWAYS" styleClass="manager-table">

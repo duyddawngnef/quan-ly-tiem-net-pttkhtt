@@ -69,7 +69,7 @@ public class DangKyController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Đăng ký thành công");
             alert.setHeaderText(null);
-            alert.setContentText("✅ Tài khoản \"" + username + "\" đã được tạo thành công!\nVui lòng đăng nhập để tiếp tục.");
+            alert.setContentText(" Tài khoản \"" + username + "\" đã được tạo thành công!\nVui lòng đăng nhập để tiếp tục.");
             alert.showAndWait();
 
             quayVeDangNhap();
