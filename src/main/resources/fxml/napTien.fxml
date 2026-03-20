@@ -11,7 +11,7 @@
 
     <!-- Header -->
     <HBox alignment="CENTER_LEFT" spacing="12">
-        <Label text="💳" styleClass="page-icon"/>
+        <Label text="&#xe850;" styleClass="page-icon, icon-lg"/>
         <VBox spacing="2">
             <Label text="Nạp Tiền Tài Khoản" styleClass="page-title"/>
             <Label text="Nạp tiền cho khách hàng và áp dụng khuyến mãi" styleClass="page-subtitle"/>
@@ -109,9 +109,11 @@
                        visible="false" managed="false"
                        style="-fx-font-size:11px; -fx-padding:5 10;
               -fx-background-radius:4;"/>
-                <Button fx:id="btnNapTien" text="💳  XÁC NHẬN NẠP TIỀN" styleClass="btn btn-primary, btn-confirm-large"
-                        maxWidth="Infinity"
-                        onAction="#handleNapTien"/>
+                <Button fx:id="btnNapTien" styleClass="btn btn-primary, btn-confirm-large"
+                        maxWidth="Infinity" onAction="#handleNapTien">
+                    <graphic><Label text="&#xe850;" styleClass="icon-sm"/></graphic>
+                    <text>  XÁC NHẬN NẠP TIỀN</text>
+                </Button>
             </VBox>
         </ScrollPane>
 
@@ -121,7 +123,10 @@
                 <Label text="Lịch sử nạp tiền" styleClass="section-title-blue"/>
                 <Pane HBox.hgrow="ALWAYS"/>
                 <DatePicker fx:id="dateFilter" promptText="Từ ngày" prefWidth="140"/>
-                <Button text="🔍  Lọc" styleClass="btn btn-outline" onAction="#handleFilterHistory"/>
+                <Button styleClass="btn btn-outline" onAction="#handleFilterHistory">
+                    <graphic><Label text="&#xe8b6;" styleClass="icon-sm"/></graphic>
+                    <text>  Lọc</text>
+                </Button>
             </HBox>
             <TableView fx:id="tableHistory" VBox.vgrow="ALWAYS" styleClass="table-no-radius">
                 <columns>

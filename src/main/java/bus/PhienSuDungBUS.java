@@ -39,6 +39,7 @@ public class PhienSuDungBUS {
     private final SuDungDichVuDAO       suDungDichVuDAO;
     private final HoaDonDAO             hoaDonDAO;
     private final ChiTietHoaDonDAO      chiTietHoaDonDAO;
+    private final NhanVienDAO           nhanVienDAO;
 
     // ================================================================
     //  PHẦN 2: CONSTRUCTOR
@@ -59,6 +60,7 @@ public class PhienSuDungBUS {
         this.suDungDichVuDAO       = suDungDichVuDAO;
         this.hoaDonDAO             = hoaDonDAO;
         this.chiTietHoaDonDAO      = new ChiTietHoaDonDAO();
+        this.nhanVienDAO           = new NhanVienDAO();
     }
 
     // ================================================================
@@ -229,6 +231,97 @@ public class PhienSuDungBUS {
         PermissionHelper.logAction("MO_PHIEN",
                 "MaPhien=" + phienMoi.getMaPhien() + ", MaKH=" + maKH + ", MaMay=" + maMay);
         return phienMoi;
+    }
+
+    /**
+     * Mở phiên tự động khi khách hàng tự đăng nhập (không qua nhân viên).
+     * Tìm máy trống đầu tiên, mở phiên ngay.
+     * Nếu KH đã có phiên đang chạy → trả về phiên đó (không mở mới).
+     *
+     * @param maKH Mã khách hàng vừa đăng nhập
+     * @return PhienSuDung mới tạo hoặc phiên đang chạy, hoặc null nếu không có máy trống
+     */
+    public PhienSuDung moPhienTuDongKhiDangNhap(String maKH) {
+        try {
+            // Nếu KH đã có phiên → trả về phiên đó
+            if (phienSuDungDAO.hasPhienDangChoi(maKH)) {
+                PhienSuDung phienHienTai = phienSuDungDAO.getPhienDangChoiByKhachHang(maKH);
+                System.out.println("[AutoPhien] KH " + maKH + " đang có phiên: "
+                        + (phienHienTai != null ? phienHienTai.getMaPhien() : "unknown"));
+                return phienHienTai;
+            }
+
+            // Kiểm tra KH hợp lệ
+            KhachHang kh = khachHangDAO.getById(maKH);
+            if (kh == null || !"HOATDONG".equals(kh.getTrangthai())) return null;
+
+            // Kiểm tra còn đủ điều kiện (gói hoặc sodu > 0)
+            boolean conGoi = false;
+            try {
+                for (GoiDichVuKhachHang goi : goiDichVuKhachHangDAO.getByKhachHang(maKH))
+                    if (goi != null && goi.getSogioconlai() > 0) { conGoi = true; break; }
+            } catch (Exception ignored) {}
+            if (!conGoi && kh.getSodu() <= 0) return null;
+
+            // Tìm máy trống đầu tiên
+            List<MayTinh> dsAll = mayTinhDAO.getAll();
+            MayTinh mayTrong = null;
+            for (MayTinh may : dsAll) {
+                if ("TRONG".equals(may.getTrangthai())) { mayTrong = may; break; }
+            }
+            if (mayTrong == null) {
+                System.out.println("[AutoPhien] Không có máy trống.");
+                return null;
+            }
+
+            // Tạo phiên mới — lấy nhân viên đang làm việc để gán maNV
+            String maNVDuocGan = layMaNVDangLamViec();
+
+            PhienSuDung phienMoi = new PhienSuDung();
+            phienMoi.setMaPhien(phienSuDungDAO.generateMaPhien());
+            phienMoi.setMaKH(maKH);
+            phienMoi.setMaMay(mayTrong.getMamay());
+            phienMoi.setMaNV(maNVDuocGan);  // NV đang làm việc hoặc null nếu không có ai
+            phienMoi.setGioBatDau(LocalDateTime.now());
+            phienMoi.setGiaMoiGio(mayTrong.getGiamoigio());
+            phienMoi.setTrangThai("DANGCHOI");
+            phienMoi.setTongGio(0);
+            phienMoi.setGioSuDungTuGoi(0);
+            phienMoi.setGioSuDungTuTaiKhoan(0);
+            phienMoi.setTienGioChoi(0);
+            setLoaiThanhToan(phienMoi, maKH);
+
+            if (!phienSuDungDAO.insert(phienMoi)) return null;
+            mayTinhDAO.chuyenDangDung(mayTrong.getMamay());
+
+            System.out.println("[AutoPhien] Đã mở phiên " + phienMoi.getMaPhien()
+                    + " cho KH " + maKH + " tại máy " + mayTrong.getMamay());
+            return phienMoi;
+
+        } catch (Exception e) {
+            System.err.println("[AutoPhien] Lỗi mở phiên tự động: " + e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Kết thúc phiên tự động khi khách hàng đăng xuất hoặc đóng ứng dụng.
+     * Không yêu cầu quyền nhân viên.
+     *
+     * @param maKH Mã khách hàng đang đăng xuất
+     */
+    public void ketThucPhienKhiDangXuat(String maKH) {
+        try {
+            if (maKH == null) return;
+            if (!phienSuDungDAO.hasPhienDangChoi(maKH)) return;
+            PhienSuDung phien = phienSuDungDAO.getPhienDangChoiByKhachHang(maKH);
+            if (phien == null) return;
+            thucHienKetThuc(phien.getMaPhien());
+            System.out.println("[AutoPhien] Đã kết thúc phiên " + phien.getMaPhien()
+                    + " khi KH " + maKH + " đăng xuất.");
+        } catch (Exception e) {
+            System.err.println("[AutoPhien] Lỗi kết thúc phiên khi đăng xuất: " + e.getMessage());
+        }
     }
 
     // ================================================================
@@ -641,6 +734,27 @@ public class PhienSuDungBUS {
     /** Tính tổng giờ chơi. Ví dụ: 90 phút → 1.5 giờ */
     private double tinhTongGio(LocalDateTime batDau, LocalDateTime ketThuc) {
         return ChronoUnit.MINUTES.between(batDau, ketThuc) / 60.0;
+    }
+
+    /**
+     * Lấy mã nhân viên đầu tiên đang làm việc (DANGLAMVIEC).
+     * Dùng khi khách hàng tự mở phiên — hệ thống tự gán nhân viên trực.
+     *
+     * @return maNV hoặc null nếu không tìm được nhân viên nào
+     */
+    private String layMaNVDangLamViec() {
+        try {
+            List<NhanVien> dsNV = nhanVienDAO.getAllDangLamViec();
+            if (dsNV != null && !dsNV.isEmpty()) {
+                String maNV = dsNV.get(0).getManv();
+                System.out.println("[AutoPhien] Gán nhân viên trực: " + maNV
+                        + " (" + dsNV.get(0).getHo() + " " + dsNV.get(0).getTen() + ")");
+                return maNV;
+            }
+        } catch (Exception e) {
+            System.err.println("[AutoPhien] Không lấy được nhân viên: " + e.getMessage());
+        }
+        return null;
     }
 
     // ================================================================

@@ -41,8 +41,14 @@
     </VBox>
 
     <HBox alignment="CENTER_RIGHT" spacing="12" style="-fx-padding: 0 20 20 20;">
-        <Button fx:id="btnCancel" text="✕ Hủy bỏ" onAction="#handleCancel" styleClass="btn, btn-secondary" prefWidth="110"/>
-        <Button fx:id="btnSave" text="✔ Lưu lại" onAction="#handleSave" styleClass="btn, btn-primary" prefWidth="110"/>
+        <Button fx:id="btnCancel" onAction="#handleCancel" styleClass="btn, btn-secondary" prefWidth="110">
+            <graphic><Label text="&#xe5c9;" styleClass="icon-sm"/></graphic>
+            <text>  Hủy bỏ</text>
+        </Button>
+        <Button fx:id="btnSave" onAction="#handleSave" styleClass="btn, btn-primary" prefWidth="110">
+            <graphic><Label text="&#xe876;" styleClass="icon-sm"/></graphic>
+            <text>  Lưu lại</text>
+        </Button>
     </HBox>
 
 </VBox>

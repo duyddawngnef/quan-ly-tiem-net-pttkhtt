@@ -10,7 +10,7 @@
       spacing="0" styleClass="dialog-root-lg">
 
     <HBox styleClass="dialog-header" spacing="12" alignment="CENTER_LEFT">
-        <Label text="🏢" styleClass="dialog-icon"/>
+        <Label text="&#xe0af;" styleClass="dialog-icon, icon"/>
         <Label fx:id="lblDialogTitle" text="Thêm / Sửa Nhân Viên" styleClass="dialog-title"/>
     </HBox>
 
@@ -57,10 +57,14 @@
     </ScrollPane>
 
     <HBox styleClass="dialog-footer" spacing="10" alignment="CENTER_RIGHT">
-        <Button fx:id="btnCancel" text="✕  Hủy" styleClass="btn btn-secondary"
-                onAction="#handleCancel"/>
-        <Button fx:id="btnSave" text="💾  Lưu" styleClass="btn btn-primary"
-                onAction="#handleSave"/>
+        <Button fx:id="btnCancel" styleClass="btn btn-secondary" onAction="#handleCancel">
+            <graphic><Label text="&#xe5c9;" styleClass="icon-sm"/></graphic>
+            <text>  Hủy</text>
+        </Button>
+        <Button fx:id="btnSave" styleClass="btn btn-primary" onAction="#handleSave">
+            <graphic><Label text="&#xe161;" styleClass="icon-sm"/></graphic>
+            <text>  Lưu</text>
+        </Button>
     </HBox>
 
 </VBox>

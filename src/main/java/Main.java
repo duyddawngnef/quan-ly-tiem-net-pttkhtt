@@ -29,14 +29,6 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            NhanVien mockNV = new NhanVien();
-            mockNV.setManv("NV001");
-            mockNV.setHo("Admin");
-            mockNV.setTen("Test");
-            mockNV.setChucvu("QUANLY");
-            mockNV.setTendangnhap("admin");
-            mockNV.setTrangthai("DANGLAMVIEC");
-            SessionManager.setCurrentUser(mockNV);
             Parent root = FXMLLoader.load(
                     Objects.requireNonNull(
                             getClass().getResource("/fxml/login.fxml"),
