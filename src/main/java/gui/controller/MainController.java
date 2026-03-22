@@ -1,30 +1,37 @@
 package gui.controller;
 
+import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.ResourceBundle;
+
 import bus.PhienSuDungBUS;
-import dao.*;
+import dao.GoiDichVuKhachHangDAO;
+import dao.HoaDonDAO;
+import dao.KhachHangDAO;
+import dao.MayTinhDAO;
+import dao.PhienSuDungDAO;
+import dao.SuDungDichVuDAO;
 import entity.KhachHang;
 import entity.NhanVien;
 import entity.PhienSuDung;
-import utils.SessionManager;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-
-import java.net.URL;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.ResourceBundle;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.util.Duration;
+import utils.SessionManager;
 
 public class MainController implements Initializable {
 
@@ -333,7 +340,7 @@ public class MainController implements Initializable {
                 lblPageTitle.setText(title.toUpperCase());
             }
         } catch (Exception e) {
-            System.err.println("⛔ Lỗi load " + fxmlPath + ": " + e.getMessage());
+            System.err.println(" Lỗi load " + fxmlPath + ": " + e.getMessage());
         }
     }
 
@@ -457,7 +464,7 @@ public class MainController implements Initializable {
             stage.setScene(new Scene(loader.load()));
             stage.show();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
     }
 }

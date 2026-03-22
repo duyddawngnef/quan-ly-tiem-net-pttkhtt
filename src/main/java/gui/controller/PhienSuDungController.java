@@ -621,7 +621,7 @@ public class PhienSuDungController implements Initializable {
         if (lblLiveTime == null) return;
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("HH:mm:ss");
         clockTimeline = new Timeline(new KeyFrame(Duration.seconds(1),
-                e -> lblLiveTime.setText("🕐 " + LocalDateTime.now().format(fmt))));
+                e -> lblLiveTime.setText(LocalDateTime.now().format(fmt))));
         clockTimeline.setCycleCount(Timeline.INDEFINITE);
         clockTimeline.play();
     }
@@ -632,6 +632,15 @@ public class PhienSuDungController implements Initializable {
         cellRefreshTimeline.setCycleCount(Timeline.INDEFINITE);
         cellRefreshTimeline.play();
     }
+
+
+
+//    ===================================================
+//    THỐNG KÊ
+//    ==================================================
+
+
+
 
     // ================================================================
     //  PHẦN 13: UI HELPERS

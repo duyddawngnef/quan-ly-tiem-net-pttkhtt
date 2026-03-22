@@ -5,6 +5,7 @@ import entity.ChiTietHoaDon;
 import entity.HoaDon;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -21,6 +22,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -62,6 +64,7 @@ public class HoaDonController implements Initializable {
 
     private final HoaDonBUS hoaDonBUS = new HoaDonBUS();
     private final ObservableList<HoaDon> dataList = FXCollections.observableArrayList();
+    private SortedList<HoaDon> sortedList ;
     private List<ChiTietHoaDon> currentChiTiet;
     private HoaDon selectedHD;
 
@@ -81,7 +84,17 @@ public class HoaDonController implements Initializable {
         if (colMaMay     != null) colMaMay.setCellValueFactory(new PropertyValueFactory<>("maPhien"));
         if (colNhanVien  != null) colNhanVien.setCellValueFactory(new PropertyValueFactory<>("maNV"));
         if (colNgayHD    != null) colNgayHD.setCellValueFactory(new PropertyValueFactory<>("ngayLapFormatted"));
-        if (colTongTien  != null) colTongTien.setCellValueFactory(new PropertyValueFactory<>("tongTienFormatted"));
+        if (colTongTien  != null){
+            colTongTien.setCellValueFactory(new PropertyValueFactory<>("tongTienFormatted"));
+            colTongTien.setComparator((String s1 , String s2 ) -> {
+
+                Double d1 = Double.parseDouble(s1.replaceAll("[^0-9]","").trim());
+                Double d2 = Double.parseDouble(s2.replaceAll("[^0-9]","").trim());
+                return d1.compareTo(d2);
+
+            });
+        }
+
         if (colTrangThai != null) colTrangThai.setCellValueFactory(new PropertyValueFactory<>("trangThai"));
         if (colCTDV        != null) colCTDV.setCellValueFactory(new PropertyValueFactory<>("moTa"));
         if (colCTSL        != null) colCTSL.setCellValueFactory(new PropertyValueFactory<>("soLuong"));
@@ -131,7 +144,11 @@ public class HoaDonController implements Initializable {
             }
 
             dataList.setAll(list);
-            tableView.setItems(dataList);
+            sortedList = new SortedList<>(dataList);
+            //bind comparator khi user nhấn vào header tự động sort
+            sortedList.comparatorProperty().bind(tableView.comparatorProperty());
+            // set data cho table
+            tableView.setItems(sortedList);
             updateFooter(list);
         } catch (Exception e) {
             if (lblTotal != null) lblTotal.setText("Lỗi: " + e.getMessage());
