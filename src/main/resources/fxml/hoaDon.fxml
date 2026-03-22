@@ -44,8 +44,8 @@
         </Button>
         <Button text="&#xe5d5;" styleClass="btn btn-secondary, icon" onAction="#handleRefresh"/>
     </HBox>
-
-    <SplitPane VBox.vgrow="ALWAYS" dividerPositions="0.6">
+<!--    dviderPositions xác định vị trí ban đầu của các thanh ngăn cách khi ứng dụng vừa mở lên -->
+    <SplitPane VBox.vgrow="ALWAYS" dividerPositions="0.65">
 
         <!-- Left: Table -->
         <VBox styleClass="page-card, no-padding" spacing="0">

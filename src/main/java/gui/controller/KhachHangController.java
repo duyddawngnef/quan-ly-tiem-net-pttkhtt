@@ -33,6 +33,7 @@ public class KhachHangController implements Initializable {
     @FXML private TextField txtSearch;
 
     @FXML private ComboBox<String> cboTrangThai;
+    @FXML private ComboBox<String> cbFilterSoDu;
     @FXML private Label lblSubtitle;
     @FXML private Label lblTotal;
     @FXML private Button btnSua;
@@ -51,6 +52,11 @@ public class KhachHangController implements Initializable {
             cboTrangThai.getItems().setAll("Tất cả", "HOATDONG", "NGUNG");
             cboTrangThai.setValue("Tất cả");
             cboTrangThai.setOnAction(e -> applyFilter());
+        }
+        if(cbFilterSoDu != null) {
+            cbFilterSoDu.getItems().setAll("Tất cả","< 50,000đ" , "50,000 - 200,000đ" , "> 200,000đ");
+            cbFilterSoDu.setValue("Tất cả");
+            cbFilterSoDu.setOnAction(e -> applyFilter());
         }
         loadData();
     }
@@ -112,6 +118,7 @@ public class KhachHangController implements Initializable {
     private void applyFilter() {
         String keyword = txtSearch != null ? txtSearch.getText().toLowerCase().trim() : "";
         String tt = cboTrangThai != null ? cboTrangThai.getValue() : "Tất cả";
+        String tk = cbFilterSoDu != null ? cbFilterSoDu.getValue().trim() : "Tất cả";
         if (filteredList == null) return;
         filteredList.setPredicate(item -> {
             boolean matchKw = keyword.isEmpty()
@@ -121,7 +128,46 @@ public class KhachHangController implements Initializable {
                 || (item.getSodienthoai()  != null && item.getSodienthoai().contains(keyword))
                 || (item.getTendangnhap()  != null && item.getTendangnhap().toLowerCase().contains(keyword));
             boolean matchTT = tt == null || "Tất cả".equals(tt) || tt.equals(item.getTrangthai());
-            return matchKw && matchTT;
+
+            //lọc theo số dư
+            double sd = item.getSodu();
+            boolean flagTK;
+            switch (tk){
+                case "Tất cả":
+                    flagTK =true;
+                    break;
+                case "< 50,000đ":
+                    if(sd < 50000){
+                        flagTK = true;
+                        break;
+                    }
+                    else{
+                        flagTK = false;
+                        break;
+                    }
+                case "50,000 - 200,000đ":
+                    if(sd >= 50000 && sd <= 200000){
+                        flagTK = true;
+                        break;
+                    }
+                    else{
+                        flagTK = false;
+                        break;
+                    }
+                case "> 200,000đ":
+                    if(sd > 200000){
+                        flagTK = true;
+                        break;
+                    }
+                    else{
+                        flagTK = false;
+                        break;
+                    }
+                default:
+                    flagTK = true;
+            }
+
+            return matchKw && matchTT && flagTK;
         });
         updateSubtitle();
     }
@@ -155,6 +201,7 @@ public class KhachHangController implements Initializable {
     public void handleLamMoi() {
         if (txtSearch    != null) txtSearch.clear();
         if (cboTrangThai != null) cboTrangThai.setValue("Tất cả");
+        if(cbFilterSoDu != null) cbFilterSoDu.setValue("Tất cả");
         loadData();
     }
 

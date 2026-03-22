@@ -8,6 +8,7 @@ import entity.MayTinh;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MayTinhDAO {
     public List<MayTinh> getAll() {
@@ -329,4 +330,5 @@ public class MayTinhDAO {
         }
         return  false;
     }
+
 }

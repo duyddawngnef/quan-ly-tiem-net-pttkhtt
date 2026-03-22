@@ -652,6 +652,13 @@ public class PhienSuDungBUS {
         return phienMoi;
     }
 
+
+    //========================================
+    //      THỐNG KÊ
+    //================================
+    public Map<String ,Integer> thongKeTheoKhu(){
+        return phienSuDungDAO.thongKeTheoKhu();
+    }
     // ================================================================
     //  PHẦN 8: CÁC HÀM HELPER PRIVATE
     // ================================================================

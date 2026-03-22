@@ -34,8 +34,8 @@
             <Label text="Doanh thu hôm nay" styleClass="stat-label"/>
         </VBox>
         <VBox styleClass="stat-card" spacing="4" HBox.hgrow="ALWAYS">
+            <Label text="Tổng số phiên" styleClass="stat-label"/>
             <Label fx:id="lblPhienHomNay" text="0" styleClass="stat-number"/>
-            <Label text="Phiên hôm nay" styleClass="stat-label"/>
         </VBox>
     </HBox>
 
